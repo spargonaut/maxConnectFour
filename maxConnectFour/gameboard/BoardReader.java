@@ -12,7 +12,7 @@ public class BoardReader {
 
 	private int[][] playBoard;
 	private int pieceCount;
-	private int currentTurn;
+//	private int currentTurn;
 	
 	public GameBoard readGame(String inputFile) {
 		
@@ -24,28 +24,17 @@ public class BoardReader {
 
 		BufferedReader input = openTheInputFile(inputFile);
 
-		//read the game data from the input file
 		for(int i = 0; i < 6; i++) {
-
 			try {
 				gameData = input.readLine();
-
-				// testing
-				//System.out.println("I just read ->" + gameData + "<- outer for loop");
 
 				// read each piece from the input file
 				for( int j = 0; j < 7; j++ ) {
 
-					//testing- uncomment the next 3 lines to see each piece that was read in
-					//System.out.println("I just read ->" + ( gameData.charAt( counter ) - 48 ) + "<- inner for loop");
-
-					this.playBoard[ i ][ j ] = gameData.charAt( counter++ ) - 48;
+					this.playBoard[ i ][ j ] = Integer.parseInt(Character.toString(gameData.charAt(counter++)));
 
 					// sanity check
-					if( markIsNotValid(i, j) ) {
-						System.out.println("\nProblems!\n--The piece read from the input file was not a 1, a 2 or a 0" );
-						System.exit(0);
-					}
+					checkIfMarkIsValidOrExit(i, j);
 
 					if( this.playBoard[ i ][ j ] > 0 )
 					{
@@ -55,7 +44,6 @@ public class BoardReader {
 			} catch( IOException e ) {
 				System.out.println("\nProblem reading the input file!\nTry again.\n");
 				e.printStackTrace();
-				System.exit(0);
 			}
 
 			//reset the counter
@@ -63,34 +51,14 @@ public class BoardReader {
 
 		}
 
-		// read one more line to get the next players turn
-		try {
-			gameData = input.readLine();
-		} catch( Exception e ) {
-			System.out.println("\nProblem reading the next turn!\n" +
-					"--Try again.\n");
-			e.printStackTrace();
-		}
-
-		this.currentTurn = gameData.charAt( 0 ) - 48;
-
-		//testing-uncomment the next 2 lines to see which current turn was read
-		//System.out.println("the current turn i read was->" + this.currentTurn );
-
-		// make sure the turn corresponds to the number of pcs played already
-		verifyCorrectTurnOrExit();
-		
 		return new GameBoard(playBoard);
 		
 	}
 
-	private void verifyCorrectTurnOrExit() {
-		if(!( ( this.currentTurn == 1) || ( this.currentTurn == 2 ) ) ) {
-			System.out.println("Problems!\n the current turn read is not a 1 or a 2!");
+	private void checkIfMarkIsValidOrExit(int i, int j) {
+		if( markIsNotValid(i, j) ) {
+			System.out.println("\nProblems!\n--The piece read from the input file was not a 1, a 2 or a 0" );
 			System.exit(0);
-		} else if ( this.getCurrentTurn() != this.currentTurn ) {
-			System.out.println("Problems!\n the current turn read does not correspond to the number of pieces played!");
-			System.exit(0);			
 		}
 	}
 
@@ -105,8 +73,7 @@ public class BoardReader {
 		try {
 			input = new BufferedReader( new FileReader( inputFile ) );
 		} catch( IOException e ) {
-			System.out.println("\nProblem opening the input file!\nTry again." +
-			"\n");
+			System.out.println("\nProblem opening the input file!\nTry again.\n");
 			e.printStackTrace();
 		}
 		return input;
@@ -115,6 +82,4 @@ public class BoardReader {
 	public int getCurrentTurn() {
 		return ( this.pieceCount % 2 ) + 1 ;
 	} 
-	
-
 }
