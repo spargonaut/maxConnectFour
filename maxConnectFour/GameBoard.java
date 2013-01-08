@@ -1,6 +1,5 @@
 package maxConnectFour;
 
-import java.io.*;
 
 /**
  * This is the Gameboard class.  It implements a two dimension array that
