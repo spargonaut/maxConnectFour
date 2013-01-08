@@ -36,17 +36,20 @@ import java.io.*;
  */
 
 public class MaxConnectFour {
+	
+	String game_mode;
+	String input;
+	int depthLevel;
 
 	public static void main(String[] args) {
+		MaxConnectFour game = new MaxConnectFour();
+		game.play(args);
+	}
+		
+	public void play(String[] args) {
 
 		// check for the correct number of arguments
-		if( args.length != 4 ) {
-			System.out.println("Four command-line arguments are needed:\n"
-					+ "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
-					+ " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
-
-			exit_function( 0 );
-		}
+		checkForProperNumberOfArgments(args);
 		
 		// parse the input arguments
 		String game_mode = args[0].toString();				// the game mode
@@ -55,6 +58,7 @@ public class MaxConnectFour {
 		
 		// create and initialize the game board
 		GameBoard currentGame = new GameBoard( input );
+		
 		
 		// create the Ai Player
 		AiPlayer calculon = new AiPlayer();
@@ -251,6 +255,16 @@ public class MaxConnectFour {
 			return;
 		}
 	} // end of main()
+
+	private void checkForProperNumberOfArgments(String[] args) {
+		if( args.length != 4 ) {
+			System.out.println("Four command-line arguments are needed:\n"
+					+ "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
+					+ " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
+
+			exit_function( 0 );
+		}
+	}
 	
 	/**
 	 * This method is used when to exit the program prematurly.
