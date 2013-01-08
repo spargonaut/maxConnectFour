@@ -1,7 +1,10 @@
 package maxConnectFour;
 
-import maxConnectFour.GameBoard;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import maxConnectFour.gameboard.BoardReader;
 
 /**
  * 
@@ -48,17 +51,13 @@ public class MaxConnectFour {
 		
 	public void play(String[] args) {
 
-		// check for the correct number of arguments
 		checkForProperNumberOfArgments(args);
 		
-		// parse the input arguments
-		String game_mode = args[0].toString();				// the game mode
-		String input = args[1].toString();					// the input game file
-		int depthLevel = Integer.parseInt( args[3] );  		// the depth level of the ai search
+		parseInputArguments(args);
 		
 		// create and initialize the game board
-		GameBoard currentGame = new GameBoard( input );
-		
+		BoardReader boardReader = new BoardReader();
+		GameBoard currentGame = boardReader.readGame(input);
 		
 		// create the Ai Player
 		AiPlayer calculon = new AiPlayer();
@@ -255,6 +254,12 @@ public class MaxConnectFour {
 			return;
 		}
 	} // end of main()
+
+	private void parseInputArguments(String[] args) {
+		game_mode = args[0].toString();				// the game mode
+		input = args[1].toString();					// the input game file
+		depthLevel = Integer.parseInt( args[3] );  		// the depth level of the ai search
+	}
 
 	private void checkForProperNumberOfArgments(String[] args) {
 		if( args.length != 4 ) {
