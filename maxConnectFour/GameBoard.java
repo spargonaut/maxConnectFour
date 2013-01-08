@@ -232,61 +232,31 @@ public class GameBoard {
 
 	/************************  end solution methods **************************/
 	
-	/**
-	 * this method prints the GameBoard to the screen in a nice, pretty,
-	 * readable format
-	 */
-	public void printGameBoard() {
-		System.out.println("   1 2 3 4 5 6 7   <---  Column numbers\n " +
-				"-----------------");
-
-		for( int i = 0; i < 6; i++ ) {
-			System.out.print("_| ");
-			for( int j = 0; j < 7; j++ ) {
-				if( this.playBoard[i][j] == 0 ) {
-					System.out.print("  ");
-				} else {
-					System.out.print( this.playBoard[i][j] + " " );
-				}
-			}
-			System.out.print("|_\n");
-		}
-
-		System.out.println(" -----------------\n   1 2 3 4 5 6 7   " +
-				"<---Column numbers");
-	} // end printGameBoard
-
-	/**
-	 * this method prints the GameBoard to an output file to be used for
-	 * inspection or by another running of the application
-	 * @param outputFile the path and file name of the file to be written
-	 */
-	public void printGameBoardToFile( String outputFile ) {
-		try {
-			BufferedWriter output = new BufferedWriter(
-					new FileWriter( outputFile ) );
-
-			for( int i = 0; i < 6; i++ ) {
-				for( int j = 0; j < 7; j++ ) {
-					output.write( this.playBoard[i][j] + 48 );
-				}
-				output.write("\n");
-			}
-
-			//write the current turn
-			output.write( this.getCurrentTurn() + "\n");
-			output.close();
-
-		} catch( IOException e ) {
-			System.out.println("\nProblem writing to the output file!\n" +
-					"Try again.");
-			e.printStackTrace();
-		}
-	} // end printGameBoardToFile()
-
-	private void exit_function( int value ){
-		System.out.println("exiting from GameBoard.java!\n\n");
-		System.exit( value );
-	}
-
-}  // end GameBoard class
+//	/**
+//	 * this method prints the GameBoard to an output file to be used for
+//	 * inspection or by another running of the application
+//	 * @param outputFile the path and file name of the file to be written
+//	 */
+//	public void printGameBoardToFile( String outputFile ) {
+//		try {
+//			BufferedWriter output = new BufferedWriter(
+//					new FileWriter( outputFile ) );
+//
+//			for( int i = 0; i < 6; i++ ) {
+//				for( int j = 0; j < 7; j++ ) {
+//					output.write( this.playBoard[i][j] + 48 );
+//				}
+//				output.write("\n");
+//			}
+//
+//			//write the current turn
+//			output.write( this.getCurrentTurn() + "\n");
+//			output.close();
+//
+//		} catch( IOException e ) {
+//			System.out.println("\nProblem writing to the output file!\n" +
+//					"Try again.");
+//			e.printStackTrace();
+//		}
+//	} // end printGameBoardToFile()
+}

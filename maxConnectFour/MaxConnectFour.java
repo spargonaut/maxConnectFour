@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import maxConnectFour.gameboard.BoardPrinter;
 import maxConnectFour.gameboard.BoardReader;
 
 /**
@@ -59,9 +60,10 @@ public class MaxConnectFour {
 		
 		parseInputArguments(args);
 		
-		// create and initialize the game board
 		BoardReader boardReader = new BoardReader();
 		GameBoard currentGame = boardReader.readGame(input);
+		
+		BoardPrinter boardPrinter = new BoardPrinter();
 		
 		// create the Ai Player
 		AiPlayer calculon = new AiPlayer();
@@ -86,7 +88,7 @@ public class MaxConnectFour {
 
 			//print the current game board
 			System.out.println("\ncurrent game: - interactive\n");
-			currentGame.printGameBoard();
+			boardPrinter.printGameBoard(currentGame);
 			
 			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurn() + "'s Turn" );
 			
@@ -184,7 +186,7 @@ public class MaxConnectFour {
 				
 				//print the current game board and the score
 				System.out.println( "\nafter the last move, the board currently looks like this:" );
-				currentGame.printGameBoard();
+				boardPrinter.printGameBoard(currentGame);
 
 				System.out.println( "\nScores:\n Player1: " + currentGame.getScore( 1 ) +
 						"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
@@ -198,7 +200,7 @@ public class MaxConnectFour {
 			// the game board is full.
 			System.out.println("\n\n\n\nThe Board is Full\n\nGame Over");
 			System.out.println("here is the final game state\n");
-			currentGame.printGameBoard();
+			boardPrinter.printGameBoard(currentGame);
 			System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) +
 					"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
 			return;
@@ -215,7 +217,7 @@ public class MaxConnectFour {
 
 			//print the current game board
 			System.out.println("\n\ncurrent game: - one-move\n");
-			currentGame.printGameBoard();
+			boardPrinter.printGameBoard(currentGame);
 
 			// ****************** this chunk of code makes the computer play
 			if( currentGame.getPieceCount() < 42 ) {
@@ -243,13 +245,13 @@ public class MaxConnectFour {
 			
 			// display the current game board
 			System.out.println("...and now the board looks like this: \n");
-			currentGame.printGameBoard();
+			boardPrinter.printGameBoard(currentGame);
 
 			// print the current scores
 			System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) +
 					"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
 
-			currentGame.printGameBoardToFile( output );
+			boardPrinter.printGameBoardToFile(output, currentGame);
 
 			return;
 			
