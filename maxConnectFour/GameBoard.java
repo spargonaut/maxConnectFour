@@ -102,10 +102,10 @@ public class GameBoard {
 					playerScore++;
 				}
 			}
-		}// end player score check
+		}
 
 		return playerScore;
-	} // end getScore
+	}
 
 	/**
 	 * the method gets the current turn
@@ -113,7 +113,7 @@ public class GameBoard {
 	 */
 	public int getCurrentTurn() {
 		return ( this.pieceCount % 2 ) + 1 ;
-	} // end getCurrentTurn
+	}
 
 
 	/**
@@ -170,8 +170,7 @@ public class GameBoard {
 			return false;
 		} else {
 
-			//starting at the bottom of the board,
-			//place the piece into the first empty spot
+			//starting at the bottom of the board, place the piece into the first empty spot
 			for( int i = 5; i >= 0; i-- ) {
 				if( this.playBoard[i][column] == 0 ) {
 					if( this.pieceCount % 2 == 0 ){
@@ -183,14 +182,6 @@ public class GameBoard {
 						this.pieceCount++;
 					}
 
-					//testing
-					//warning: uncommenting the next 3 lines will
-					//potentially produce LOTS of output
-					//System.out.println("i just played piece in column ->" +
-					//		column + "<-");
-					//this.printGameBoard();
-					//end testing
-
 					return true;
 				}
 			}
@@ -199,7 +190,7 @@ public class GameBoard {
 
 			return false;
 		}
-	} //end playPiece
+	}
 
 	/***************************  solution methods **************************/
 
@@ -219,44 +210,7 @@ public class GameBoard {
 				break;
 			}
 		}
-
-		//testing
-		//WARNING: uncommenting the next 3 lines will potentially
-		//produce LOTS of output
-		//System.out.println("gameBoard.removePiece(). I am removing the " +
-		//		"piece in column ->" + column + "<-");
-		//this.printGameBoard();
-		//end testing
-
-	} // end remove piece	
+	}	
 
 	/************************  end solution methods **************************/
-	
-//	/**
-//	 * this method prints the GameBoard to an output file to be used for
-//	 * inspection or by another running of the application
-//	 * @param outputFile the path and file name of the file to be written
-//	 */
-//	public void printGameBoardToFile( String outputFile ) {
-//		try {
-//			BufferedWriter output = new BufferedWriter(
-//					new FileWriter( outputFile ) );
-//
-//			for( int i = 0; i < 6; i++ ) {
-//				for( int j = 0; j < 7; j++ ) {
-//					output.write( this.playBoard[i][j] + 48 );
-//				}
-//				output.write("\n");
-//			}
-//
-//			//write the current turn
-//			output.write( this.getCurrentTurn() + "\n");
-//			output.close();
-//
-//		} catch( IOException e ) {
-//			System.out.println("\nProblem writing to the output file!\n" +
-//					"Try again.");
-//			e.printStackTrace();
-//		}
-//	} // end printGameBoardToFile()
 }
