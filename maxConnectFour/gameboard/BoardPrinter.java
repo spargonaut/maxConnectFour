@@ -24,9 +24,7 @@ public class BoardPrinter {
 			}
 			System.out.print("|_\n");
 		}
-
-		System.out.println(" -----------------\n   1 2 3 4 5 6 7   " +
-				"<---Column numbers");
+		System.out.println(" -----------------\n   1 2 3 4 5 6 7   <---Column numbers");
 	}
 
 	/**
@@ -34,7 +32,7 @@ public class BoardPrinter {
 	 * inspection or by another running of the application
 	 * @param outputFile the path and file name of the file to be written
 	 */
-	public void printGameBoardToFile(String outputFile, GameBoard gameboard )
+	public void printGameBoardToFile(String outputFile, GameBoard gameboard)
 		throws IOException {
 		
 		BufferedWriter output = new BufferedWriter( new FileWriter( outputFile ) );
@@ -46,8 +44,6 @@ public class BoardPrinter {
 			}
 			output.write("\n");
 		}
-
 		output.close();
 	}
-	
 }
