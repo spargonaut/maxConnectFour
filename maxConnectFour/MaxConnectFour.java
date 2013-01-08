@@ -46,10 +46,14 @@ public class MaxConnectFour {
 
 	public static void main(String[] args) {
 		MaxConnectFour game = new MaxConnectFour();
-		game.play(args);
+		try {
+			game.play(args);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 		
-	public void play(String[] args) {
+	public void play(String[] args) throws IOException {
 
 		checkForProperNumberOfArgments(args);
 		

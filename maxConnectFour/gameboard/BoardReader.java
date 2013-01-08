@@ -12,9 +12,9 @@ public class BoardReader {
 
 	private int[][] playBoard;
 	private int pieceCount;
-//	private int currentTurn;
 	
-	public GameBoard readGame(String inputFile) {
+	public GameBoard readGame(String inputFile)
+		throws IOException {
 		
 		this.playBoard = new int[6][7];
 		this.pieceCount = 0;
@@ -22,34 +22,31 @@ public class BoardReader {
 		
 		String gameData = null;
 
-		BufferedReader input = openTheInputFile(inputFile);
+		BufferedReader input = new BufferedReader( new FileReader( inputFile ) );
 
 		for(int i = 0; i < 6; i++) {
-			try {
-				gameData = input.readLine();
+			gameData = input.readLine();
 
-				// read each piece from the input file
-				for( int j = 0; j < 7; j++ ) {
+			// read each piece from the input file
+			for( int j = 0; j < 7; j++ ) {
 
-					this.playBoard[ i ][ j ] = Integer.parseInt(Character.toString(gameData.charAt(counter++)));
+				this.playBoard[ i ][ j ] = Integer.parseInt(Character.toString(gameData.charAt(counter++)));
 
-					// sanity check
-					checkIfMarkIsValidOrExit(i, j);
+				// sanity check
+				checkIfMarkIsValidOrExit(i, j);
 
-					if( this.playBoard[ i ][ j ] > 0 )
-					{
-						this.pieceCount++;
-					}
+				if( this.playBoard[ i ][ j ] > 0 )
+				{
+					this.pieceCount++;
 				}
-			} catch( IOException e ) {
-				System.out.println("\nProblem reading the input file!\nTry again.\n");
-				e.printStackTrace();
 			}
 
 			//reset the counter
 			counter = 0;
 
 		}
+		
+		input.close();
 
 		return new GameBoard(playBoard);
 		
@@ -66,17 +63,6 @@ public class BoardReader {
 		return !( ( this.playBoard[ i ][ j ] == 0 ) ||
 			   ( this.playBoard[ i ][ j ] == 1 ) ||
 			   ( this.playBoard[ i ][ j ] == 2 ) );
-	}
-
-	private BufferedReader openTheInputFile(String inputFile) {
-		BufferedReader input = null;
-		try {
-			input = new BufferedReader( new FileReader( inputFile ) );
-		} catch( IOException e ) {
-			System.out.println("\nProblem opening the input file!\nTry again.\n");
-			e.printStackTrace();
-		}
-		return input;
 	}
 	
 	public int getCurrentTurn() {
