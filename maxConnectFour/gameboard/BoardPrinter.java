@@ -1,5 +1,9 @@
 package maxConnectFour.gameboard;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import maxConnectFour.GameBoard;
 
 public class BoardPrinter {
@@ -25,4 +29,25 @@ public class BoardPrinter {
 				"<---Column numbers");
 	}
 
+	/**
+	 * this method prints the GameBoard to an output file to be used for
+	 * inspection or by another running of the application
+	 * @param outputFile the path and file name of the file to be written
+	 */
+	public void printGameBoardToFile(String outputFile, GameBoard gameboard )
+		throws IOException {
+		
+		BufferedWriter output = new BufferedWriter( new FileWriter( outputFile ) );
+		int[][] playBoard = gameboard.getGameBoard();
+
+		for( int i = 0; i < 6; i++ ) {
+			for( int j = 0; j < 7; j++ ) {
+				output.write( playBoard[i][j] + 48 );
+			}
+			output.write("\n");
+		}
+
+		output.close();
+	}
+	
 }
