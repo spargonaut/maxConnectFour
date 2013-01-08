@@ -98,7 +98,7 @@ public class MaxConnectFour {
 						"I can't tell whos turn it is next\n\n" +
 						"you're going to have to try again.\n" +
 						"next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
-				exit_function( 0 );
+				System.exit(0);
 			}
 			
 			while ( currentGame.getPieceCount() < 42 ) {
@@ -178,7 +178,7 @@ public class MaxConnectFour {
 				//I don't know who's turn it is.  we shouldn't get here.
 				default:
 					System.out.println( "what the heck am i doing here?\n I lost track of whose turn it is.\n uh oh" );
-				    exit_function( 0 );
+				    System.exit(0);
 				}
 				
 				//testing
@@ -259,7 +259,7 @@ public class MaxConnectFour {
 			System.out.println( "\n" + game_mode + " is an unrecognized game mode \n try again. \n" );
 			return;
 		}
-	} // end of main()
+	}
 
 	private void parseInputArguments(String[] args) {
 		game_mode = args[0].toString();				// the game mode
@@ -273,16 +273,7 @@ public class MaxConnectFour {
 					+ "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
 					+ " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
 
-			exit_function( 0 );
+			System.exit(0);
 		}
 	}
-	
-	/**
-	 * This method is used when to exit the program prematurly.
-	 * @param value an integer that is returned to the system when the program exits.
-	 */
-	private static void exit_function( int value ){
-		System.out.println("exiting from MaxConnectFour.java!\n\n");
-		System.exit( value );
-	}
-} // end of class connectFour
+}
