@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import maxConnectFour.gameboard.BoardPrinter;
 import maxConnectFour.gameboard.BoardReader;
 import maxConnectFour.gameboard.GameBoard;
+import maxConnectFour.players.PlayerIdentifier;
 
 /**
  * 
@@ -76,13 +77,7 @@ public class MaxConnectFour {
 		if( game_mode.equalsIgnoreCase( "interactive" ) ) {
 			/////////////   interactive mode ///////////
 
-			// get the next turn
-			char nextTurn = args[2].charAt( 0 );
-			
-			// some fields for the user input
-			BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-			String userInput = null;
-			Character userChar = 'x';
+			PlayerIdentifier nextTurnEnum = getFirstPlayer(args);
 
 			System.out.println( "--------------------------------------------------------------------------------");			
 			System.out.println( "Max Connect Four Client\n - Interactive Mode -");
@@ -93,21 +88,16 @@ public class MaxConnectFour {
 			
 			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurn() + "'s Turn" );
 			
-			if( !( nextTurn == 'c' || nextTurn == 'C' || nextTurn == 'h' || nextTurn == 'H' ) ) {
-				// I don't understand whos turn it is next.
-				System.out.println( "!!!!!!!--------->     Houston we have a problem.\n" +
-						"I can't tell whos turn it is next\n\n" +
-						"you're going to have to try again.\n" +
-						"next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
-				System.exit(0);
-			}
+			// some fields for the user input
+			BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+			String userInput = null;
+			Character userChar = 'x';
 			
 			while ( currentGame.getPieceCount() < 42 ) {
-				switch ( nextTurn ) {
+				switch ( nextTurnEnum ) {
 
 				// humans turn
-				case 'h':
-				case 'H':
+				case HUMAN:
 					while ( !playMade ) {
 						System.out.println("\n--------------------------------------------------------------------------------\n");
 						System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
@@ -151,13 +141,12 @@ public class MaxConnectFour {
 						} // end digit check
 					}
 										
-					nextTurn = 'c';
+					nextTurnEnum = PlayerIdentifier.COMPUTER;
 						break;
 						// end human turn
 						
 				//Computers turn
-				case 'c':
-				case 'C':
+				case COMPUTER:
 					System.out.println("\n--------------------------------------------------------------------------------\n");
 					
 					//Tell the user which player the computer is playing as
@@ -173,7 +162,7 @@ public class MaxConnectFour {
 					//play the piece
 					currentGame.playPiece( playColumn );
 					
-					nextTurn = 'H';
+					nextTurnEnum = PlayerIdentifier.HUMAN;
 					break;
 
 				//I don't know who's turn it is.  we shouldn't get here.
@@ -274,6 +263,30 @@ public class MaxConnectFour {
 					+ "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
 					+ " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
 
+			System.exit(0);
+		}
+	}
+	
+	private PlayerIdentifier getFirstPlayer(String[] args) {
+		char firstPlayerParamater = args[2].charAt(0);
+		
+		validateFirstPlayerParameter(firstPlayerParamater);
+		PlayerIdentifier firstPlayer = null;
+		if ("c".equalsIgnoreCase(Character.toString(firstPlayerParamater))) {
+			firstPlayer = PlayerIdentifier.COMPUTER;
+		} else {
+			firstPlayer = PlayerIdentifier.HUMAN;
+		}
+		return firstPlayer;
+	}
+	
+	private void validateFirstPlayerParameter(char nextTurn) {
+		if( !( nextTurn == 'c' || nextTurn == 'C' || nextTurn == 'h' || nextTurn == 'H' ) ) {
+			// I don't understand whos turn it is next.
+			System.out.println( "!!!!!!!--------->     Houston we have a problem.\n" +
+					"I can't tell whos turn it is next\n\n" +
+					"you're going to have to try again.\n" +
+					"next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
 			System.exit(0);
 		}
 	}
