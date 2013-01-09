@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import maxConnectFour.GameBoard;
 
 public class BoardPrinter {
 	

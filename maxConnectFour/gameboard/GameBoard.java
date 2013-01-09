@@ -1,4 +1,4 @@
-package maxConnectFour;
+package maxConnectFour.gameboard;
 
 
 /**

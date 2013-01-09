@@ -2,6 +2,8 @@ package maxConnectFour;
 
 import java.util.*;
 
+import maxConnectFour.gameboard.GameBoard;
+
 /**
  * This is the AiPlayer class.  It simulates a minimax player for the max
  * connect four game.

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import maxConnectFour.gameboard.BoardPrinter;
 import maxConnectFour.gameboard.BoardReader;
+import maxConnectFour.gameboard.GameBoard;
 
 /**
  * 
