@@ -59,17 +59,17 @@ public class AiPlayer {
 		// { column, scoreDiff } -the best col to play, and the score diff
 		int bestPlay[] = { 20, 99 };
 		
-		if( ( currentGame.getPieceCount() + depthLevel ) > 42 ) {
+		if( ( currentGame.getCountOfPiecesPlayed() + depthLevel ) > 42 ) {
 
-			depthLevel = 42 - currentGame.getPieceCount();
+			depthLevel = 42 - currentGame.getCountOfPiecesPlayed();
 			
 			// start generating some board states
 			bestPlay = generateBestMove( depthLevel, 1,
-					currentGame.getCurrentTurn(), currentGame, -333, 444 );
+					currentGame.getCurrentTurnBasedOnNumberOfPlays(), currentGame, -333, 444 );
 		} else {
 			// start generating some board states
 			bestPlay = generateBestMove( depthLevel, 1,
-					currentGame.getCurrentTurn(), currentGame, -222, 111 );
+					currentGame.getCurrentTurnBasedOnNumberOfPlays(), currentGame, -222, 111 );
 		}
 	
 		// testing

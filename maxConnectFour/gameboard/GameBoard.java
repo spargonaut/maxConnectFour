@@ -38,7 +38,7 @@ public class GameBoard {
 			}
 		}
 	} // end GameBoard( int[][] )
-
+	
 	/**
 	 * this method returns the score for the player given as an argument.
 	 * it checks horizontally, vertically, and each direction diagonally.
@@ -50,86 +50,83 @@ public class GameBoard {
 	 * @return the integer of the players score
 	 */
 	public int getScore( int player ) {
-
-		//reset the scores
 		int playerScore = 0;
+		playerScore += checkHorizontalScores(player);
+		playerScore += checkVerticalScores(player);
+		playerScore += checkBackwardDiagnalScores(player);
+		playerScore += checkForwardDiagnalScores(player);
+		return playerScore;
+	}
 
-		//check horizontally
-		for( int i = 0; i < 6; i++ ) {
-			for( int j = 0; j < 4; j++ ) {
-				if( ( this.playBoard[ i ][j] == player ) &&
-						( this.playBoard[ i ][ j+1 ] == player ) &&
-						( this.playBoard[ i ][ j+2 ] == player ) &&
-						( this.playBoard[ i ][ j+3 ] == player ) ) {
-					playerScore++;
-
-				}
-			}
-		} // end horizontal
-
-		//check vertically
-		for( int i = 0; i < 3; i++ ) {
-			for( int j = 0; j < 7; j++ ) {
-				if( ( this.playBoard[ i ][ j ] == player ) &&
-						( this.playBoard[ i+1 ][ j ] == player ) &&
-						( this.playBoard[ i+2 ][ j ] == player ) &&
-						( this.playBoard[ i+3 ][ j ] == player ) ) {
-					playerScore++;
-				}
-			}
-		} // end verticle
-
-		//check diagonally - backs lash -> \
-		for( int i = 0; i < 3; i++ ){
-			for( int j = 0; j < 4; j++ ) {
-				if( ( this.playBoard[ i ][ j ] == player ) &&
-						( this.playBoard[ i+1 ][ j+1 ] == player ) &&
-						( this.playBoard[ i+2 ][ j+2 ] == player ) &&
-						( this.playBoard[ i+3 ][ j+3 ] == player ) ) {
-					playerScore++;
-				}
-			}
-		}
-
-		//check diagonally - forward slash -> /
+	private int checkForwardDiagnalScores(int player) {
+		int score = 0;
 		for( int i = 0; i < 3; i++ ){
 			for( int j = 0; j < 4; j++ ) {
 				if( ( this.playBoard[ i+3 ][ j ] == player ) &&
 						( this.playBoard[ i+2 ][ j+1 ] == player ) &&
 						( this.playBoard[ i+1 ][ j+2 ] == player ) &&
 						( this.playBoard[ i ][ j+3 ] == player ) ) {
-					playerScore++;
+					score++;
 				}
 			}
 		}
-
-		return playerScore;
+		return score;
 	}
 
-	/**
-	 * the method gets the current turn
-	 * @return an int value representing whose turn it is.  either a 1 or a 2
-	 */
-	public int getCurrentTurn() {
+	private int checkBackwardDiagnalScores(int player) {
+		int score = 0;
+		for( int i = 0; i < 3; i++ ){
+			for( int j = 0; j < 4; j++ ) {
+				if( ( this.playBoard[ i ][ j ] == player ) &&
+						( this.playBoard[ i+1 ][ j+1 ] == player ) &&
+						( this.playBoard[ i+2 ][ j+2 ] == player ) &&
+						( this.playBoard[ i+3 ][ j+3 ] == player ) ) {
+					score++;
+				}
+			}
+		}
+		return score;
+	}
+
+	private int checkVerticalScores(int player) {
+		int score = 0;
+		for( int i = 0; i < 3; i++ ) {
+			for( int j = 0; j < 7; j++ ) {
+				if( ( this.playBoard[ i ][ j ] == player ) &&
+						( this.playBoard[ i+1 ][ j ] == player ) &&
+						( this.playBoard[ i+2 ][ j ] == player ) &&
+						( this.playBoard[ i+3 ][ j ] == player ) ) {
+					score++;
+				}
+			}
+		}
+		return score;
+	}
+
+	private int checkHorizontalScores(int player) {
+		int score = 0;
+		for( int i = 0; i < 6; i++ ) {
+			for( int j = 0; j < 4; j++ ) {
+				if( ( this.playBoard[ i ][j] == player ) &&
+						( this.playBoard[ i ][ j+1 ] == player ) &&
+						( this.playBoard[ i ][ j+2 ] == player ) &&
+						( this.playBoard[ i ][ j+3 ] == player ) ) {
+					score++;
+
+				}
+			}
+		}
+		return score;
+	}
+
+	public int getCurrentTurnBasedOnNumberOfPlays() {
 		return ( this.pieceCount % 2 ) + 1 ;
 	}
 
-
-	/**
-	 * this method returns the number of pieces that have been played on the
-	 * board 
-	 * 
-	 * @return an int representing the number of pieces that have been played
-	 * on board alread
-	 */
-	public int getPieceCount() {
+	public int getCountOfPiecesPlayed() {
 		return this.pieceCount;
 	}
 
-	/**
-	 * this method returns the whole gameboard as a dual indexed array
-	 * @return a dual indexed array representing the gameboard
-	 */
 	public int[][] getGameBoard() {
 		return this.playBoard;
 	}

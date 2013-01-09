@@ -82,18 +82,16 @@ public class MaxConnectFour {
 			System.out.println( "--------------------------------------------------------------------------------");			
 			System.out.println( "Max Connect Four Client\n - Interactive Mode -");
 
-			//print the current game board
-			System.out.println("\ncurrent game: - interactive\n");
 			boardPrinter.printGameBoard(currentGame);
 			
-			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurn() + "'s Turn" );
+			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
 			
 			// some fields for the user input
 			BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
 			String userInput = null;
 			Character userChar = 'x';
 			
-			while ( currentGame.getPieceCount() < 42 ) {
+			while ( currentGame.getCountOfPiecesPlayed() < 42 ) {
 				switch ( nextTurnEnum ) {
 
 				// humans turn
@@ -151,7 +149,7 @@ public class MaxConnectFour {
 					
 					//Tell the user which player the computer is playing as
 					System.out.println("oh, I see that it is my turn. ....  let me think..." +
-							"\n I am playing as player: " + currentGame.getCurrentTurn() );
+							"\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() );
 
 					// AI play - random play
 					// playColumn = calculon.findBestPlay( currentGame );
@@ -210,10 +208,10 @@ public class MaxConnectFour {
 			boardPrinter.printGameBoard(currentGame);
 
 			// ****************** this chunk of code makes the computer play
-			if( currentGame.getPieceCount() < 42 ) {
+			if( currentGame.getCountOfPiecesPlayed() < 42 ) {
 
 				// Tell the user which player the computer is playing for
-				System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurn() +
+				System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() +
 						"\n  searching for the best play to depth level: " + depthLevel );				
 
 				// AI play - random play
