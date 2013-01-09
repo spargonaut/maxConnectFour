@@ -5,6 +5,8 @@ public class GameBoard {
 	// class fields
 	private int[][] playBoard;
 	private int pieceCount;
+
+	private static final int MAX_NUMBER_OF_PLAYS = 42;
 	
 	public GameBoard( int masterGame[][] ) {
 
@@ -19,6 +21,10 @@ public class GameBoard {
 					this.pieceCount++;
 			}
 		}
+	}
+	
+	public int getNumberOfPlaysRemaining() {
+		return MAX_NUMBER_OF_PLAYS - pieceCount;
 	}
 	
 	public int getScore( int playerNumber ) {

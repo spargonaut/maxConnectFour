@@ -156,7 +156,7 @@ public class MaxConnectFour {
 					// playColumn = calculon.findBestPlay( currentGame );
 					
 					// AI play - solution play
-					playColumn = calculon.findBestPlay( currentGame, depthLevel );
+					playColumn = calculon.getBestPlay( currentGame, depthLevel );
 					
 					//play the piece
 					currentGame.playPiece( playColumn );
@@ -219,7 +219,7 @@ public class MaxConnectFour {
 				//playColumn = calculon.findBestPlay( currentGame );
 				
 				// AI play - solution play
-				playColumn = calculon.findBestPlay( currentGame, depthLevel );
+				playColumn = calculon.getBestPlay( currentGame, depthLevel );
 				
 				// play the piece
 				currentGame.playPiece( playColumn );

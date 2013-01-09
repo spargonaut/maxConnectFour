@@ -15,68 +15,27 @@ import maxConnectFour.gameboard.GameBoard;
 
 public class AiPlayer {
 	
-	
-	/**
-	 * The constructor essentially does nothing except instantiate an
-	 * AiPlayer object.
-	 *
-	 */
-	public AiPlayer() {
-		// nothing to do here
-	}
-
-	/**
-	 * This method plays a piece randomly on the board
-	 * @param currentGame The GameBoard object that is currently being used to
-	 * play the game.
-	 * @return an integer indicating which column the AiPlayer would like
-	 * to play in.
-	 */
-	public int findBestPlay( GameBoard currentGame ) {
-		
-		// start random play code
+	public int getRandomPlay( GameBoard currentGame ) {
 		Random randy = new Random();
-		int playChoice = 99;
-	
-		playChoice = randy.nextInt( 7 );
+		int randomPlay = randy.nextInt( 7 );
 		
-		while( !currentGame.isValidPlay( playChoice ) )
-			playChoice = randy.nextInt( 7 );
+		while(!currentGame.isValidPlay( randomPlay ))
+			randomPlay = randy.nextInt( 7 );
 		
-		// end random play code
-		
-		return playChoice;
+		return randomPlay;
 	}
 	
 	/************************ solution methods *******************/
 
-	/**
-	 * This method is one of the solution methods.  It finds the best move to
-	 * make by implementing the minimax algorithm
-	 */
-	public int findBestPlay( GameBoard currentGame, int depthLevel ) {
-	
-		// { column, scoreDiff } -the best col to play, and the score diff
-		int bestPlay[] = { 20, 99 };
-		
-		if( ( currentGame.getCountOfPiecesPlayed() + depthLevel ) > 42 ) {
-
-			depthLevel = 42 - currentGame.getCountOfPiecesPlayed();
-			
-			// start generating some board states
-			bestPlay = generateBestMove( depthLevel, 1,
-					currentGame.getCurrentTurnBasedOnNumberOfPlays(), currentGame, -333, 444 );
-		} else {
-			// start generating some board states
-			bestPlay = generateBestMove( depthLevel, 1,
-					currentGame.getCurrentTurnBasedOnNumberOfPlays(), currentGame, -222, 111 );
+	public int getBestPlay( GameBoard currentGame, int depthLevel ) {
+		if (currentGame.getNumberOfPlaysRemaining() > depthLevel) {
+			depthLevel = currentGame.getNumberOfPlaysRemaining();
 		}
-	
-		// testing
-		//System.out.println("calculon is returning ->" + bestPlay[0] +
-		//		"<- as the best play" );
-		// end testing
 		
+		int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
+		int bestPlay[] = { -1, -1 };
+		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, -333, 444 );
+	
 		return bestPlay[0];
 	}
 	
@@ -106,7 +65,7 @@ public class AiPlayer {
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
 		
 		 // { column, scoreDiff }    bestMove[ 1 ]  is analagous to v
-		int bestMove[] = { 60, -500 };
+		int bestMove[] = { -1, -999 };
 		int scoreDiff;
 		int otherPlayer;
 
