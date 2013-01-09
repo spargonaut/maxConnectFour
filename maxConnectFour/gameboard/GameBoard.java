@@ -1,29 +1,11 @@
 package maxConnectFour.gameboard;
 
-
-/**
- * This is the Gameboard class.  It implements a two dimension array that
- * represents a connect four gameboard. It keeps track of the player making
- * the next play based on the number of pieces on the game board. It provides
- * all of the methods needed to implement the playing of a max connect four
- * game.
- * 
- * @author James Spargo
- *
- */
-
 public class GameBoard {
 
 	// class fields
 	private int[][] playBoard;
 	private int pieceCount;
 	
-	/**
-	 * This constructor creates a GameBoard object from another double
-	 * indexed array.
-	 * 
-	 * @param masterGame a dual indexed array
-	 */
 	public GameBoard( int masterGame[][] ) {
 
 		this.playBoard = new int[6][7];
@@ -37,24 +19,14 @@ public class GameBoard {
 					this.pieceCount++;
 			}
 		}
-	} // end GameBoard( int[][] )
+	}
 	
-	/**
-	 * this method returns the score for the player given as an argument.
-	 * it checks horizontally, vertically, and each direction diagonally.
-	 * currently, it uses for loops, but i'm sure that it can be made 
-	 * more efficient.
-	 * 
-	 * @param player the player whose score is being requested.  valid
-	 * values are 1 or 2
-	 * @return the integer of the players score
-	 */
-	public int getScore( int player ) {
+	public int getScore( int playerNumber ) {
 		int playerScore = 0;
-		playerScore += checkHorizontalScores(player);
-		playerScore += checkVerticalScores(player);
-		playerScore += checkBackwardDiagnalScores(player);
-		playerScore += checkForwardDiagnalScores(player);
+		playerScore += checkHorizontalScores(playerNumber);
+		playerScore += checkVerticalScores(playerNumber);
+		playerScore += checkBackwardDiagnalScores(playerNumber);
+		playerScore += checkForwardDiagnalScores(playerNumber);
 		return playerScore;
 	}
 
@@ -131,14 +103,6 @@ public class GameBoard {
 		return this.playBoard;
 	}
 
-	/**
-	 * a method that determines if a play is valid or not. It checks to see if
-	 * the column is within bounds.  If the column is within bounds, and the
-	 * column is not full, then the play is valid.
-	 * @param column an int representing the column to be played in.
-	 * @return true if the play is valid<br>
-	 * false if it is either out of bounds or the column is full
-	 */
 	public boolean isValidPlay( int column ) {
 
 		if ( !( column >= 0 && column <= 7 ) ) {
@@ -153,12 +117,6 @@ public class GameBoard {
 		}
 	}
 
-	/**
-	 * This method plays a piece on the game board.
-	 * @param column the column where the piece is to be played.
-	 * @return true if the piece was successfully played<br>
-	 * false otherwise
-	 */
 	public boolean playPiece( int column ) {
 
 		// check if the column choice is a valid play
@@ -189,11 +147,6 @@ public class GameBoard {
 	}
 
 	/***************************  solution methods **************************/
-
-	/**
-	 * this method removes the top piece from the game board
-	 * @param column the column to remove a piece from 
-	 */
 	public void removePiece( int column ) {
 
 		// starting looking at the top of the game board,
@@ -207,6 +160,5 @@ public class GameBoard {
 			}
 		}
 	}	
-
 	/************************  end solution methods **************************/
 }
