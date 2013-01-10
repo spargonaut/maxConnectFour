@@ -123,7 +123,7 @@ public class GameBoard {
 		}
 	}
 
-	public boolean playPiece( int column ) {
+	public boolean playPieceInColumn( int column ) {
 
 		// check if the column choice is a valid play
 		if( !this.isValidPlay( column ) ) {
