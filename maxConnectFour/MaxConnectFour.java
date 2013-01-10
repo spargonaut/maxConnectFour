@@ -128,7 +128,7 @@ public class MaxConnectFour {
 							// check if the play is valid
 							if( currentGame.isValidPlay( playColumn ) ) {
 								//make the play
-								currentGame.playPiece( playColumn );
+								currentGame.playPieceInColumn( playColumn );
 								playMade = true;								
 							} else {
 								// that was an invalid play
@@ -147,10 +147,7 @@ public class MaxConnectFour {
 				//Computers turn
 				case COMPUTER:
 					System.out.println("\n--------------------------------------------------------------------------------\n");
-					
-					//Tell the user which player the computer is playing as
-					System.out.println("oh, I see that it is my turn. ....  let me think..." +
-							"\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() );
+					System.out.println("oh, I see that it is my turn. ....  let me think...\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() );
 
 					// AI play - random play
 					// playColumn = calculon.findBestPlay( currentGame );
@@ -158,8 +155,10 @@ public class MaxConnectFour {
 					// AI play - solution play
 					playColumn = calculon.getBestPlay( currentGame, depthLevel );
 					
+					System.out.println("and I'm playing in column " + playColumn);
+					
 					//play the piece
-					currentGame.playPiece( playColumn );
+					currentGame.playPieceInColumn( playColumn );
 					
 					nextTurnEnum = PlayerIdentifier.HUMAN;
 					break;
@@ -222,7 +221,7 @@ public class MaxConnectFour {
 				playColumn = calculon.getBestPlay( currentGame, depthLevel );
 				
 				// play the piece
-				currentGame.playPiece( playColumn );
+				currentGame.playPieceInColumn( playColumn );
 				
 			} else {
 				System.out.println("\nI can't play.\nThe Board is Full\n\nGame Over");
