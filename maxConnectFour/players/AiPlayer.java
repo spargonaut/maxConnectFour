@@ -20,6 +20,8 @@ public class AiPlayer {
 	private final String BEST_PLAY = "best play";
 	private final String BEST_SCORE = "best score";
 	private final String WORST_SCORE = "worst score";
+	private final String ALPHA = "ALPHA";
+	private final String BETA = "BETA";
 	
 	public int getRandomPlay( GameBoard currentGame ) {
 		Random randy = new Random();
@@ -44,8 +46,11 @@ public class AiPlayer {
 		bestPlayMap.put(BEST_PLAY, -1);
 		bestPlayMap.put(BEST_SCORE, -999);
 		bestPlayMap.put(WORST_SCORE, 999);
+		bestPlayMap.put(ALPHA, -999);
+		bestPlayMap.put(BETA, 99999);
 		
-		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, -333, 444 );
+//		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, -333, 444 );
+		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA) );
 	
 		return bestPlay[0];
 	}
@@ -89,10 +94,7 @@ public class AiPlayer {
 						return bestMove;
 					}
 					
-					// minimize alpha and keep checking leaf nodes
-					if ( bestMove[ 1 ] > alpha ) {
-						alpha = bestMove[ 1 ];
-					}
+					alpha = Math.max(alpha, bestMove[1]);
 					
 					//remove the piece i just played, to continue testing
 					testBoard.removePiece( columnToPlay );
@@ -104,8 +106,7 @@ public class AiPlayer {
 			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay ++ ) {
 
 				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					nextMove = generateWorstMoveRef( maxDepth, level + 1,
-							currentPlayer, testBoard, alpha, beta );
+					nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
 
 					if( nextMove[ 1 ] > bestMove[ 1 ] ) {
 						bestMove[ 0 ] = columnToPlay;
@@ -116,10 +117,7 @@ public class AiPlayer {
 						return bestMove;
 					}
 					
-					// minimize alpha and keep checking leaf nodes
-					if ( bestMove[ 1 ] >  alpha) {
-						alpha = bestMove[ 1 ];
-					}
+					alpha = Math.max(alpha, bestMove[1]);
 					
 					testBoard.removePiece( columnToPlay );
 					
@@ -131,7 +129,7 @@ public class AiPlayer {
 		
 		return bestMove;
 	} // end generateBestMove()
-	
+
 	private int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
 		// I need to take into account when two moves are equal
 		// i think this is where i need to add in heuristics
@@ -245,7 +243,6 @@ public class AiPlayer {
 						return bestMove;
 					}
 					
-					// minimize alpha and keep checking leaf nodes
 					if ( bestMove[ 1 ] > alpha ) {
 						alpha = bestMove[ 1 ];
 					}
@@ -272,8 +269,7 @@ public class AiPlayer {
 						return bestMove;
 					}
 					
-					// minimize alpha and keep checking leaf nodes
-					if ( bestMove[ 1 ] >  alpha) {
+					if ( bestMove[ 1 ] > alpha ) {
 						alpha = bestMove[ 1 ];
 					}
 					
