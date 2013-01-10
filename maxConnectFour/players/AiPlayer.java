@@ -90,10 +90,6 @@ public class AiPlayer {
 					int[] worstMove = {-456, testBoard.getScore( currentPlayer ) - testBoard.getScore(otherPlayer)};
 					
 					bestMove = getHighestScoringMove(bestMove, worstMove, columnToPlay);
-//					if( worstMove[1] > bestMove[ 1 ] ) {
-//						bestMove[ 0 ] = columnToPlay;
-//						bestMove[ 1 ] = worstMove[1];
-//					}
 						
 					if( bestMove[ 1 ] >= beta ) {
 						return bestMove;
@@ -114,10 +110,6 @@ public class AiPlayer {
 					worstMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
 
 					bestMove = getHighestScoringMove(bestMove, worstMove, columnToPlay);
-//					if( worstMove[ 1 ] > bestMove[ 1 ] ) {
-//						bestMove[ 0 ] = columnToPlay;
-//						bestMove[ 1 ] = worstMove[1];
-//					}
 					
 					if( bestMove[ 1 ] >= beta ) {
 						return bestMove;
@@ -131,7 +123,6 @@ public class AiPlayer {
 		} // end else
 		
 		return bestMove;
-//		return convertToIntArray(bestMoveMap);
 	} // end generateBestMove()
 
 	protected int[] getHighestScoringMove(int[] bestMove, int[] worstMove, int columnToPlay) {
