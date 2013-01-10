@@ -50,7 +50,7 @@ public class AiPlayer {
 		bestPlayMap.put(BETA, 99999);
 		
 //		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, -333, 444 );
-		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA) );
+		bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
 	
 		return bestPlay[0];
 	}
@@ -64,8 +64,8 @@ public class AiPlayer {
 		return otherPlayer;
 	}
 	
-	private int[] generateBestMoveRef( int maxDepth, int level, int currentPlayer,
-			GameBoard lastBoard, int alpha, int beta ) {
+	private int[] generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
+//	private Map<String, Integer> generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
 
 		// I need to take into account when two moves are equal
 		// i think this is where i need to add in heuristics
@@ -74,7 +74,11 @@ public class AiPlayer {
 		
 		 // { column, scoreDiff }    bestMove[ 1 ]  is analagous to v
 		int bestMove[] = { -1, -999 };
-		int scoreDiff;
+//		Map<String, Integer> bestMoveMap = new HashMap<String, Integer>();
+//		bestMoveMap.put(BEST_PLAY, -1);
+//		bestMoveMap.put(BEST_SCORE, -999);
+		
+		
 
 		int otherPlayer = getOtherPlayer(currentPlayer);
 
@@ -83,12 +87,13 @@ public class AiPlayer {
 			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
 				if( testBoard.playPieceInColumn( columnToPlay ) ) {
 					// count the scores and find the difference between the two
-					scoreDiff = testBoard.getScore( currentPlayer ) - testBoard.getScore( otherPlayer );
+					int[] worstMove = {-456, testBoard.getScore( currentPlayer ) - testBoard.getScore(otherPlayer)};
 					
-					if( scoreDiff > bestMove[ 1 ] ) {
-						bestMove[ 0 ] = columnToPlay;
-						bestMove[ 1 ] = scoreDiff;
-					} 
+					bestMove = getHighestScoringMove(bestMove, worstMove, columnToPlay);
+//					if( worstMove[1] > bestMove[ 1 ] ) {
+//						bestMove[ 0 ] = columnToPlay;
+//						bestMove[ 1 ] = worstMove[1];
+//					}
 						
 					if( bestMove[ 1 ] >= beta ) {
 						return bestMove;
@@ -101,17 +106,18 @@ public class AiPlayer {
 				}
 			}	
 		} else { //we're not at the max depth yet - need to call geneWorstMove
-			int[] nextMove = { 65, -550 };
+			int[] worstMove = { 65, -550 };
 			
 			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay ++ ) {
 
 				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+					worstMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
 
-					if( nextMove[ 1 ] > bestMove[ 1 ] ) {
-						bestMove[ 0 ] = columnToPlay;
-						bestMove[ 1 ] = nextMove[ 1 ];
-					}
+					bestMove = getHighestScoringMove(bestMove, worstMove, columnToPlay);
+//					if( worstMove[ 1 ] > bestMove[ 1 ] ) {
+//						bestMove[ 0 ] = columnToPlay;
+//						bestMove[ 1 ] = worstMove[1];
+//					}
 					
 					if( bestMove[ 1 ] >= beta ) {
 						return bestMove;
@@ -120,15 +126,29 @@ public class AiPlayer {
 					alpha = Math.max(alpha, bestMove[1]);
 					
 					testBoard.removePiece( columnToPlay );
-					
-				} else {
-					//do nothing - that column was full
 				}
 			}
 		} // end else
 		
 		return bestMove;
+//		return convertToIntArray(bestMoveMap);
 	} // end generateBestMove()
+
+	protected int[] getHighestScoringMove(int[] bestMove, int[] worstMove, int columnToPlay) {
+		int[] highestScoringMove = {-55, -66};
+		if( worstMove[ 1 ] > bestMove[ 1 ] ) {
+			highestScoringMove[ 0 ] = columnToPlay;
+			highestScoringMove[ 1 ] = worstMove[1];
+		}
+		return highestScoringMove;
+	}
+	
+	private int[] convertToIntArray(Map<String, Integer> moveMap) {
+		int[] scoreArray = {-666, -777};
+		scoreArray[0] = moveMap.get(BEST_PLAY);
+		scoreArray[1] = moveMap.get(BEST_SCORE);
+		return scoreArray;
+	}
 
 	private int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
 		// I need to take into account when two moves are equal
