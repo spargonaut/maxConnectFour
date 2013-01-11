@@ -108,44 +108,33 @@ public class AiPlayer {
 		// I need to take into account when two moves are equal - i think this is where i need to add in heuristics
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
 		
-		int[] move = { 70, 700 };  
-		if( level == maxDepth ) {
-			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
-				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					int[] scoreDiff = {70, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
+		int[] move = { 70, 700 };
+		boolean isMaxDepth = (level == maxDepth);
+		int[] nextMove = {-4, 444};
+		
+		for( int columnToPlay = 0; columnToPlay < 7; columnToPlay ++ ) {
+			if( testBoard.playPieceInColumn( columnToPlay ) ) {
+				
+				if (isMaxDepth) {
+					nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
+				} else {
+					nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+				}
+				
+				if( nextMove[1] < move[ 1 ] ) {
+					move = getLowestScoringMove(move, columnToPlay, nextMove);
 					
-					if( scoreDiff[1] < move[ 1 ] ) {
-						move = getLowestScoringMove(move, columnToPlay, scoreDiff);
-					
-						if( move[ 1 ]  <= alpha ) {		
-							break;
-						}
-						
-						beta = minimizeBeta(beta, move[1]);
+					if( move[ 1 ] <= alpha ) {		
+						break;
 					}
 					
-					testBoard.removePiece( columnToPlay );
+					beta = minimizeBeta(beta, move[1]);
 				}
-			}			
-		} else {
-			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay ++ ) {
-				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					int[] nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-					
-					if( nextMove[1] < move[ 1 ] ) {
-						move = getLowestScoringMove(move, columnToPlay, nextMove);
-						
-						if( move[ 1 ] <= alpha ) {		
-							break;
-						}
-						
-						beta = minimizeBeta(beta, move[1]);
-					}
-					
-					testBoard.removePiece( columnToPlay );
-				}
+				
+				testBoard.removePiece( columnToPlay );
 			}
 		}
+		
 		return move;
 	}
 
