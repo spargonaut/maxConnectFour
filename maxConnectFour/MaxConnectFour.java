@@ -93,25 +93,19 @@ public class MaxConnectFour {
 					while ( !playMade ) {
 						
 						System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
-						try {
-							// get input from the user
+						userInput = br.readLine();
+						
+						// keep asking for input until we receive something
+						while( ( userInput.equals("") ) ) {
+							System.out.println("\nI didn't understand that input\n--Try again" );
+							System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
+							// try getting input fromt the user again
 							userInput = br.readLine();
-							
-							// keep asking for input until we receive something
-							while( ( userInput.equals("") ) ) {
-								System.out.println("\nI didn't understand that input\n--Try again" );
-								System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
-								// try getting input fromt the user again
-								userInput = br.readLine();
-							}
-							
-							// we only care about the first character
-							userChar = userInput.charAt( 0 );
-							
-						} catch (IOException e) {
-							System.out.println("I didn't understand that at all.\nI'm leavin' the program.\n");
-							System.exit( 0 );
 						}
+						
+						// we only care about the first character
+						userChar = userInput.charAt( 0 );
+							
 						
 						// check to see if the input is a digit						
 						if( Character.isDigit( userChar )) {
