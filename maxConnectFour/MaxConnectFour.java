@@ -44,7 +44,7 @@ import maxConnectFour.players.PlayerIdentifier;
 
 public class MaxConnectFour {
 	
-	String game_mode;
+	PlayMode playMode;
 	String input;
 	int depthLevel;
 
@@ -75,15 +75,11 @@ public class MaxConnectFour {
 		int playColumn = 99;				//  the players choice of column to play
 		boolean playMade = false;			//  set to true once a play has been made
 
-		if( game_mode.equalsIgnoreCase( "interactive" ) ) {
-			/////////////   interactive mode ///////////
-
+		switch(playMode) {
+		case INTERACTIVE:
 			PlayerIdentifier nextTurnEnum = getFirstPlayer(args);
 
-			System.out.println( "--------------------------------------------------------------------------------");			
-			System.out.println( "Max Connect Four Client\n - Interactive Mode -");
-
-			boardPrinter.printGameBoard(currentGame);
+			printInitialGameBoardState(currentGame, boardPrinter);
 			
 			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
 			
@@ -172,21 +168,13 @@ public class MaxConnectFour {
 			
 			// the game board is full.
 			printTheFinalGameState(currentGame, boardPrinter);
-			return;
+			break;
 			
-		} else if( game_mode.equalsIgnoreCase( "one-move" ) ) {
-			
-			/////////////   one-move mode ///////////
-			
+		case ONE_MOVE:
 			// get the output file name
 			String output = args[2].toString();				// the output game file
 
-			System.out.println( "--------------------------------------------------------------------------------");
-			System.out.println( "\nMax Connect Four Client\n - One Move Mode - ");
-
-			//print the current game board
-			System.out.println("\n\ncurrent game: - one-move\n");
-			boardPrinter.printGameBoard(currentGame);
+			printInitialGameBoardState(currentGame, boardPrinter);
 
 			// ****************** this chunk of code makes the computer play
 			if( currentGame.getCountOfPiecesPlayed() < 42 ) {
@@ -204,19 +192,20 @@ public class MaxConnectFour {
 			
 			boardPrinter.printGameBoardToFile(output, currentGame);
 
-			return;
-			
-		} else if( !game_mode.equalsIgnoreCase( "one-move" ) ) {
-			System.out.println( "\n" + game_mode + " is an unrecognized game mode \n try again. \n" );
-			return;
+			break;
 		}
 	}
 
-	protected void printCurrentGameBoardAndScores(GameBoard currentGame,
-			BoardPrinter boardPrinter) {
-		System.out.println("\n...and now the board looks like this: \n");
-		printCurrentScores(currentGame);
+	protected void printInitialGameBoardState(GameBoard currentGame, BoardPrinter boardPrinter) {
+		System.out.println( "--------------------------------------------------------------------------------");
+		System.out.println( "\nMax Connect Four Client\n - " + playMode + " Mode");
 		boardPrinter.printGameBoard(currentGame);
+	}
+
+	protected void printCurrentGameBoardAndScores(GameBoard currentGame, BoardPrinter boardPrinter) {
+		System.out.println("\n...and now the board looks like this: \n");
+		boardPrinter.printGameBoard(currentGame);
+		printCurrentScores(currentGame);
 	}
 
 	protected void printCurrentScores(GameBoard currentGame) {
@@ -230,7 +219,8 @@ public class MaxConnectFour {
 	}
 
 	private void parseInputArguments(String[] args) {
-		game_mode = args[0].toString();				// the game mode
+		String game_mode = args[0].toString();				// the game mode
+		playMode = parsePlayMode(game_mode);
 		input = args[1].toString();					// the input game file
 		depthLevel = Integer.parseInt( args[3] );  		// the depth level of the ai search
 	}
