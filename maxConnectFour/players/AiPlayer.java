@@ -19,12 +19,9 @@ public class AiPlayer {
 	
 	public int getRandomPlay( GameBoard currentGame ) {
 		Random randy = new Random();
-		int randomPlay = randy.nextInt( 7 );
-		
-		while(!currentGame.isValidPlay( randomPlay ))
-			randomPlay = randy.nextInt( 7 );
-		
-		return randomPlay;
+		List<Integer> validPlays = currentGame.getColumnsOfValidPlays();
+		int randomPlayIndex = randy.nextInt( validPlays.size() );
+		return validPlays.get(randomPlayIndex);
 	}
 	
 
