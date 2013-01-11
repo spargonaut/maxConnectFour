@@ -8,8 +8,12 @@ import java.util.Random;
 import maxConnectFour.gameboard.GameBoard;
 
 /**
- * This is the AiPlayer class.
- * It simulates a minimax player with alpha-beta pruning for the max connect four game.
+ * This is the AiPlayer class.  It simulates a minimax player for the max
+ * connect four game.
+ * The constructor essentially does nothing. 
+ * 
+ * @author james spargo
+ *
  */
 
 public class AiPlayer {
@@ -19,14 +23,17 @@ public class AiPlayer {
 	
 	public int getRandomPlay( GameBoard currentGame ) {
 		Random randy = new Random();
-		List<Integer> validPlays = currentGame.getColumnsOfValidPlays();
-		int randomPlayIndex = randy.nextInt( validPlays.size() );
-		return validPlays.get(randomPlayIndex);
+		int randomPlay = randy.nextInt( 7 );
+		
+		while(!currentGame.isValidPlay( randomPlay ))
+			randomPlay = randy.nextInt( 7 );
+		
+		return randomPlay;
 	}
 	
 
 	public int getBestPlay( GameBoard currentGame, int depthLevel ) {
-		depthLevel = Math.max(depthLevel, currentGame.getNumberOfPlaysRemaining());
+		depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
 		int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
 		int bestPlay[] = { -1, -1 };
 		Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
