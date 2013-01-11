@@ -18,9 +18,6 @@ import maxConnectFour.gameboard.GameBoard;
 
 public class AiPlayer {
 	
-	private final String BEST_PLAY = "best play";
-	private final String BEST_SCORE = "best score";
-	private final String WORST_SCORE = "worst score";
 	private final String ALPHA = "ALPHA";
 	private final String BETA = "BETA";
 	
@@ -34,7 +31,6 @@ public class AiPlayer {
 		return randomPlay;
 	}
 	
-	/************************ solution methods *******************/
 
 	public int getBestPlay( GameBoard currentGame, int depthLevel ) {
 		if (currentGame.getNumberOfPlaysRemaining() < depthLevel) {
@@ -44,27 +40,14 @@ public class AiPlayer {
 		int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
 		int bestPlay[] = { -1, -1 };
 		Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
-		bestPlayMap.put(BEST_PLAY, -1);
-		bestPlayMap.put(BEST_SCORE, -999);
-		bestPlayMap.put(WORST_SCORE, 999);
 		bestPlayMap.put(ALPHA, -999);
 		bestPlayMap.put(BETA, 99999);
 		
-//		bestPlay = generateBestMove( depthLevel, 1, currentTurn, currentGame, -333, 444 );
 		bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
 	
 		return bestPlay[0];
 	}
 
-	private int getOtherPlayer(int currentPlayer) {
-		int otherPlayer;
-		if( currentPlayer == 1 )
-			otherPlayer = 2;
-		else
-			otherPlayer = 1;
-		return otherPlayer;
-	}
-	
 	private int[] generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
 		// I need to take into account when two moves are equal - i think this is where i need to add in heuristics
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
@@ -133,19 +116,12 @@ public class AiPlayer {
 				if( move[ 1 ] <= alpha ) {		
 					break;
 				}
-				beta = minimizeBeta(beta, move[1]);
+				beta = Math.min(beta, move[1]);
 			}
 			testBoard.removePiece( column );
 		}
 		
 		return move;
-	}
-
-	protected int minimizeBeta(int beta, int worstMoveScore) {
-		if ( worstMoveScore < beta ) {
-			beta = worstMoveScore;
-		}
-		return beta;
 	}
 
 	protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] scoreDiff) {
