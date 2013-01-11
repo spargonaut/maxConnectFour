@@ -1,13 +1,13 @@
 package maxConnectFour;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import maxConnectFour.gameboard.BoardPrinter;
 import maxConnectFour.gameboard.BoardReader;
 import maxConnectFour.gameboard.GameBoard;
 import maxConnectFour.players.AiPlayer;
+import maxConnectFour.players.HumanPlayer;
+import maxConnectFour.players.Player;
 import maxConnectFour.players.PlayerIdentifier;
 
 /**
@@ -67,7 +67,8 @@ public class MaxConnectFour {
 		GameBoard currentGame = boardReader.readGame(input);
 		
 		// create the Ai Player
-		AiPlayer calculon = new AiPlayer();
+		Player calculon = new AiPlayer();
+		Player human = new HumanPlayer();
 		
 		//  variables to keep up with the game
 		int playColumn = 99;				//  the players choice of column to play
@@ -80,53 +81,12 @@ public class MaxConnectFour {
 			
 			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
 			
-			// some fields for the user input
-			BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-			String userInput = null;
-			Character userChar = 'x';
-			
 			while ( currentGame.getCountOfPiecesPlayed() < 42 ) {
 				System.out.println("\n--------------------------------------------------------------------------------\n");
 				switch ( nextTurnEnum ) {
 				case HUMAN:
-					boolean playMade = false;
-					while ( !playMade ) {
-						
-						System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
-						userInput = br.readLine();
-						
-						// keep asking for input until we receive something
-						while( ( userInput.equals("") ) ) {
-							System.out.println("\nI didn't understand that input\n--Try again" );
-							System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
-							// try getting input fromt the user again
-							userInput = br.readLine();
-						}
-						
-						// we only care about the first character
-						userChar = userInput.charAt( 0 );
-							
-						
-						// check to see if the input is a digit						
-						if( Character.isDigit( userChar )) {
-							// parse the user input into something we can use
-							playColumn = Character.getNumericValue( userChar ) - 1;
-							
-							// check if the play is valid
-							if( currentGame.isValidPlay( playColumn ) ) {
-								//make the play
-								currentGame.playPieceInColumn( playColumn );
-								playMade = true;								
-							} else {
-								// that was an invalid play
-								System.out.println("That was an invalid play\n--Try again!");
-							}
-							
-						} else {
-							System.out.println("\nThat was not a valid digit.\n--Try again");
-						} // end digit check
-					}
-										
+					playColumn = human.getBestPlay(currentGame, depthLevel);
+					currentGame.playPieceInColumn(playColumn);
 					nextTurnEnum = PlayerIdentifier.COMPUTER;
 					break;
 						
