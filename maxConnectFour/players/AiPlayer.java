@@ -11,7 +11,7 @@ import maxConnectFour.gameboard.GameBoard;
  * This is the AiPlayer class.  It simulates a minimax player with alpha beta pruning for the max connect four game.
  */
 
-public class AiPlayer {
+public class AiPlayer implements Player {
 	
 	private final String ALPHA = "ALPHA";
 	private final String BETA = "BETA";
@@ -23,14 +23,13 @@ public class AiPlayer {
 		return validPlays.get(randomPlayIndex);
 	}
 
-	public int getBestPlay( GameBoard currentGame, int depthLevel ) {
+	public Integer getBestPlay( GameBoard currentGame, int depthLevel ) {
 		depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
 		int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
-		int bestPlay[] = { -1, -1 };
 		Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
 		bestPlayMap.put(ALPHA, -999);
 		bestPlayMap.put(BETA, 99999);
-		bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
+		int[] bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
 		return bestPlay[0];
 	}
 
