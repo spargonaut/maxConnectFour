@@ -69,52 +69,29 @@ public class AiPlayer {
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
 		
 		int move[] = { -1, -999 };		// { column, scoreDiff }
+		int nextMove[] = {-2, -888};
 
-		// find the move that yeilds the highest score
-		if( level == maxDepth ) {
-			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
-				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					move = getHighestScoringMove(move, new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)}, columnToPlay);
-						
-					if( move[ 1 ] >= beta ) {
-						break;
-					}
-					
-					alpha = Math.max(alpha, move[1]);
-					testBoard.removePiece( columnToPlay );
-				}
-			}	
-		} else {
-			for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
-				if( testBoard.playPieceInColumn( columnToPlay ) ) {
-					move = getHighestScoringMove(move, generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta ), columnToPlay);
-					
-					if( move[ 1 ] >= beta ) {
-						break;
-					}
-					
-					alpha = Math.max(alpha, move[1]);
-					testBoard.removePiece( columnToPlay );
-				}
-			}
-		}
+		boolean isMaxDepth = (level == maxDepth);
 		
-		return move;
-	}
-
-	protected int[] getHighestScoringMoveForMaxDepth(int currentPlayer,
-			int beta, GameBoard testBoard, int[] move) {
 		for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
 			if( testBoard.playPieceInColumn( columnToPlay ) ) {
-				move = getHighestScoringMove(move, new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)}, columnToPlay);
-					
+				if (isMaxDepth) {
+					nextMove = new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
+				} else {
+					nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+				}
+				
+				move = getHighestScoringMove(move, nextMove, columnToPlay);
+				
 				if( move[ 1 ] >= beta ) {
 					break;
 				}
 				
+				alpha = Math.max(alpha, move[1]);
 				testBoard.removePiece( columnToPlay );
 			}
 		}
+		
 		return move;
 	}
 
@@ -127,13 +104,6 @@ public class AiPlayer {
 		return highestScoringMove;
 	}
 	
-	private int[] convertToIntArray(Map<String, Integer> moveMap) {
-		int[] scoreArray = {-666, -777};
-		scoreArray[0] = moveMap.get(BEST_PLAY);
-		scoreArray[1] = moveMap.get(BEST_SCORE);
-		return scoreArray;
-	}
-
 	private int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
 		// I need to take into account when two moves are equal - i think this is where i need to add in heuristics
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
