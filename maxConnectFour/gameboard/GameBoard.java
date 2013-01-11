@@ -39,6 +39,8 @@ public class GameBoard {
 		return playerScore;
 	}
 
+	
+	// TODO - refactor the scoring methods into another class
 	private int checkForwardDiagnalScores(int player) {
 		int score = 0;
 		for( int i = 0; i < 3; i++ ){
@@ -138,11 +140,9 @@ public class GameBoard {
 
 	public boolean playPieceInColumn( int column ) {
 
+		boolean playMade = false;
 		// check if the column choice is a valid play
-		if( !this.isValidPlay( column ) ) {
-			return false;
-		} else {
-
+		if( this.isValidPlay( column ) ) {
 			//starting at the bottom of the board, place the piece into the first empty spot
 			for( int i = 5; i >= 0; i-- ) {
 				if( this.playBoard[i][column] == 0 ) {
@@ -155,14 +155,13 @@ public class GameBoard {
 						this.pieceCount++;
 					}
 
-					return true;
+					playMade = true;
+					break;
 				}
 			}
-			//the pgm shouldn't get here
-			System.out.println("Something went wrong with playPiece()");
-
-			return false;
 		}
+		
+		return playMade;
 	}
 	
 	public Integer getScoreDifferenceFromPerspectiveOf(int currentPlayer) {
