@@ -1,6 +1,7 @@
 package maxConnectFour.players;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -73,23 +74,26 @@ public class AiPlayer {
 
 		boolean isMaxDepth = (level == maxDepth);
 		
-		for( int columnToPlay = 0; columnToPlay < 7; columnToPlay++ ) {
-			if( testBoard.playPieceInColumn( columnToPlay ) ) {
-				if (isMaxDepth) {
-					nextMove = new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
-				} else {
-					nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-				}
-				
-				move = getHighestScoringMove(move, nextMove, columnToPlay);
-				
-				if( move[ 1 ] >= beta ) {
-					break;
-				}
-				
-				alpha = Math.max(alpha, move[1]);
-				testBoard.removePiece( columnToPlay );
+		List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
+		
+		for (Integer column : validColumns) {
+			testBoard.playPieceInColumn(column);
+			
+			if (isMaxDepth) {
+				nextMove = new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
+			} else {
+				nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
 			}
+			
+			move = getHighestScoringMove(move, nextMove, column);
+			
+			if( move[ 1 ] >= beta ) {
+				break;
+			}
+			
+			alpha = Math.max(alpha, move[1]);
+			testBoard.removePiece( column );
+			
 		}
 		
 		return move;
@@ -109,30 +113,29 @@ public class AiPlayer {
 		GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
 		
 		int[] move = { 70, 700 };
-		boolean isMaxDepth = (level == maxDepth);
 		int[] nextMove = {-4, 444};
+
+		boolean isMaxDepth = (level == maxDepth);
 		
-		for( int columnToPlay = 0; columnToPlay < 7; columnToPlay ++ ) {
-			if( testBoard.playPieceInColumn( columnToPlay ) ) {
-				
-				if (isMaxDepth) {
-					nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
-				} else {
-					nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-				}
-				
-				if( nextMove[1] < move[ 1 ] ) {
-					move = getLowestScoringMove(move, columnToPlay, nextMove);
-					
-					if( move[ 1 ] <= alpha ) {		
-						break;
-					}
-					
-					beta = minimizeBeta(beta, move[1]);
-				}
-				
-				testBoard.removePiece( columnToPlay );
+		List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
+		
+		for (Integer column : validColumns) {
+			testBoard.playPieceInColumn( column );
+			
+			if (isMaxDepth) {
+				nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
+			} else {
+				nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
 			}
+			
+			if( nextMove[1] < move[ 1 ] ) {
+				move = getLowestScoringMove(move, column, nextMove);
+				if( move[ 1 ] <= alpha ) {		
+					break;
+				}
+				beta = minimizeBeta(beta, move[1]);
+			}
+			testBoard.removePiece( column );
 		}
 		
 		return move;
