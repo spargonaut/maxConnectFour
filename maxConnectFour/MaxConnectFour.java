@@ -71,7 +71,6 @@ public class MaxConnectFour {
 		
 		//  variables to keep up with the game
 		int playColumn = 99;				//  the players choice of column to play
-		boolean playMade = false;			//  set to true once a play has been made
 
 		switch(playMode) {
 		case INTERACTIVE:
@@ -90,6 +89,7 @@ public class MaxConnectFour {
 				System.out.println("\n--------------------------------------------------------------------------------\n");
 				switch ( nextTurnEnum ) {
 				case HUMAN:
+					boolean playMade = false;
 					while ( !playMade ) {
 						
 						System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
@@ -160,7 +160,6 @@ public class MaxConnectFour {
 
 				//reset playColumn and playMade
 				playColumn = 99;
-				playMade = false;
 				
 			} // end while
 			
