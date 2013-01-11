@@ -93,12 +93,11 @@ public class MaxConnectFour {
 			Character userChar = 'x';
 			
 			while ( currentGame.getCountOfPiecesPlayed() < 42 ) {
+				System.out.println("\n--------------------------------------------------------------------------------\n");
 				switch ( nextTurnEnum ) {
-
-				// humans turn
 				case HUMAN:
 					while ( !playMade ) {
-						System.out.println("\n--------------------------------------------------------------------------------\n");
+						
 						System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
 						try {
 							// get input from the user
@@ -141,17 +140,11 @@ public class MaxConnectFour {
 					}
 										
 					nextTurnEnum = PlayerIdentifier.COMPUTER;
-						break;
-						// end human turn
+					break;
 						
-				//Computers turn
 				case COMPUTER:
-					System.out.println("\n--------------------------------------------------------------------------------\n");
-					System.out.println("oh, I see that it is my turn. ....  let me think...\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() );
+					System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );	
 
-					// AI play - random play
-					// playColumn = calculon.findBestPlay( currentGame );
-					
 					// AI play - solution play
 					playColumn = calculon.getBestPlay( currentGame, depthLevel );
 					
@@ -169,16 +162,8 @@ public class MaxConnectFour {
 				    System.exit(0);
 				}
 				
-				//testing
-				//System.out.println("\nThe last play was made in column: " + ( playColumn + 1 ) );
-				
-				//print the current game board and the score
-				System.out.println( "\nafter the last move, the board currently looks like this:" );
-				boardPrinter.printGameBoard(currentGame);
+				printCurrentGameBoardAndScores(currentGame, boardPrinter);
 
-				System.out.println( "\nScores:\n Player1: " + currentGame.getScore( 1 ) +
-						"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
-				
 				//reset playColumn and playMade
 				playColumn = 99;
 				playMade = false;
@@ -186,11 +171,7 @@ public class MaxConnectFour {
 			} // end while
 			
 			// the game board is full.
-			System.out.println("\n\n\n\nThe Board is Full\n\nGame Over");
-			System.out.println("here is the final game state\n");
-			boardPrinter.printGameBoard(currentGame);
-			System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) +
-					"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
+			printTheFinalGameState(currentGame, boardPrinter);
 			return;
 			
 		} else if( game_mode.equalsIgnoreCase( "one-move" ) ) {
@@ -211,34 +192,16 @@ public class MaxConnectFour {
 			if( currentGame.getCountOfPiecesPlayed() < 42 ) {
 
 				// Tell the user which player the computer is playing for
-				System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() +
-						"\n  searching for the best play to depth level: " + depthLevel );				
-
-				// AI play - random play
-				//playColumn = calculon.findBestPlay( currentGame );
-				
-				// AI play - solution play
+				System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );				
 				playColumn = calculon.getBestPlay( currentGame, depthLevel );
-				
-				// play the piece
 				currentGame.playPieceInColumn( playColumn );
 				
 			} else {
 				System.out.println("\nI can't play.\nThe Board is Full\n\nGame Over");
 			}
-			//************************** end computer play
 			
-			//testing
-			//System.out.println("\nThe last play was made in column: " + ( playColumn + 1 ) );
+			printCurrentGameBoardAndScores(currentGame, boardPrinter);
 			
-			// display the current game board
-			System.out.println("...and now the board looks like this: \n");
-			boardPrinter.printGameBoard(currentGame);
-
-			// print the current scores
-			System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) +
-					"\n Player2: " + currentGame.getScore( 2 ) + "\n " );
-
 			boardPrinter.printGameBoardToFile(output, currentGame);
 
 			return;
@@ -247,6 +210,23 @@ public class MaxConnectFour {
 			System.out.println( "\n" + game_mode + " is an unrecognized game mode \n try again. \n" );
 			return;
 		}
+	}
+
+	protected void printCurrentGameBoardAndScores(GameBoard currentGame,
+			BoardPrinter boardPrinter) {
+		System.out.println("\n...and now the board looks like this: \n");
+		printCurrentScores(currentGame);
+		boardPrinter.printGameBoard(currentGame);
+	}
+
+	protected void printCurrentScores(GameBoard currentGame) {
+		System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) + "\n Player2: " + currentGame.getScore( 2 ) + "\n " );
+	}
+
+	private void printTheFinalGameState(GameBoard currentGame, BoardPrinter boardPrinter) {
+		System.out.println("Here is the final game state\n");
+		boardPrinter.printGameBoard(currentGame);
+		printCurrentScores(currentGame);
 	}
 
 	private void parseInputArguments(String[] args) {
@@ -287,5 +267,9 @@ public class MaxConnectFour {
 					"next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
 			System.exit(0);
 		}
+	}
+	
+	private void validateGameMode(String mode) {
+		
 	}
 }
