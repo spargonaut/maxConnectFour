@@ -1,5 +1,8 @@
 package maxConnectFour.gameboard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameBoard {
 
 	// class fields
@@ -121,6 +124,16 @@ public class GameBoard {
 			// column is NOT full and the column is within bounds
 			return true;
 		}
+	}
+	
+	public List<Integer> getColumnsOfValidPlays() {
+		List<Integer> validPlays = new ArrayList<Integer>();
+		for (int i = 0; i < 7; i++) {
+			if (isValidPlay(i)) {
+				validPlays.add(i);
+			}
+		}
+		return validPlays;
 	}
 
 	public boolean playPieceInColumn( int column ) {
