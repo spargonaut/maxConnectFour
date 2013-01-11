@@ -269,7 +269,15 @@ public class MaxConnectFour {
 		}
 	}
 	
-	private void validateGameMode(String mode) {
-		
+	protected PlayMode parsePlayMode(String input) {
+		validateGameModeArgument(input);
+		PlayMode mode = (input.equalsIgnoreCase( "interactive" )) ? PlayMode.INTERACTIVE : PlayMode.ONE_MOVE;
+		return mode;
+	}
+	
+	protected void validateGameModeArgument(String playMode) {
+		if (!(playMode.equalsIgnoreCase("interactive") || playMode.equalsIgnoreCase( "one-move" ))) {
+			throw new IllegalArgumentException(playMode);
+		}
 	}
 }
