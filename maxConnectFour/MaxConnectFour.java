@@ -66,8 +66,6 @@ public class MaxConnectFour {
 		BoardReader boardReader = new BoardReader();
 		GameBoard currentGame = boardReader.readGame(input);
 		
-		BoardPrinter boardPrinter = new BoardPrinter();
-		
 		// create the Ai Player
 		AiPlayer calculon = new AiPlayer();
 		
@@ -79,7 +77,7 @@ public class MaxConnectFour {
 		case INTERACTIVE:
 			PlayerIdentifier nextTurnEnum = getFirstPlayer(args);
 
-			printInitialGameBoardState(currentGame, boardPrinter);
+			printInitialGameBoardState(currentGame);
 			
 			System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
 			
@@ -144,7 +142,7 @@ public class MaxConnectFour {
 					// AI play - solution play
 					playColumn = calculon.getBestPlay( currentGame, depthLevel );
 					
-					System.out.println("and I'm playing in column " + playColumn);
+					System.out.println("  and I'm playing in column " + playColumn);
 					
 					//play the piece
 					currentGame.playPieceInColumn( playColumn );
@@ -158,7 +156,7 @@ public class MaxConnectFour {
 				    System.exit(0);
 				}
 				
-				printCurrentGameBoardAndScores(currentGame, boardPrinter);
+				printCurrentGameBoardAndScores(currentGame);
 
 				//reset playColumn and playMade
 				playColumn = 99;
@@ -167,14 +165,14 @@ public class MaxConnectFour {
 			} // end while
 			
 			// the game board is full.
-			printTheFinalGameState(currentGame, boardPrinter);
+			printTheFinalGameState(currentGame);
 			break;
 			
 		case ONE_MOVE:
 			// get the output file name
 			String output = args[2].toString();				// the output game file
 
-			printInitialGameBoardState(currentGame, boardPrinter);
+			printInitialGameBoardState(currentGame);
 
 			// ****************** this chunk of code makes the computer play
 			if( currentGame.getCountOfPiecesPlayed() < 42 ) {
@@ -188,34 +186,39 @@ public class MaxConnectFour {
 				System.out.println("\nI can't play.\nThe Board is Full\n\nGame Over");
 			}
 			
-			printCurrentGameBoardAndScores(currentGame, boardPrinter);
+			printCurrentGameBoardAndScores(currentGame);
 			
+			BoardPrinter boardPrinter = new BoardPrinter();
 			boardPrinter.printGameBoardToFile(output, currentGame);
 
 			break;
 		}
 	}
 
-	protected void printInitialGameBoardState(GameBoard currentGame, BoardPrinter boardPrinter) {
+	protected void printInitialGameBoardState(GameBoard currentGame) {
 		System.out.println( "--------------------------------------------------------------------------------");
-		System.out.println( "\nMax Connect Four Client\n - " + playMode + " Mode");
-		boardPrinter.printGameBoard(currentGame);
+		System.out.println( "\nMax Connect Four Client - " + playMode + " Mode\n");
+		printBoardAndScores(currentGame);
 	}
 
-	protected void printCurrentGameBoardAndScores(GameBoard currentGame, BoardPrinter boardPrinter) {
-		System.out.println("\n...and now the board looks like this: \n");
+	protected void printBoardAndScores(GameBoard currentGame) {
+		BoardPrinter boardPrinter = new BoardPrinter();
 		boardPrinter.printGameBoard(currentGame);
 		printCurrentScores(currentGame);
+	}
+
+	protected void printCurrentGameBoardAndScores(GameBoard currentGame) {
+		System.out.println("\n...and now the board looks like this: \n");
+		printBoardAndScores(currentGame);
 	}
 
 	protected void printCurrentScores(GameBoard currentGame) {
 		System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) + "\n Player2: " + currentGame.getScore( 2 ) + "\n " );
 	}
 
-	private void printTheFinalGameState(GameBoard currentGame, BoardPrinter boardPrinter) {
+	private void printTheFinalGameState(GameBoard currentGame) {
 		System.out.println("Here is the final game state\n");
-		boardPrinter.printGameBoard(currentGame);
-		printCurrentScores(currentGame);
+		printBoardAndScores(currentGame);
 	}
 
 	private void parseInputArguments(String[] args) {
