@@ -151,6 +151,20 @@ public class GameBoard {
 			return false;
 		}
 	}
+	
+	public Integer getScoreDifferenceFromPerspectiveOf(int currentPlayer) {
+		int otherPlayer = getOtherPlayer(currentPlayer);
+		return this.getScore( currentPlayer ) - this.getScore(otherPlayer);
+	}
+	
+	private int getOtherPlayer(int currentPlayer) {
+		int otherPlayer;
+		if( currentPlayer == 1 )
+			otherPlayer = 2;
+		else
+			otherPlayer = 1;
+		return otherPlayer;
+	}
 
 	/***************************  solution methods **************************/
 	public void removePiece( int column ) {
