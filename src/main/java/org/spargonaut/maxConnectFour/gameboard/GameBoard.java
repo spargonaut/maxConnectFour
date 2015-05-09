@@ -15,7 +15,7 @@ public class GameBoard {
     public GameBoard( int masterGame[][] ) {
 
         playedPieceCount = 0;
-        playboard = new ArrayList(totalColumnCount);
+        playboard = new ArrayList<List<Integer>>(totalColumnCount);
         for( int row = 0; row < totalRowCount; row++ ) {
             List<Integer> newRow = new ArrayList<Integer>(totalRowCount);
             for( int column = 0; column < totalColumnCount; column++) {
