@@ -5,23 +5,33 @@ import java.util.List;
 
 public class GameBoard {
 
-    // class fields
     private int[][] playBoard;
     private int pieceCount;
 
     private static final int MAX_NUMBER_OF_PLAYS = 42;
 
+    private List<List<Integer>> newPlayboard;
+    private int totalColumnCount = 7;
+    private int totalRowCount = 6;
+
     public GameBoard( int masterGame[][] ) {
+
+        newPlayboard = new ArrayList(totalColumnCount);
+        for (int i = 0; i < totalRowCount; i++) {
+            newPlayboard.add(new ArrayList<Integer>(totalRowCount));
+        }
 
         this.playBoard = new int[6][7];
         this.pieceCount = 0;
 
-        for( int i = 0; i < 6; i++ ) {
-            for( int j = 0; j < 7; j++) {
-                this.playBoard[ i ][ j ] = masterGame[ i ][ j ];
+        for( int row = 0; row < 6; row++ ) {
+            for( int column = 0; column < 7; column++) {
+                this.playBoard[ row ][ column ] = masterGame[ row ][ column ];
+                newPlayboard.get(row).add(column, masterGame[row][column]);
 
-                if( this.playBoard[i][j] > 0 )
+                if(masterGame[row][column] > 0) {
                     this.pieceCount++;
+                }
             }
         }
     }
