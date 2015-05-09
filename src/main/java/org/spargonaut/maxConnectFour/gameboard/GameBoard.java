@@ -68,12 +68,12 @@ public class GameBoard {
 
     private int checkBackwardDiagnalScores(int player) {
         int score = 0;
-        for( int i = 0; i < 3; i++ ){
-            for( int j = 0; j < 4; j++ ) {
-                if( ( this.playBoard[ i ][ j ] == player ) &&
-                        ( this.playBoard[ i+1 ][ j+1 ] == player ) &&
-                        ( this.playBoard[ i+2 ][ j+2 ] == player ) &&
-                        ( this.playBoard[ i+3 ][ j+3 ] == player ) ) {
+        for( int row = 0; row < 3; row++ ){
+            for( int column = 0; column < 4; column++ ) {
+                if( (newPlayboard.get(row).get(column) == player ) &&
+                        ( newPlayboard.get(row + 1).get(column + 1) == player ) &&
+                        ( newPlayboard.get(row + 2).get(column + 2) == player ) &&
+                        ( newPlayboard.get(row + 3).get(column + 3) == player ) ) {
                     score++;
                 }
             }
