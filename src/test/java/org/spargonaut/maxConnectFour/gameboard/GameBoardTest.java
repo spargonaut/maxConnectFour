@@ -126,15 +126,30 @@ public class GameBoardTest {
     @Test
     public void shouldIndicateAnInvalidPlayWhenPlayColumnIsGreaterThanHighestColumnNumber() {
         int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
                 {1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
         };
         GameBoard gameBoard = new GameBoard(masterGame);
         boolean isValidPlay = gameBoard.isValidPlay(8);
+        assertThat(isValidPlay, is(false));
+    }
+
+    @Test
+    public void shouldIndicateAnInvalidPlayWhenThePlayColumnsIsFull() {
+        int[][] masterGame = {
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameBoard = new GameBoard(masterGame);
+        boolean isValidPlay = gameBoard.isValidPlay(0);
         assertThat(isValidPlay, is(false));
     }
 
