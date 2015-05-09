@@ -1,5 +1,5 @@
 package org.spargonaut.maxConnectFour;
 
 public enum PlayMode {
-	INTERACTIVE, ONE_MOVE;
+    INTERACTIVE, ONE_MOVE;
 }
