@@ -11,7 +11,10 @@ public class ScoreKeeper {
     }
 
     public int getScoreForPlayer(int playerNumber) {
-        return checkHorizontalScores(playerNumber);
+        int playerScore = 0;
+        playerScore += checkHorizontalScores(playerNumber);
+        playerScore += checkVerticalScores(playerNumber);
+        return playerScore;
     }
 
     private int checkHorizontalScores(int player) {
@@ -24,6 +27,21 @@ public class ScoreKeeper {
                         ( gameboard.get(row).get(column + 3) == player ) ) {
                     score++;
 
+                }
+            }
+        }
+        return score;
+    }
+
+    private int checkVerticalScores(int player) {
+        int score = 0;
+        for( int row = 0; row < 3; row++ ) {
+            for( int column = 0; column < 7; column++ ) {
+                if( ( gameboard.get(row).get(column) == player ) &&
+                        ( gameboard.get(row + 1).get(column) == player ) &&
+                        ( gameboard.get(row + 2).get(column) == player ) &&
+                        ( gameboard.get(row + 3).get(column) == player ) ) {
+                    score++;
                 }
             }
         }
