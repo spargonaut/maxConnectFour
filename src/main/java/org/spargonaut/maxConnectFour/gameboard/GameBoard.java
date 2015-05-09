@@ -46,7 +46,6 @@ public class GameBoard {
     public int getScore( int playerNumber ) {
         int playerScore = 0;
         playerScore += scoreKeeper.getScoreForPlayer(playerNumber);
-        playerScore += checkBackwardDiagnalScores(playerNumber);
         playerScore += checkForwardDiagnalScores(playerNumber);
         return playerScore;
     }
@@ -61,21 +60,6 @@ public class GameBoard {
                         ( newPlayboard.get(row + 2).get(column + 1) == player ) &&
                         ( newPlayboard.get(row + 1).get(column + 2) == player ) &&
                         ( newPlayboard.get(row).get(column + 3) == player ) ) {
-                    score++;
-                }
-            }
-        }
-        return score;
-    }
-
-    private int checkBackwardDiagnalScores(int player) {
-        int score = 0;
-        for( int row = 0; row < 3; row++ ){
-            for( int column = 0; column < 4; column++ ) {
-                if( (newPlayboard.get(row).get(column) == player ) &&
-                        ( newPlayboard.get(row + 1).get(column + 1) == player ) &&
-                        ( newPlayboard.get(row + 2).get(column + 2) == player ) &&
-                        ( newPlayboard.get(row + 3).get(column + 3) == player ) ) {
                     score++;
                 }
             }

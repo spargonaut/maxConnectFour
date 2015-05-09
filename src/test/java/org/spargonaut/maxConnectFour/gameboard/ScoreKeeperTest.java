@@ -85,38 +85,37 @@ public class ScoreKeeperTest {
         assertThat(playerOneScore, is(2));
     }
 
-    @Ignore
     @Test
     public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherDiagnallyGoingUp() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
 
-        int playerOneScore = gameboard.getScore(1);
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 1, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 0, 1, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 0, 0, 1, 0, 0, 0));
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
 
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
+
+        int playerOneScore = scoreKeeper.getScoreForPlayer(1);
         assertThat(playerOneScore, is(1));
     }
 
-    @Ignore
     @Test
     public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherDiagnallyGoingUp() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 0, 0},
-                {0, 0, 0, 1, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
 
-        int playerOneScore = gameboard.getScore(1);
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 1, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 0, 1, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 0, 0, 1, 0, 0, 0));
+        gameboard.add(Arrays.asList(0, 0, 0, 0, 1, 0, 0));
+        gameboard.add(createBlankRow());
+
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
+
+        int playerOneScore = scoreKeeper.getScoreForPlayer(1);
 
         assertThat(playerOneScore, is(2));
     }
