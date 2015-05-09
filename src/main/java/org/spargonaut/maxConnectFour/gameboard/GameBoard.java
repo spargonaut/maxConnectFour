@@ -63,13 +63,19 @@ public class GameBoard {
     }
 
     public boolean isValidPlay(int column) {
-        if ( !( column >= 0 && column <= totalColumnCount ) ) {
-            return false;
-        } else if( newPlayboard.get(0).get(column) > 0 ) {
-            return false;
-        } else {
-            return true;
+        boolean playIsValid = true;
+        if (playIsOutOfBounds(column) || columnIsNotFull(column)) {
+            playIsValid = false;
         }
+        return playIsValid;
+    }
+
+    private boolean columnIsNotFull(int column) {
+        return newPlayboard.get(0).get(column) > 0;
+    }
+
+    private boolean playIsOutOfBounds(int column) {
+        return !( column >= 0 && column <= totalColumnCount );
     }
 
     public List<Integer> getColumnsOfValidPlays() {
