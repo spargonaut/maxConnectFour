@@ -1,4 +1,4 @@
 .project
 *.class
 .idea
-.iml
+*.iml
