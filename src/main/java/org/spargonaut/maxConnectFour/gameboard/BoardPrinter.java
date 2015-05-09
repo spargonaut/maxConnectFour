@@ -1,4 +1,4 @@
-package maxConnectFour.gameboard;
+package org.spargonaut.maxConnectFour.gameboard;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

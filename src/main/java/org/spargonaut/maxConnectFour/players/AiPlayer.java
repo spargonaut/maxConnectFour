@@ -1,11 +1,11 @@
-package maxConnectFour.players;
+package org.spargonaut.maxConnectFour.players;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 /**
  * This is the AiPlayer class.  It simulates a minimax player with alpha beta pruning for the max connect four game.

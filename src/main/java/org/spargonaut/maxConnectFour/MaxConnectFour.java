@@ -1,14 +1,14 @@
-package maxConnectFour;
+package org.spargonaut.maxConnectFour;
 
 import java.io.IOException;
 
-import maxConnectFour.gameboard.BoardPrinter;
-import maxConnectFour.gameboard.BoardReader;
-import maxConnectFour.gameboard.GameBoard;
-import maxConnectFour.players.AiPlayer;
-import maxConnectFour.players.HumanPlayer;
-import maxConnectFour.players.Player;
-import maxConnectFour.players.PlayerIdentifier;
+import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
+import org.spargonaut.maxConnectFour.gameboard.BoardReader;
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.players.AiPlayer;
+import org.spargonaut.maxConnectFour.players.HumanPlayer;
+import org.spargonaut.maxConnectFour.players.Player;
+import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
 /**
  * 

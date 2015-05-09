@@ -1,9 +1,9 @@
-package maxConnectFour.players;
+package org.spargonaut.maxConnectFour.players;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 public class HumanPlayer implements Player {
 

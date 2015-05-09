@@ -1,4 +1,4 @@
-package maxConnectFour;
+package org.spargonaut.maxConnectFour;
 
 import static org.junit.Assert.assertEquals;
 
