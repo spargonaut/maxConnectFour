@@ -4,36 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoard {
-
     private int playedPieceCount;
+    private List<List<Integer>> playboard;
+    private ScoreKeeper scoreKeeper;
 
-    private static final int MAX_NUMBER_OF_PLAYS = 42;
-
-    private List<List<Integer>> newPlayboard;
     private int totalColumnCount = 7;
     private int totalRowCount = 6;
-    private ScoreKeeper scoreKeeper;
+    private final int MAX_NUMBER_OF_PLAYS = totalColumnCount * totalRowCount;
 
     public GameBoard( int masterGame[][] ) {
 
-        newPlayboard = new ArrayList(totalColumnCount);
-        for (int i = 0; i < totalRowCount; i++) {
-            newPlayboard.add(new ArrayList<Integer>(totalRowCount));
-        }
-
         playedPieceCount = 0;
-
+        playboard = new ArrayList(totalColumnCount);
         for( int row = 0; row < totalRowCount; row++ ) {
+            List<Integer> newRow = new ArrayList<Integer>(totalRowCount);
             for( int column = 0; column < totalColumnCount; column++) {
-                newPlayboard.get(row).add(column, masterGame[row][column]);
-
+                newRow.add(column, masterGame[row][column]);
                 if(masterGame[row][column] > 0) {
                     playedPieceCount++;
                 }
             }
+            playboard.add(newRow);
         }
-
-        scoreKeeper = new ScoreKeeper(newPlayboard);
+        scoreKeeper = new ScoreKeeper(playboard);
     }
 
     public int getNumberOfPlaysRemaining() {
@@ -56,7 +49,7 @@ public class GameBoard {
         int[][] playboard = new int[totalRowCount][totalColumnCount];
         for(int row = 0; row < totalRowCount; row++) {
             for(int column = 0; column < totalColumnCount; column++) {
-                playboard[row][column] = newPlayboard.get(row).get(column);
+                playboard[row][column] = this.playboard.get(row).get(column);
             }
         }
         return playboard;
@@ -71,7 +64,7 @@ public class GameBoard {
     }
 
     private boolean columnIsNotFull(int column) {
-        return newPlayboard.get(0).get(column) > 0;
+        return playboard.get(0).get(column) > 0;
     }
 
     private boolean playIsOutOfBounds(int column) {
@@ -93,8 +86,8 @@ public class GameBoard {
         boolean playMade = false;
         if(isValidPlay(column)) {
             for( int row = 5; row >= 0; row-- ) {
-                if( newPlayboard.get(row).get(column) == 0 ) {
-                    newPlayboard.get(row).add(column, currentPlayer);
+                if( playboard.get(row).get(column) == 0 ) {
+                    playboard.get(row).add(column, currentPlayer);
                     playedPieceCount++;
                     playMade = true;
                     break;
@@ -110,8 +103,8 @@ public class GameBoard {
 
     public void removePiece( int column ) {
         for( int row = 0; row < totalRowCount; row++ ) {
-            if( newPlayboard.get(row).get(column) > 0 ) {
-                newPlayboard.get(row).set(column, 0);
+            if( playboard.get(row).get(column) > 0 ) {
+                playboard.get(row).set(column, 0);
                 playedPieceCount--;
                 break;
             }
