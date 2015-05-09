@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GameBoard {
 
-    private int pieceCount;
+    private int playedPieceCount;
 
     private static final int MAX_NUMBER_OF_PLAYS = 42;
 
@@ -21,14 +21,14 @@ public class GameBoard {
             newPlayboard.add(new ArrayList<Integer>(totalRowCount));
         }
 
-        this.pieceCount = 0;
+        playedPieceCount = 0;
 
-        for( int row = 0; row < 6; row++ ) {
-            for( int column = 0; column < 7; column++) {
+        for( int row = 0; row < totalRowCount; row++ ) {
+            for( int column = 0; column < totalColumnCount; column++) {
                 newPlayboard.get(row).add(column, masterGame[row][column]);
 
                 if(masterGame[row][column] > 0) {
-                    this.pieceCount++;
+                    playedPieceCount++;
                 }
             }
         }
@@ -37,7 +37,7 @@ public class GameBoard {
     }
 
     public int getNumberOfPlaysRemaining() {
-        return MAX_NUMBER_OF_PLAYS - pieceCount;
+        return MAX_NUMBER_OF_PLAYS - playedPieceCount;
     }
 
     public int getScore( int playerNumber ) {
@@ -45,15 +45,15 @@ public class GameBoard {
     }
 
     public int getCurrentTurnBasedOnNumberOfPlays() {
-        return ( this.pieceCount % 2 ) + 1 ;
+        return (playedPieceCount % 2) + 1 ;
     }
 
     public int getCountOfPiecesPlayed() {
-        return this.pieceCount;
+        return playedPieceCount;
     }
 
     public int[][] getGameBoard() {
-        int[][] playboard = new int[6][7];
+        int[][] playboard = new int[totalRowCount][totalColumnCount];
         for(int row = 0; row < totalRowCount; row++) {
             for(int column = 0; column < totalColumnCount; column++) {
                 playboard[row][column] = newPlayboard.get(row).get(column);
@@ -63,7 +63,7 @@ public class GameBoard {
     }
 
     public boolean isValidPlay( int column ) {
-        if ( !( column >= 0 && column <= 7 ) ) {
+        if ( !( column >= 0 && column <= totalColumnCount ) ) {
             return false;
         } else if( newPlayboard.get(0).get(column) > 0 ) {
             return false;
@@ -74,7 +74,7 @@ public class GameBoard {
 
     public List<Integer> getColumnsOfValidPlays() {
         List<Integer> validPlays = new ArrayList<Integer>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < totalColumnCount; i++) {
             if (isValidPlay(i)) {
                 validPlays.add(i);
             }
@@ -89,13 +89,12 @@ public class GameBoard {
             //starting at the bottom of the board, place the piece into the first empty spot
             for( int row = 5; row >= 0; row-- ) {
                 if( newPlayboard.get(row).get(column) == 0 ) {
-                    if( this.pieceCount % 2 == 0 ){
+                    if(playedPieceCount % 2 == 0){
                         newPlayboard.get(row).add(column, 1);
-                        this.pieceCount++;
-
+                        playedPieceCount++;
                     } else {
                         newPlayboard.get(row).add(column, 2);
-                        this.pieceCount++;
+                        playedPieceCount++;
                     }
 
                     playMade = true;
@@ -116,11 +115,10 @@ public class GameBoard {
 
         // starting looking at the top of the game board,
         // and remove the top piece
-        for( int row = 0; row < 6; row++ ) {
+        for( int row = 0; row < totalRowCount; row++ ) {
             if( newPlayboard.get(row).get(column) > 0 ) {
                 newPlayboard.get(row).set(column, 0);
-                this.pieceCount--;
-
+                playedPieceCount--;
                 break;
             }
         }
