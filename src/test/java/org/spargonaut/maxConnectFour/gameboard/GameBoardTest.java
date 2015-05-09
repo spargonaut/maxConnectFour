@@ -2,13 +2,12 @@ package org.spargonaut.maxConnectFour.gameboard;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThat;
 
 public class GameBoardTest {
 
@@ -173,5 +172,141 @@ public class GameBoardTest {
 
         int expectedPlaysRemaining = 4;
         assertThat(actualPlaysRemaining, is(expectedPlaysRemaining));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherHorizontally() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(1));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherHorizontally() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(2));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherVertically() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(1));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherVertically() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(2));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherDiagnallyGoingUp() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(1));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherDiagnallyGoingUp() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(2));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherDiagnallyGoingDown() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 1},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(1));
+    }
+
+    @Test
+    public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherDiagnallyGoingDown() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 1},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int playerOneScore = gameboard.getScore(1);
+
+        assertThat(playerOneScore, is(2));
     }
 }
