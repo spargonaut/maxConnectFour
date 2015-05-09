@@ -18,18 +18,12 @@ public class ScoreKeeperTest {
     @Test
     public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherHorizontally() {
         List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
-        List<Integer> row0 = Arrays.asList(1, 1, 1, 1, 0, 0, 0);
-        List<Integer> row1 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row2 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row3 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row4 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row5 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        gameboard.add(row0);
-        gameboard.add(row1);
-        gameboard.add(row2);
-        gameboard.add(row3);
-        gameboard.add(row4);
-        gameboard.add(row5);
+        gameboard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
 
         ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
 
@@ -37,21 +31,19 @@ public class ScoreKeeperTest {
         assertThat(playerOneScore, is(1));
     }
 
+    private List<Integer> createBlankRow() {
+        return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
+    }
+
     @Test
     public void shouldIndicateAScoreOfTwoWhenFourPlaysAreNextToEachOtherHorizontally() {
         List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
-        List<Integer> row0 = Arrays.asList(1, 1, 1, 1, 1, 0, 0);
-        List<Integer> row1 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row2 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row3 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row4 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        List<Integer> row5 = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
-        gameboard.add(row0);
-        gameboard.add(row1);
-        gameboard.add(row2);
-        gameboard.add(row3);
-        gameboard.add(row4);
-        gameboard.add(row5);
+        gameboard.add(Arrays.asList(1, 1, 1, 1, 1, 0, 0));
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
+        gameboard.add(createBlankRow());
 
         ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
 
