@@ -109,6 +109,36 @@ public class GameBoardTest {
     }
 
     @Test
+    public void shouldIndicateAnInvalidPlayWhenPlayColumnIsBelowLowestColumnNumber() {
+        int[][] masterGame = {
+                {1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameBoard = new GameBoard(masterGame);
+        boolean isValidPlay = gameBoard.isValidPlay(-1);
+        assertThat(isValidPlay, is(false));
+    }
+
+    @Test
+    public void shouldIndicateAnInvalidPlayWhenPlayColumnIsGreaterThanHighestColumnNumber() {
+        int[][] masterGame = {
+                {1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameBoard = new GameBoard(masterGame);
+        boolean isValidPlay = gameBoard.isValidPlay(8);
+        assertThat(isValidPlay, is(false));
+    }
+
+    @Test
     public void shouldGetTheCountOfThePiecesAlreadyPlayed() {
         int[][] masterGame = {
                 {0, 0, 0, 0, 0, 0, 0},
