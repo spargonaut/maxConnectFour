@@ -85,10 +85,11 @@ public class GameBoard {
     public boolean playPieceInColumn(int column) {
         int currentPlayer = getCurrentTurnBasedOnNumberOfPlays();
         boolean playMade = false;
-        if( this.isValidPlay( column ) ) {
+        if(isValidPlay(column)) {
             for( int row = 5; row >= 0; row-- ) {
                 if( newPlayboard.get(row).get(column) == 0 ) {
                     newPlayboard.get(row).add(column, currentPlayer);
+                    playedPieceCount++;
                     playMade = true;
                     break;
                 }

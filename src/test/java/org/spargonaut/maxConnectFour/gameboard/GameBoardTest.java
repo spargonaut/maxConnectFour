@@ -220,6 +220,24 @@ public class GameBoardTest {
     }
 
     @Test
+    public void shouldIncreaseTheNumberOfPiecesPlayedWhenAPlayerPlaysAPiece() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        gameboard.playPieceInColumn(0);
+
+        int numberOfPiecesPlayed = gameboard.getCountOfPiecesPlayed();
+        assertThat(numberOfPiecesPlayed, is(2));
+    }
+
+    @Test
     public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherHorizontally() {
         int[][] masterGame = {
                 {0, 0, 0, 0, 0, 0, 0},
