@@ -354,4 +354,36 @@ public class GameBoardTest {
 
         assertThat(playerOneScore, is(2));
     }
+
+    @Test
+    public void shouldIndicateAScoreDifferenceOfOneFromThePerspectiveOfPlayerOne() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 2, 2, 2, 2, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int scoreDifference = gameboard.getScoreDifferenceFromPerspectiveOf(1);
+        assertThat(scoreDifference, is(1));
+    }
+
+    @Test
+    public void shouldIndicateAScoreDifferenceOfNegativeOneFromThePerspectiveOfPlayerTwo() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 2, 2, 2, 2, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        int scoreDifference = gameboard.getScoreDifferenceFromPerspectiveOf(2);
+        assertThat(scoreDifference, is(-1));
+    }
 }
