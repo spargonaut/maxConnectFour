@@ -1,9 +1,9 @@
 package org.spargonaut.maxConnectFour.players;
 
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
-import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 public class HumanPlayer implements Player {
 
@@ -31,35 +31,19 @@ public class HumanPlayer implements Player {
             } catch (Exception e) {
             }
 
-            // keep asking for input until we receive something
             while( ( userInput.equals("") ) ) {
                 System.out.println("\nI didn't understand that input\n--Try again" );
                 System.out.print("\nChoose a Column ( 1 - 7 ) -->:");
-                // try getting input fromt the user again
                 try {
                     userInput = br.readLine();
                 } catch (Exception e) {
                 }
             }
 
-            // we only care about the first character
             userChar = userInput.charAt( 0 );
 
-
-            // check to see if the input is a digit
             if( Character.isDigit( userChar )) {
-                // parse the user input into something we can use
                 playColumn = Character.getNumericValue( userChar ) - 1;
-
-                // check if the play is valid
-//				if( currentGame.isValidPlay( playColumn ) ) {
-//					//make the play
-//					currentGame.playPieceInColumn( playColumn );
-//					playMade = true;								
-//				} else {
-//					// that was an invalid play
-//					System.out.println("That was an invalid play\n--Try again!");
-//				}
 
                 if( currentGame.isValidPlay( playColumn ) ) {
                     validPlayFound = true;
@@ -75,5 +59,4 @@ public class HumanPlayer implements Player {
 
         return playColumn;
     }
-
 }
