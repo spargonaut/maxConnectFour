@@ -32,4 +32,31 @@ public class GameBoardTest {
 
         assertArrayEquals(expectedMasterGame, actualMasterGame);
     }
+
+    @Test
+    public void shouldPlayPieceInTheColumnIndicated() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+        };
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        gameboard.playPieceInColumn(0);
+
+        int [][] expectedMasterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+        };
+        int[][] actualMasterGame = gameboard.getGameBoard();
+
+        assertArrayEquals(expectedMasterGame, actualMasterGame);
+    }
 }
