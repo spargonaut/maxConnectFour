@@ -15,6 +15,7 @@ public class ScoreKeeper {
         playerScore += checkHorizontalScores(playerNumber);
         playerScore += checkVerticalScores(playerNumber);
         playerScore += checkBackwardDiagnalScores(playerNumber);
+        playerScore += checkForwardDiagnalScores(playerNumber);
         return playerScore;
     }
 
@@ -57,6 +58,21 @@ public class ScoreKeeper {
                         ( gameboard.get(row + 1).get(column + 1) == player ) &&
                         ( gameboard.get(row + 2).get(column + 2) == player ) &&
                         ( gameboard.get(row + 3).get(column + 3) == player ) ) {
+                    score++;
+                }
+            }
+        }
+        return score;
+    }
+
+    private int checkForwardDiagnalScores(int player) {
+        int score = 0;
+        for( int row = 0; row < 3; row++ ){
+            for( int column = 0; column < 4; column++ ) {
+                if( ( gameboard.get(row + 3).get(column) == player ) &&
+                        ( gameboard.get(row + 2).get(column + 1) == player ) &&
+                        ( gameboard.get(row + 1).get(column + 2) == player ) &&
+                        ( gameboard.get(row).get(column + 3) == player ) ) {
                     score++;
                 }
             }
