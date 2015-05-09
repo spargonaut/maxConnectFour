@@ -10,38 +10,6 @@ import org.spargonaut.maxConnectFour.players.HumanPlayer;
 import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
-/**
- * 
- * @author James Spargo
- * This class controls the game play for the Max Connect-Four game. <br>
- * To compile the program, use the following command from the parent directory of the maxConnectFour directory:
- * javac maxConnectFour/*.java
- * <br><br>
- * the usage to run the program is as follows:<br>
- * ( again, from the parent directory of the maxConnectFour directory )
- * <br><br>
- *  -- for interactive mode:<br>
- * java maxConnectFour.MaxConnectFour interactive [ /path/to/game/file ] [ computer-next / human-next ] [ search depth]
- * <br><br>
- * -- for one move mode<br>
- * java maxConnectFour.MaxConnectFour one-move [ /path/to/input/game/file ] [ /path/to/output/file ] [ search depth]
- * <br><br>
- * description of arguments:<br> 
- *  [ /path/to/input/game/file ]<br>
- *  -- the path and filename of the input file for the game
- *  <br><br>
- *  [ computer-next / human-next ]<br>
- *  -- the entity to make the next move. either computer or human. can be abbreviated to either C or H. This is only used in interactive mode
- *  <br><br>
- *  [ /path/to/output/file ]<br>
- *  -- the path and filename of the output file for the game.  this is only used in one-move mode
- *  <br><br>
- *  [ search depth ]<br>
- *  -- the depth of the minimax search algorithm
- * 
- *   
- */
-
 public class MaxConnectFour {
 	
 	PlayMode playMode;
