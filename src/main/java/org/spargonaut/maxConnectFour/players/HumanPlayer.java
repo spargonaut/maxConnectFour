@@ -7,9 +7,18 @@ import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 public class HumanPlayer implements Player {
 
+    BufferedReader br = null;
+
+    public HumanPlayer() {
+        this.br = new BufferedReader( new InputStreamReader( System.in ) );
+    }
+
+    public HumanPlayer(BufferedReader bufferedReader) {
+        this.br = bufferedReader;
+    }
+
 	@Override
 	public Integer getBestPlay(GameBoard currentGame, int depthLevel) {
-		BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
 		String userInput = null;
 		Character userChar = 'x';
 		int playColumn = -1;
