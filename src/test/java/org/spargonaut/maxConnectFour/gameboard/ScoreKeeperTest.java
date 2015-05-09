@@ -1,6 +1,5 @@
 package org.spargonaut.maxConnectFour.gameboard;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -152,37 +151,35 @@ public class ScoreKeeperTest {
         assertThat(playerOneScore, is(2));
     }
 
-    @Ignore
     @Test
     public void shouldIndicateAScoreDifferenceOfOneFromThePerspectiveOfPlayerOne() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 2, 2, 2, 2, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 2, 2, 2, 2, 0, 0));
+        gameboard.add(createBlankRow());
 
-        int scoreDifference = gameboard.getScoreDifferenceFromPerspectiveOf(1);
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
+
+        int scoreDifference = scoreKeeper.getScoreDifferenceFromPerspectiveOf(1);
         assertThat(scoreDifference, is(1));
     }
 
-    @Ignore
     @Test
     public void shouldIndicateAScoreDifferenceOfNegativeOneFromThePerspectiveOfPlayerTwo() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 2, 2, 2, 2, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 2, 2, 2, 2, 0, 0));
+        gameboard.add(createBlankRow());
 
-        int scoreDifference = gameboard.getScoreDifferenceFromPerspectiveOf(2);
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
+
+        int scoreDifference = scoreKeeper.getScoreDifferenceFromPerspectiveOf(2);
         assertThat(scoreDifference, is(-1));
     }
 }

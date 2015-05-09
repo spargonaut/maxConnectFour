@@ -79,4 +79,18 @@ public class ScoreKeeper {
         }
         return score;
     }
+
+    public Integer getScoreDifferenceFromPerspectiveOf(int currentPlayer) {
+        int otherPlayer = getOtherPlayer(currentPlayer);
+        return getScoreForPlayer(currentPlayer) - getScoreForPlayer(otherPlayer);
+    }
+
+    private int getOtherPlayer(int currentPlayer) {
+        int otherPlayer;
+        if( currentPlayer == 1 )
+            otherPlayer = 2;
+        else
+            otherPlayer = 1;
+        return otherPlayer;
+    }
 }
