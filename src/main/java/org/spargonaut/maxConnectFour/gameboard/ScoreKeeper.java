@@ -1,0 +1,32 @@
+package org.spargonaut.maxConnectFour.gameboard;
+
+import java.util.List;
+
+public class ScoreKeeper {
+
+    private List<List<Integer>> gameboard;
+
+    public ScoreKeeper(List<List<Integer>> gameboard) {
+        this.gameboard = gameboard;
+    }
+
+    public int getScoreForPlayer(int playerNumber) {
+        return checkHorizontalScores(playerNumber);
+    }
+
+    private int checkHorizontalScores(int player) {
+        int score = 0;
+        for( int row = 0; row < 6; row++ ) {
+            for( int column = 0; column < 4; column++ ) {
+                if( ( gameboard.get(row).get(column) == player ) &&
+                        ( gameboard.get(row).get(column + 1) == player ) &&
+                        ( gameboard.get(row).get(column + 2) == player ) &&
+                        ( gameboard.get(row).get(column + 3) == player ) ) {
+                    score++;
+
+                }
+            }
+        }
+        return score;
+    }
+}
