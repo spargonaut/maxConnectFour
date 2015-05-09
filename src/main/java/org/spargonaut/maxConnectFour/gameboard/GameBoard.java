@@ -62,7 +62,7 @@ public class GameBoard {
         return playboard;
     }
 
-    public boolean isValidPlay( int column ) {
+    public boolean isValidPlay(int column) {
         if ( !( column >= 0 && column <= totalColumnCount ) ) {
             return false;
         } else if( newPlayboard.get(0).get(column) > 0 ) {
@@ -82,27 +82,18 @@ public class GameBoard {
         return validPlays;
     }
 
-    public boolean playPieceInColumn( int column ) {
-
+    public boolean playPieceInColumn(int column) {
+        int currentPlayer = getCurrentTurnBasedOnNumberOfPlays();
         boolean playMade = false;
         if( this.isValidPlay( column ) ) {
-            //starting at the bottom of the board, place the piece into the first empty spot
             for( int row = 5; row >= 0; row-- ) {
                 if( newPlayboard.get(row).get(column) == 0 ) {
-                    if(playedPieceCount % 2 == 0){
-                        newPlayboard.get(row).add(column, 1);
-                        playedPieceCount++;
-                    } else {
-                        newPlayboard.get(row).add(column, 2);
-                        playedPieceCount++;
-                    }
-
+                    newPlayboard.get(row).add(column, currentPlayer);
                     playMade = true;
                     break;
                 }
             }
         }
-
         return playMade;
     }
 
@@ -110,11 +101,7 @@ public class GameBoard {
         return scoreKeeper.getScoreDifferenceFromPerspectiveOf(currentPlayer);
     }
 
-    /***************************  solution methods **************************/
     public void removePiece( int column ) {
-
-        // starting looking at the top of the game board,
-        // and remove the top piece
         for( int row = 0; row < totalRowCount; row++ ) {
             if( newPlayboard.get(row).get(column) > 0 ) {
                 newPlayboard.get(row).set(column, 0);
@@ -123,5 +110,4 @@ public class GameBoard {
             }
         }
     }
-    /************************  end solution methods **************************/
 }
