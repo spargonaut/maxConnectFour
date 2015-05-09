@@ -5,7 +5,6 @@ import java.util.List;
 
 public class GameBoard {
 
-    private int[][] playBoard;
     private int pieceCount;
 
     private static final int MAX_NUMBER_OF_PLAYS = 42;
@@ -22,12 +21,10 @@ public class GameBoard {
             newPlayboard.add(new ArrayList<Integer>(totalRowCount));
         }
 
-        this.playBoard = new int[6][7];
         this.pieceCount = 0;
 
         for( int row = 0; row < 6; row++ ) {
             for( int column = 0; column < 7; column++) {
-                this.playBoard[ row ][ column ] = masterGame[ row ][ column ];
                 newPlayboard.get(row).add(column, masterGame[row][column]);
 
                 if(masterGame[row][column] > 0) {
@@ -56,19 +53,21 @@ public class GameBoard {
     }
 
     public int[][] getGameBoard() {
-        return this.playBoard;
+        int[][] playboard = new int[6][7];
+        for(int row = 0; row < totalRowCount; row++) {
+            for(int column = 0; column < totalColumnCount; column++) {
+                playboard[row][column] = newPlayboard.get(row).get(column);
+            }
+        }
+        return playboard;
     }
 
     public boolean isValidPlay( int column ) {
-
         if ( !( column >= 0 && column <= 7 ) ) {
-            // check the column bounds
             return false;
-        } else if( this.playBoard[0][ column ] > 0 ) {
-            // check if column is full
+        } else if( newPlayboard.get(0).get(column) > 0 ) {
             return false;
         } else {
-            // column is NOT full and the column is within bounds
             return true;
         }
     }
@@ -86,17 +85,16 @@ public class GameBoard {
     public boolean playPieceInColumn( int column ) {
 
         boolean playMade = false;
-        // check if the column choice is a valid play
         if( this.isValidPlay( column ) ) {
             //starting at the bottom of the board, place the piece into the first empty spot
-            for( int i = 5; i >= 0; i-- ) {
-                if( this.playBoard[i][column] == 0 ) {
+            for( int row = 5; row >= 0; row-- ) {
+                if( newPlayboard.get(row).get(column) == 0 ) {
                     if( this.pieceCount % 2 == 0 ){
-                        this.playBoard[i][column] = 1;
+                        newPlayboard.get(row).add(column, 1);
                         this.pieceCount++;
 
                     } else {
-                        this.playBoard[i][column] = 2;
+                        newPlayboard.get(row).add(column, 2);
                         this.pieceCount++;
                     }
 
@@ -118,9 +116,9 @@ public class GameBoard {
 
         // starting looking at the top of the game board,
         // and remove the top piece
-        for( int i = 0; i < 6; i++ ) {
-            if( this.playBoard[ i ][ column ] > 0 ) {
-                this.playBoard[ i ][ column ] = 0;
+        for( int row = 0; row < 6; row++ ) {
+            if( newPlayboard.get(row).get(column) > 0 ) {
+                newPlayboard.get(row).set(column, 0);
                 this.pieceCount--;
 
                 break;
