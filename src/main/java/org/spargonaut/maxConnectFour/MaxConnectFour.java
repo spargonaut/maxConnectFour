@@ -1,20 +1,23 @@
 package org.spargonaut.maxConnectFour;
 
-import java.io.IOException;
-
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.BoardReader;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
 import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
+import java.io.IOException;
+
 public class MaxConnectFour {
 
-    PlayMode playMode;
-    String input;
-    int depthLevel;
+    private PlayMode playMode;
+    private String input;
+    private int depthLevel;
+
+    private ArgumentParser argumentParser;
 
     public static void main(String[] args) {
         MaxConnectFour game = new MaxConnectFour();
@@ -26,8 +29,6 @@ public class MaxConnectFour {
     }
 
     public void play(String[] args) throws IOException {
-
-        checkForProperNumberOfArgments(args);
 
         parseInputArguments(args);
 
@@ -43,7 +44,7 @@ public class MaxConnectFour {
 
         switch(playMode) {
         case INTERACTIVE:
-            PlayerIdentifier nextTurnEnum = getFirstPlayer(args);
+            PlayerIdentifier nextTurnEnum = argumentParser.getNextPlayer();
 
             printInitialGameBoardState(currentGame);
 
@@ -118,7 +119,7 @@ public class MaxConnectFour {
 
     protected void printInitialGameBoardState(GameBoard currentGame) {
         System.out.println( "--------------------------------------------------------------------------------");
-        System.out.println( "\nMax Connect Four Client - " + playMode + " Mode\n");
+        System.out.println("\nMax Connect Four Client - " + playMode + " Mode\n");
         printBoardAndScores(currentGame);
     }
 
@@ -134,7 +135,7 @@ public class MaxConnectFour {
     }
 
     protected void printCurrentScores(GameBoard currentGame) {
-        System.out.println( "Scores:\n Player1: " + currentGame.getScore( 1 ) + "\n Player2: " + currentGame.getScore( 2 ) + "\n " );
+        System.out.println("Scores:\n Player1: " + currentGame.getScore(1) + "\n Player2: " + currentGame.getScore(2) + "\n ");
     }
 
     private void printTheFinalGameState(GameBoard currentGame) {
@@ -143,55 +144,11 @@ public class MaxConnectFour {
     }
 
     private void parseInputArguments(String[] args) {
-        String game_mode = args[0].toString();				// the game mode
-        playMode = parsePlayMode(game_mode);
-        input = args[1].toString();					// the input game file
-        depthLevel = Integer.parseInt( args[3] );  		// the depth level of the ai search
-    }
+        argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(args);
+        playMode = argumentParser.getPlayMode();
+        input = argumentParser.getInputGameFile();
+        depthLevel = argumentParser.getSearchDepth();
 
-    private void checkForProperNumberOfArgments(String[] args) {
-        if( args.length != 4 ) {
-            System.out.println("Four command-line arguments are needed:\n"
-                    + "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
-                    + " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
-
-            System.exit(0);
-        }
-    }
-
-    private PlayerIdentifier getFirstPlayer(String[] args) {
-        char firstPlayerParamater = args[2].charAt(0);
-
-        validateFirstPlayerParameter(firstPlayerParamater);
-        PlayerIdentifier firstPlayer = null;
-        if ("c".equalsIgnoreCase(Character.toString(firstPlayerParamater))) {
-            firstPlayer = PlayerIdentifier.COMPUTER;
-        } else {
-            firstPlayer = PlayerIdentifier.HUMAN;
-        }
-        return firstPlayer;
-    }
-
-    private void validateFirstPlayerParameter(char nextTurn) {
-        if( !( nextTurn == 'c' || nextTurn == 'C' || nextTurn == 'h' || nextTurn == 'H' ) ) {
-            // I don't understand whos turn it is next.
-            System.out.println( "!!!!!!!--------->     Houston we have a problem.\n" +
-                    "I can't tell whos turn it is next\n\n" +
-                    "you're going to have to try again.\n" +
-                    "next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
-            System.exit(0);
-        }
-    }
-
-    protected PlayMode parsePlayMode(String input) {
-        validateGameModeArgument(input);
-        PlayMode mode = (input.equalsIgnoreCase( "interactive" )) ? PlayMode.INTERACTIVE : PlayMode.ONE_MOVE;
-        return mode;
-    }
-
-    protected void validateGameModeArgument(String playMode) {
-        if (!(playMode.equalsIgnoreCase("interactive") || playMode.equalsIgnoreCase( "one-move" ))) {
-            throw new IllegalArgumentException(playMode);
-        }
     }
 }
