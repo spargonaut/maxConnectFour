@@ -1,4 +1,4 @@
-package org.spargonaut.maxConnectFour.players;
+package org.spargonaut.maxConnectFour.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;

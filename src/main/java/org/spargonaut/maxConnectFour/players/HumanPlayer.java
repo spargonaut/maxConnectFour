@@ -1,6 +1,7 @@
 package org.spargonaut.maxConnectFour.players;
 
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.parser.InputParser;
 
 public class HumanPlayer implements Player {
 

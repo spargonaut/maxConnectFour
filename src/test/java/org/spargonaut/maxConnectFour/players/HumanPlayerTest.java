@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.parser.InputParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

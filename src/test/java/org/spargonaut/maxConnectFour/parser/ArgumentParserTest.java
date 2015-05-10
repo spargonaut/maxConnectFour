@@ -1,0 +1,210 @@
+package org.spargonaut.maxConnectFour.parser;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.spargonaut.maxConnectFour.PlayMode;
+import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+
+public class ArgumentParserTest {
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @Before
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void tearDown() {
+        System.setOut(null);
+    }
+
+    @Test
+    public void shouldIndicateToTheUserWhenLessThanFourArgumentsAreUsedAndExitTheProgram() {
+        ArgumentParser argumentParser = new ArgumentParser();
+        String[] arguments = new String[3];
+        exit.expectSystemExitWithStatus(0);
+
+        exit.checkAssertionAfterwards(new Assertion() {
+            @Override
+            public void checkAssertion() throws Exception {
+                assertEquals(outContent.toString(), "Four command-line arguments are needed:\n"
+                        + "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
+                        + " or:  java [program name] one-move [input_file] [output_file] [depth]\n\n");
+            }
+        });
+
+        argumentParser.parseArguments(arguments);
+    }
+
+    @Test
+    public void shouldParseThePlayModeToInteractiveFromTheFirstArgument() {
+        String[] arguments = new String[4];
+        arguments[0] = "interactive";
+        arguments[1] = "path/to/some/file.txt";
+        arguments[2] = "Human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayMode actualPlayMode = argumentParser.getPlayMode();
+
+        assertEquals(actualPlayMode, PlayMode.INTERACTIVE);
+    }
+
+    @Test
+    public void shouldParseThePlayModeToOneMoveFromTheFirstArgument() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "path/to/some/file.txt";
+        arguments[2] = "Human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayMode actualPlayMode = argumentParser.getPlayMode();
+
+        assertEquals(actualPlayMode, PlayMode.ONE_MOVE);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenAnInvalidPlayModeIsGiven() {
+        String[] arguments = new String[4];
+        arguments[0] = "floof";
+        arguments[1] = "path/to/some/file.txt";
+        arguments[2] = "Human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+    }
+
+    @Test
+    public void shouldParseTheFilnameAndPathForTheInputGameFileAsTheSecondArgument() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "path/to/some/file.txt";
+        arguments[2] = "Human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+
+        String actualFileNameAndPath = argumentParser.getInputGameFile();
+        String expectedFileNameAndPath = "path/to/some/file.txt";
+
+        assertEquals(actualFileNameAndPath, expectedFileNameAndPath);
+    }
+
+    @Test
+    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithALowercaseLetter() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayerIdentifier player = argumentParser.getNextPlayer();
+
+        assertEquals(player, PlayerIdentifier.HUMAN);
+    }
+
+    @Test
+    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithACapitalLetter() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "Human";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayerIdentifier player = argumentParser.getNextPlayer();
+
+        assertEquals(player, PlayerIdentifier.HUMAN);
+    }
+
+    @Test
+    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithALowercaseLetter() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "computer";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayerIdentifier player = argumentParser.getNextPlayer();
+
+        assertEquals(player, PlayerIdentifier.COMPUTER);
+    }
+
+    @Test
+    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithACapitalLetter() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "Computer";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+        PlayerIdentifier player = argumentParser.getNextPlayer();
+
+        assertEquals(player, PlayerIdentifier.COMPUTER);
+    }
+
+    @Test
+    public void shouldTellTheUserThatItCannotDetermineTheNextPlayerAndExitTheProgram() {
+        ArgumentParser argumentParser = new ArgumentParser();
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "blarf";
+        arguments[3] = "3";
+        exit.expectSystemExitWithStatus(0);
+
+        exit.checkAssertionAfterwards(new Assertion() {
+            @Override
+            public void checkAssertion() throws Exception {
+                assertEquals(outContent.toString(), "!!!!!!!--------->     Houston we have a problem.\n" +
+                        "I can't tell whos turn it is next\n\n" +
+                        "you're going to have to try again.\n" +
+                        "next time, please indicate if it is the human's turn next or the computer's turn\n\n\n\n");
+            }
+        });
+
+        argumentParser.parseArguments(arguments);
+    }
+
+    @Test
+    public void shouldParseTheSearchDepthLevelFromTheFourthArgument() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "computer";
+        arguments[3] = "3";
+
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+
+        int actualSearchDepthLevel = argumentParser.getSearchDepth();
+        int expectedSearchDepthLevel = 3;
+
+        assertEquals(actualSearchDepthLevel, expectedSearchDepthLevel);
+    }
+}
