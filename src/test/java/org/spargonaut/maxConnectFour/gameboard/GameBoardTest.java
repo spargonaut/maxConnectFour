@@ -90,15 +90,15 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicateTheValidColumnsOfPlay() {
-        int[][] masterGame = {
-                {1, 0, 1, 0, 0, 2, 0},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> setUpGameboard = new ArrayList<List<Integer>>();
+        setUpGameboard.add(Arrays.asList(1, 0, 1, 0, 0, 2, 0));
+        setUpGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        setUpGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        setUpGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        setUpGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        setUpGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        GameBoard gameboard = new GameBoard(setUpGameboard);
+
 
         List<Integer> validPlays = gameboard.getColumnsOfValidPlays();
         assertThat(validPlays, hasItems(1, 3, 4, 6));
@@ -106,60 +106,61 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicateAnInvalidPlayWhenPlayColumnIsBelowLowestColumnNumber() {
-        int[][] masterGame = {
-                {1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameBoard = new GameBoard(masterGame);
-        boolean isValidPlay = gameBoard.isValidPlay(-1);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+
+        GameBoard gameboard = new GameBoard(startingGameboard);
+
+        boolean isValidPlay = gameboard.isValidPlay(-1);
         assertThat(isValidPlay, is(false));
     }
 
     @Test
     public void shouldIndicateAnInvalidPlayWhenPlayColumnIsGreaterThanHighestColumnNumber() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameBoard = new GameBoard(masterGame);
-        boolean isValidPlay = gameBoard.isValidPlay(8);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+
+        GameBoard gameboard = new GameBoard(startingGameboard);
+
+        boolean isValidPlay = gameboard.isValidPlay(8);
         assertThat(isValidPlay, is(false));
     }
 
     @Test
     public void shouldIndicateAnInvalidPlayWhenThePlayColumnsIsFull() {
-        int[][] masterGame = {
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameBoard = new GameBoard(masterGame);
-        boolean isValidPlay = gameBoard.isValidPlay(0);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        GameBoard gameboard = new GameBoard(startingGameboard);
+
+        boolean isValidPlay = gameboard.isValidPlay(0);
         assertThat(isValidPlay, is(false));
     }
 
     @Test
     public void shouldGetTheCountOfThePiecesAlreadyPlayed() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 2},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         int countOfPiecesPlayed = gameboard.getCountOfPiecesPlayed();
         assertThat(countOfPiecesPlayed, is(2));
@@ -167,15 +168,14 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicatePlayerOnesTurnWhenPlayCountIsEven() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 2},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         int currentPlayersTurn = gameboard.getCurrentTurnBasedOnNumberOfPlays();
         assertThat(currentPlayersTurn, is(1));
@@ -183,15 +183,14 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicatePlayerTwosTurnWhenPlayCountIsOdd() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 0));
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         int currentPlayersTurn = gameboard.getCurrentTurnBasedOnNumberOfPlays();
         assertThat(currentPlayersTurn, is(2));
@@ -199,15 +198,15 @@ public class GameBoardTest {
 
     @Test
     public void shouldGetNumberOfPlaysRemaining() {
-        int[][] masterGame = {
-                {1, 0, 1, 0, 0, 2, 0},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-                {1, 2, 1, 2, 1, 2, 1},
-        };
-        GameBoard gameBoard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(Arrays.asList(1, 0, 1, 0, 0, 2, 0));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        GameBoard gameBoard = new GameBoard(startingGameboard);
+
 
         int actualPlaysRemaining = gameBoard.getNumberOfPlaysRemaining();
 
@@ -217,15 +216,15 @@ public class GameBoardTest {
 
     @Test
     public void shouldIncreaseTheNumberOfPiecesPlayedWhenAPlayerPlaysAPiece() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.playPieceInColumn(0);
 
@@ -235,16 +234,15 @@ public class GameBoardTest {
 
     @Test
     public void shouldRetrieveGameBoardAsListOfLists() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1},
-        };
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
-        GameBoard gameboard = new GameBoard(masterGame);
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         List<List<Integer>> actualGameboard = gameboard.getGameBoardAsList();
 
