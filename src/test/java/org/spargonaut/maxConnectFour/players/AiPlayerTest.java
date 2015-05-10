@@ -4,8 +4,7 @@ import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AiPlayerTest {
 
@@ -127,11 +126,46 @@ public class AiPlayerTest {
         GameBoard gameBoard = mock(GameBoard.class);
         when(gameBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)).thenReturn(10);
 
-
         AiPlayer aiPlayer = new AiPlayer();
         int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
 
         int[] expectedNextMove = new int[]{-456, 10};
+
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+    }
+
+    @Test
+    public void shouldIndicateTheNextMoveIsTheWorstMoveWhenNotAtMaxDepth() {
+        int maxDepth = 99;
+        int level = 98;
+        int currentPlayer = 2;
+        int alpha = 6;
+        int beta = 7;
+
+        int[][] emptyGameBoard = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}
+        };
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.getGameBoard()).thenReturn(emptyGameBoard);
+
+        int columnForNextPlay = 2;
+        int scoreDiffForNextPlay = 5;
+
+        AiPlayer aiPlayer = spy(new AiPlayer());
+        when(aiPlayer.generateWorstMoveRef(maxDepth, level + 1, currentPlayer, gameBoard, alpha, beta))
+                .thenReturn(new int[]{columnForNextPlay, scoreDiffForNextPlay});
+
+        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+
+        int[] expectedNextMove = new int[]{columnForNextPlay, scoreDiffForNextPlay};
 
         assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
         assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
