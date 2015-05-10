@@ -1,8 +1,11 @@
 package org.spargonaut.maxConnectFour.players;
 
 import org.junit.Test;
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AiPlayerTest {
 
@@ -111,5 +114,26 @@ public class AiPlayerTest {
 
         assertEquals(columnOfCurrentHighestScoringMove, actualHighestScoringMove[0]);
         assertEquals(scoreDiffOfCurrentHighestScoringMove, actualHighestScoringMove[1]);
+    }
+
+    @Test
+    public void shouldIndicateTheNextMoveIsDefaultWhenAtMaxDepth() {
+        int maxDepth = 99;
+        int level = 99;
+        int currentPlayer = 2;
+        int alpha = 6;
+        int beta = 7;
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)).thenReturn(10);
+
+
+        AiPlayer aiPlayer = new AiPlayer();
+        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+
+        int[] expectedNextMove = new int[]{-456, 10};
+
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
     }
 }
