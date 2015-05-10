@@ -61,16 +61,6 @@ public class GameBoard {
         return playedPieceCount;
     }
 
-    public int[][] getGameBoard() {
-        int[][] playboard = new int[totalRowCount][totalColumnCount];
-        for(int row = 0; row < totalRowCount; row++) {
-            for(int column = 0; column < totalColumnCount; column++) {
-                playboard[row][column] = this.playboard.get(row).get(column);
-            }
-        }
-        return playboard;
-    }
-
     public boolean isValidPlay(int column) {
         boolean playIsValid = true;
         if (playIsOutOfBounds(column) || columnIsNotFull(column)) {
@@ -103,7 +93,7 @@ public class GameBoard {
         if(isValidPlay(column)) {
             for( int row = 5; row >= 0; row-- ) {
                 if( playboard.get(row).get(column) == 0 ) {
-                    playboard.get(row).add(column, currentPlayer);
+                    playboard.get(row).set(column, currentPlayer);
                     playedPieceCount++;
                     playMade = true;
                     break;

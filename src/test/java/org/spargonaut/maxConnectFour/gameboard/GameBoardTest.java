@@ -14,83 +14,78 @@ public class GameBoardTest {
 
     @Test
     public void shouldRemoveTheSpecifiedPieceFromTheBoard() throws Exception {
-        int[][] masterGame = {
-                {1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.removePiece(0);
 
-        int [][] expectedMasterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-        };
-        int[][] actualMasterGame = gameboard.getGameBoard();
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
 
-        assertArrayEquals(expectedMasterGame, actualMasterGame);
+        assertEquals(expectedGameboard, actualMasterGame);
     }
 
     @Test
     public void shouldPlayPieceForPlayerOneInTheColumnIndicated() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.playPieceInColumn(0);
 
-        int [][] expectedMasterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        int[][] actualMasterGame = gameboard.getGameBoard();
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
 
-        assertArrayEquals(expectedMasterGame, actualMasterGame);
+        assertEquals(expectedGameboard, actualMasterGame);
     }
 
     @Test
     public void shouldPlayPieceForPlayerTwoInTheColumnIndicated() {
-        int[][] masterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
-        };
-        GameBoard gameboard = new GameBoard(masterGame);
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.playPieceInColumn(1);
 
-        int [][] expectedMasterGame = {
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0},
-                {1, 2, 0, 0, 0, 0, 0},
-        };
-        int[][] actualMasterGame = gameboard.getGameBoard();
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(Arrays.asList(1, 2, 0, 0, 0, 0, 0));
 
-        assertArrayEquals(expectedMasterGame, actualMasterGame);
+        List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
+
+        assertEquals(expectedGameboard, actualMasterGame);
     }
 
     @Test
