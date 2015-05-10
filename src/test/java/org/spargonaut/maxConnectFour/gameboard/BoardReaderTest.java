@@ -7,10 +7,18 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class BoardReaderTest {
 
@@ -109,5 +117,52 @@ public class BoardReaderTest {
         });
 
         boardReader.checkIfMarkIsValidOrExit(row, column);
+    }
+
+    @Test
+    public void shouldMarkThePlayAtTheGivenPosition() {
+        String gameData = "1";
+        int row = 0;
+        int column = 0;
+
+        int[][] playboard = {{0}, {0}};
+
+        BoardReader boardReader = new BoardReader(playboard);
+
+        boardReader.markPlayAtPosition(gameData, row, column);
+        int[][] actualPlayBoard = boardReader.getPlayBoard();
+        int[][] expectedPlayBoard = {{1}, {0}};
+
+        assertArrayEquals(expectedPlayBoard, actualPlayBoard);
+    }
+
+    @Test
+    public void shouldReadTheGameInFromAFile() throws IOException {
+        BufferedReader bufferedReader = mock(BufferedReader.class);
+        when(bufferedReader.readLine()).thenReturn("0000000")
+                .thenReturn("0000000")
+                .thenReturn("0000000")
+                .thenReturn("0000000")
+                .thenReturn("0000000")
+                .thenReturn("0000001");
+
+        BoardReader boardReader = new BoardReader(bufferedReader);
+        GameBoard gameBoard = boardReader.readGame("foo");
+
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        List<List<Integer>> actualPlayBoard = gameBoard.getGameBoardAsList();
+
+        assertEquals(expectedGameboard, actualPlayBoard);
+    }
+
+    private List<Integer> createBlankRow() {
+        return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }
 }

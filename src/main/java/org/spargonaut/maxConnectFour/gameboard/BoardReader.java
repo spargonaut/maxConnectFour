@@ -3,14 +3,22 @@ package org.spargonaut.maxConnectFour.gameboard;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BoardReader {
 
     private int[][] playBoard;
+    private BufferedReader bufferedReader;
+    private List<List<Integer>> newPlayBoard;
 
     public BoardReader(int[][] playBoard) {
         this.playBoard = playBoard;
+    }
+
+    public BoardReader(BufferedReader bufferedReader) {
+        this.bufferedReader = bufferedReader;
     }
 
     public BoardReader() {};
@@ -20,20 +28,27 @@ public class BoardReader {
 
         this.playBoard = new int[6][7];
         String rowData = null;
-        BufferedReader input = new BufferedReader( new FileReader( inputFile ) );
+        if (bufferedReader == null) {
+            bufferedReader = new BufferedReader(new FileReader(inputFile));
+        }
 
-        for(int row = 0; row < 6; row++) {
-            rowData = input.readLine();
-            for( int column = 0; column < 7; column++ ) {
-                markPlayAtPosition(rowData, row, column);
+        newPlayBoard = new ArrayList<List<Integer>>();
+        for(int rowIndex = 0; rowIndex < 6; rowIndex++) {
+            rowData = bufferedReader.readLine();
+            List<Integer> row = new ArrayList<Integer>();
+            newPlayBoard.add(row);
+            for( int columnIndex = 0; columnIndex < 7; columnIndex++ ) {
+                markPlayAtPosition(rowData, rowIndex, columnIndex);
             }
         }
-        input.close();
-        return new GameBoard(playBoard);
+
+        bufferedReader.close();
+        return new GameBoard(newPlayBoard);
     }
 
-    private void markPlayAtPosition(String gameData, int row, int column) {
+    protected void markPlayAtPosition(String gameData, int row, int column) {
         this.playBoard[ row ][ column ] = Integer.parseInt(Character.toString(gameData.charAt(column)));
+        this.newPlayBoard.get(row).add(Integer.parseInt(Character.toString(gameData.charAt(column))));
         checkIfMarkIsValidOrExit(row, column);
     }
 
@@ -48,5 +63,9 @@ public class BoardReader {
         return !( ( this.playBoard[ row ][ column ] == 0 ) ||
                ( this.playBoard[ row ][ column ] == 1 ) ||
                ( this.playBoard[ row ][ column ] == 2 ) );
+    }
+
+    public int[][] getPlayBoard() {
+        return playBoard;
     }
 }
