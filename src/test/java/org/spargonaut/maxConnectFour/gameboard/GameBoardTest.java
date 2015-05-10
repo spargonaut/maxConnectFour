@@ -2,12 +2,13 @@ package org.spargonaut.maxConnectFour.gameboard;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class GameBoardTest {
 
@@ -235,5 +236,57 @@ public class GameBoardTest {
 
         int numberOfPiecesPlayed = gameboard.getCountOfPiecesPlayed();
         assertThat(numberOfPiecesPlayed, is(2));
+    }
+
+    @Test
+    public void shouldRetrieveGameBoardAsListOfLists() {
+        int[][] masterGame = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1},
+        };
+
+        GameBoard gameboard = new GameBoard(masterGame);
+
+        List<List<Integer>> actualGameboard = gameboard.getGameBoardAsList();
+
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        assertEquals(expectedGameboard, actualGameboard);
+    }
+
+    @Test
+    public void shouldCreateGameBoardFromList() {
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard newGameBoard = new GameBoard(startingGameboard);
+
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        List<List<Integer>> actualGameBoard = newGameBoard.getGameBoardAsList();
+
+        assertEquals(expectedGameboard, actualGameBoard);
+        assertNotSame(expectedGameboard, actualGameBoard);
     }
 }

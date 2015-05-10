@@ -29,6 +29,22 @@ public class GameBoard {
         scoreKeeper = new ScoreKeeper(playboard);
     }
 
+    public GameBoard(List<List<Integer>> startingGameboard) {
+        playedPieceCount = 0;
+        playboard = new ArrayList<List<Integer>>();
+        for(List<Integer> row : startingGameboard) {
+            List<Integer> newRow = new ArrayList<Integer>();
+            for(Integer playPiece : row) {
+                newRow.add(playPiece);
+                if(playPiece > 0) {
+                    playedPieceCount++;
+                }
+            }
+            playboard.add(newRow);
+        }
+        scoreKeeper = new ScoreKeeper(playboard);
+    }
+
     public int getNumberOfPlaysRemaining() {
         return MAX_NUMBER_OF_PLAYS - playedPieceCount;
     }
@@ -109,5 +125,9 @@ public class GameBoard {
                 break;
             }
         }
+    }
+
+    public List<List<Integer>> getGameBoardAsList() {
+        return playboard;
     }
 }
