@@ -95,20 +95,13 @@ public class AiPlayer implements Player {
         GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
 
         int[] move = { 70, 700 };
-        int[] nextMove = {-4, 444};
-
-        boolean isMaxDepth = (level == maxDepth);
 
         List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
 
         for (Integer column : validColumns) {
             testBoard.playPieceInColumn( column );
 
-            if (isMaxDepth) {
-                nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
-            } else {
-                nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-            }
+            int[] nextMove = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
             if( nextMove[1] < move[ 1 ] ) {
                 move = getLowestScoringMove(move, column, nextMove);
@@ -121,6 +114,17 @@ public class AiPlayer implements Player {
         }
 
         return move;
+    }
+
+    protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
+        int[] nextMove = {-4, 444};
+        boolean isMaxDepth = (level == maxDepth);
+        if (isMaxDepth) {
+            nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
+        } else {
+            nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+        }
+        return nextMove;
     }
 
     protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {

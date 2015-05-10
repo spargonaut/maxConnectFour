@@ -116,7 +116,7 @@ public class AiPlayerTest {
     }
 
     @Test
-    public void shouldIndicateTheNextMoveIsDefaultWhenAtMaxDepth() {
+    public void shouldIndicateTheNextMoveIsDefaultWhenAtMaxDepthForBestMove() {
         int maxDepth = 99;
         int level = 99;
         int currentPlayer = 2;
@@ -136,7 +136,7 @@ public class AiPlayerTest {
     }
 
     @Test
-    public void shouldIndicateTheNextMoveIsTheWorstMoveWhenNotAtMaxDepth() {
+    public void shouldIndicateTheNextMoveIsTheWorstMoveWhenNotAtMaxDepthForBestMove() {
         int maxDepth = 99;
         int level = 98;
         int currentPlayer = 2;
@@ -164,6 +164,62 @@ public class AiPlayerTest {
                 .thenReturn(new int[]{columnForNextPlay, scoreDiffForNextPlay});
 
         int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+
+        int[] expectedNextMove = new int[]{columnForNextPlay, scoreDiffForNextPlay};
+
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+    }
+
+    @Test
+    public void shouldGetTheNextMoveAsDefaultWhenAtMaxDepthForWorstMove() {
+        int maxDepth = 99;
+        int level = 99;
+        int currentPlayer = 2;
+        int alpha = 6;
+        int beta = 7;
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)).thenReturn(10);
+
+        AiPlayer aiPlayer = new AiPlayer();
+        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+
+        int[] expectedNextMove = new int[]{-4, 10};
+
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+    }
+
+    @Test
+    public void shouldGetTheNextMoveAsTheWorstMoveWhenNotAtMaxDepthForWorstMove() {
+        int maxDepth = 99;
+        int level = 98;
+        int currentPlayer = 2;
+        int alpha = 6;
+        int beta = 7;
+
+        int[][] emptyGameBoard = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}
+        };
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.getGameBoard()).thenReturn(emptyGameBoard);
+
+        int columnForNextPlay = 2;
+        int scoreDiffForNextPlay = 5;
+
+        AiPlayer aiPlayer = spy(new AiPlayer());
+        when(aiPlayer.generateBestMoveRef(maxDepth, level + 1, currentPlayer, gameBoard, alpha, beta))
+                .thenReturn(new int[]{columnForNextPlay, scoreDiffForNextPlay});
+
+        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
 
         int[] expectedNextMove = new int[]{columnForNextPlay, scoreDiffForNextPlay};
 
