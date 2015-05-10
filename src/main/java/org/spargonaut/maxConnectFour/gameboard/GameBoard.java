@@ -12,23 +12,6 @@ public class GameBoard {
     private int totalRowCount = 6;
     private final int MAX_NUMBER_OF_PLAYS = totalColumnCount * totalRowCount;
 
-    public GameBoard( int masterGame[][] ) {
-
-        playedPieceCount = 0;
-        playboard = new ArrayList<List<Integer>>(totalColumnCount);
-        for( int row = 0; row < totalRowCount; row++ ) {
-            List<Integer> newRow = new ArrayList<Integer>(totalRowCount);
-            for( int column = 0; column < totalColumnCount; column++) {
-                newRow.add(column, masterGame[row][column]);
-                if(masterGame[row][column] > 0) {
-                    playedPieceCount++;
-                }
-            }
-            playboard.add(newRow);
-        }
-        scoreKeeper = new ScoreKeeper(playboard);
-    }
-
     public GameBoard(List<List<Integer>> startingGameboard) {
         playedPieceCount = 0;
         playboard = new ArrayList<List<Integer>>();
