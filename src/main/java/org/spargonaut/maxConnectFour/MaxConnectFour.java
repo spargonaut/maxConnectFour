@@ -91,9 +91,6 @@ public class MaxConnectFour {
             break;
 
         case ONE_MOVE:
-            // get the output file name
-            String output = args[2].toString();				// the output game file
-
             printInitialGameBoardState(currentGame);
 
             // ****************** this chunk of code makes the computer play
@@ -111,7 +108,7 @@ public class MaxConnectFour {
             printCurrentGameBoardAndScores(currentGame);
 
             BoardPrinter boardPrinter = new BoardPrinter();
-            boardPrinter.printGameBoardToFile(output, currentGame);
+            boardPrinter.printGameBoardToFile(argumentParser.getOutputGameFile(), currentGame);
 
             break;
         }

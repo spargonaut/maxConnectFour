@@ -1,9 +1,8 @@
-package org.spargonaut.maxConnectFour.players;
+package org.spargonaut.maxConnectFour.parser;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.spargonaut.maxConnectFour.parser.InputParser;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

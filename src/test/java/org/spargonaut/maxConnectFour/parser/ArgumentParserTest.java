@@ -109,9 +109,9 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithALowercaseLetter() {
+    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithALowercaseLetterWhenInInteractiveMode() {
         String[] arguments = new String[4];
-        arguments[0] = "one-move";
+        arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "human";
         arguments[3] = "3";
@@ -124,9 +124,9 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithACapitalLetter() {
+    public void shouldParseTheNextPlayerAsHumanFromTheThirdArgumentStartingWithACapitalLetterWhenInInteractiveMode() {
         String[] arguments = new String[4];
-        arguments[0] = "one-move";
+        arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "Human";
         arguments[3] = "3";
@@ -139,9 +139,9 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithALowercaseLetter() {
+    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithALowercaseLetterWhenInInteractiveMode() {
         String[] arguments = new String[4];
-        arguments[0] = "one-move";
+        arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "computer";
         arguments[3] = "3";
@@ -154,9 +154,9 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithACapitalLetter() {
+    public void shouldParseTheNextPlayerAsComputerFromTheThirdArgumentStartingWithACapitalLetterWhenInInteractiveMode() {
         String[] arguments = new String[4];
-        arguments[0] = "one-move";
+        arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "Computer";
         arguments[3] = "3";
@@ -169,10 +169,10 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldTellTheUserThatItCannotDetermineTheNextPlayerAndExitTheProgram() {
+    public void shouldTellTheUserThatItCannotDetermineTheNextPlayerAndExitTheProgramWhenInInteractiveMode() {
         ArgumentParser argumentParser = new ArgumentParser();
         String[] arguments = new String[4];
-        arguments[0] = "one-move";
+        arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "blarf";
         arguments[3] = "3";
@@ -189,6 +189,23 @@ public class ArgumentParserTest {
         });
 
         argumentParser.parseArguments(arguments);
+    }
+
+    @Test
+    public void shouldParseTheOutputFilenameAndPathForTheGameBoardWhenInOneMoveMode() {
+        String[] arguments = new String[4];
+        arguments[0] = "one-move";
+        arguments[1] = "someFile.txt";
+        arguments[2] = "some/output/file.txt";
+        arguments[3] = "3";
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(arguments);
+
+        String outputFile = argumentParser.getOutputGameFile();
+        String actualOutputFile = "some/output/file.txt";
+
+        assertEquals(outputFile, actualOutputFile);
+
     }
 
     @Test

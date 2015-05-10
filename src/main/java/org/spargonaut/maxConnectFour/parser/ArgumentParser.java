@@ -9,12 +9,17 @@ public class ArgumentParser {
     private String inputGameFile;
     private int searchDepth;
     private PlayerIdentifier nextPlayer;
+    private String outputGameFile;
 
     public void parseArguments(String[] arguments) {
         checkForProperNumberOfArgments(arguments);
         playMode = parsePlayMode(arguments[0]);
         inputGameFile = arguments[1];
-        nextPlayer = getFirstPlayer(arguments);
+        if(playMode == PlayMode.INTERACTIVE) {
+            nextPlayer = getFirstPlayer(arguments);
+        } else {
+            outputGameFile = arguments[2];
+        }
         searchDepth = Integer.parseInt(arguments[3]);
     }
 
@@ -79,5 +84,9 @@ public class ArgumentParser {
 
     public PlayerIdentifier getNextPlayer() {
         return nextPlayer;
+    }
+
+    public String getOutputGameFile() {
+        return outputGameFile;
     }
 }
