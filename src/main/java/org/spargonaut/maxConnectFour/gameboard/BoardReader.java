@@ -9,6 +9,12 @@ public class BoardReader {
 
     private int[][] playBoard;
 
+    public BoardReader(int[][] playBoard) {
+        this.playBoard = playBoard;
+    }
+
+    public BoardReader() {};
+
     public GameBoard readGame(String inputFile)
         throws IOException {
 
@@ -31,16 +37,16 @@ public class BoardReader {
         checkIfMarkIsValidOrExit(row, column);
     }
 
-    private void checkIfMarkIsValidOrExit(int i, int j) {
-        if( markIsNotValid(i, j) ) {
+    protected void checkIfMarkIsValidOrExit(int row, int column) {
+        if( markIsNotValid(row, column) ) {
             System.out.println("\nProblems!\n--The piece read from the input file was not a 1, a 2 or a 0" );
             System.exit(0);
         }
     }
 
-    private boolean markIsNotValid(int i, int j) {
-        return !( ( this.playBoard[ i ][ j ] == 0 ) ||
-               ( this.playBoard[ i ][ j ] == 1 ) ||
-               ( this.playBoard[ i ][ j ] == 2 ) );
+    protected boolean markIsNotValid(int row, int column) {
+        return !( ( this.playBoard[ row ][ column ] == 0 ) ||
+               ( this.playBoard[ row ][ column ] == 1 ) ||
+               ( this.playBoard[ row ][ column ] == 2 ) );
     }
 }
