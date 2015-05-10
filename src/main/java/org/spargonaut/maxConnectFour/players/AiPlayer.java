@@ -38,7 +38,7 @@ public class AiPlayer implements Player {
 
     protected int[] generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
-        GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
+        GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
         int move[] = { -1, -999 };		// { column, scoreDiff }
 
@@ -92,7 +92,7 @@ public class AiPlayer implements Player {
 
     protected int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
-        GameBoard testBoard = new GameBoard( lastBoard.getGameBoard() );
+        GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
         int[] move = { 70, 700 };
 

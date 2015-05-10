@@ -3,6 +3,10 @@ package org.spargonaut.maxConnectFour.players;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -143,17 +147,16 @@ public class AiPlayerTest {
         int alpha = 6;
         int beta = 7;
 
-        int[][] emptyGameBoard = {
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-        };
+        List<List<Integer>> newEmptyGameBoard = new ArrayList<List<Integer>>();
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
 
         GameBoard gameBoard = mock(GameBoard.class);
-        when(gameBoard.getGameBoard()).thenReturn(emptyGameBoard);
+        when(gameBoard.getGameBoardAsList()).thenReturn(newEmptyGameBoard);
 
         int columnForNextPlay = 2;
         int scoreDiffForNextPlay = 5;
@@ -198,17 +201,16 @@ public class AiPlayerTest {
         int alpha = 6;
         int beta = 7;
 
-        int[][] emptyGameBoard = {
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-        };
+        List<List<Integer>> newEmptyGameBoard = new ArrayList<List<Integer>>();
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
+        newEmptyGameBoard.add(createBlankRow());
 
         GameBoard gameBoard = mock(GameBoard.class);
-        when(gameBoard.getGameBoard()).thenReturn(emptyGameBoard);
+        when(gameBoard.getGameBoardAsList()).thenReturn(newEmptyGameBoard);
 
         int columnForNextPlay = 2;
         int scoreDiffForNextPlay = 5;
@@ -223,5 +225,9 @@ public class AiPlayerTest {
 
         assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
         assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+    }
+
+    private List<Integer> createBlankRow() {
+        return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }
 }

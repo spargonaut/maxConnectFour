@@ -254,11 +254,11 @@ public class GameBoardTest {
         List<List<Integer>> actualGameboard = gameboard.getGameBoardAsList();
 
         List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
         expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         assertEquals(expectedGameboard, actualGameboard);
@@ -267,26 +267,30 @@ public class GameBoardTest {
     @Test
     public void shouldCreateGameBoardFromList() {
         List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
+        startingGameboard.add(createBlankRow());
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         GameBoard newGameBoard = new GameBoard(startingGameboard);
 
         List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
-        expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
         expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         List<List<Integer>> actualGameBoard = newGameBoard.getGameBoardAsList();
 
         assertEquals(expectedGameboard, actualGameBoard);
         assertNotSame(expectedGameboard, actualGameBoard);
+    }
+
+    private List<Integer> createBlankRow() {
+        return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }
 }
