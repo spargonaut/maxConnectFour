@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,9 +42,12 @@ public class BoardReaderTest {
         int column = 0;
         int valueAtPosition = 4;
 
-        int[][] playboard = {{valueAtPosition}, {0}};
+        List<List<Integer>> setUpPlayboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        rowList.add(valueAtPosition);
+        setUpPlayboard.add(rowList);
 
-        BoardReader boardReader = new BoardReader(playboard);
+        BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
         boolean expectedMarkIsNotValid = true;
@@ -58,9 +60,12 @@ public class BoardReaderTest {
         int column = 0;
         int valueAtPosition = 0;
 
-        int[][] playboard = {{valueAtPosition}, {0}};
+        List<List<Integer>> setUpPlayboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        rowList.add(valueAtPosition);
+        setUpPlayboard.add(rowList);
 
-        BoardReader boardReader = new BoardReader(playboard);
+        BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
         boolean expectedMarkIsNotValid = false;
@@ -73,9 +78,12 @@ public class BoardReaderTest {
         int column = 0;
         int valueAtPosition = 1;
 
-        int[][] playboard = {{valueAtPosition}, {0}};
+        List<List<Integer>> setUpPlayboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        rowList.add(valueAtPosition);
+        setUpPlayboard.add(rowList);
 
-        BoardReader boardReader = new BoardReader(playboard);
+        BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
         boolean expectedMarkIsNotValid = false;
@@ -88,9 +96,12 @@ public class BoardReaderTest {
         int column = 0;
         int valueAtPosition = 2;
 
-        int[][] playboard = {{valueAtPosition}, {0}};
+        List<List<Integer>> setUpPlayboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        rowList.add(valueAtPosition);
+        setUpPlayboard.add(rowList);
 
-        BoardReader boardReader = new BoardReader(playboard);
+        BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
         boolean expectedMarkIsNotValid = false;
@@ -103,9 +114,12 @@ public class BoardReaderTest {
         int column = 0;
         int valueAtPosition = 4;
 
-        int[][] playboard = {{valueAtPosition}, {0}};
+        List<List<Integer>> setUpPlayboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        rowList.add(valueAtPosition);
+        setUpPlayboard.add(rowList);
 
-        BoardReader boardReader = new BoardReader(playboard);
+        BoardReader boardReader = new BoardReader(setUpPlayboard);
 
         exit.expectSystemExitWithStatus(0);
 
@@ -125,15 +139,20 @@ public class BoardReaderTest {
         int row = 0;
         int column = 0;
 
-        int[][] playboard = {{0}, {0}};
+        List<List<Integer>> playboard = new ArrayList<List<Integer>>();
+        List<Integer> rowList = new ArrayList<Integer>();
+        playboard.add(rowList);
 
         BoardReader boardReader = new BoardReader(playboard);
 
         boardReader.markPlayAtPosition(gameData, row, column);
-        int[][] actualPlayBoard = boardReader.getPlayBoard();
-        int[][] expectedPlayBoard = {{1}, {0}};
 
-        assertArrayEquals(expectedPlayBoard, actualPlayBoard);
+        List<List<Integer>> expectedPlayBoard = new ArrayList<List<Integer>>();
+        expectedPlayBoard.add(Arrays.asList(1));
+
+        List<List<Integer>> actualPlayBoard = boardReader.getPlayBoardAsList();
+
+        assertEquals(expectedPlayBoard, actualPlayBoard);
     }
 
     @Test

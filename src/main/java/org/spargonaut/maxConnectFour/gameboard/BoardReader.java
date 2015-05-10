@@ -9,12 +9,11 @@ import java.util.List;
 
 public class BoardReader {
 
-    private int[][] playBoard;
     private BufferedReader bufferedReader;
     private List<List<Integer>> newPlayBoard;
 
-    public BoardReader(int[][] playBoard) {
-        this.playBoard = playBoard;
+    public BoardReader(List<List<Integer>> newPlayBoard) {
+        this.newPlayBoard = newPlayBoard;
     }
 
     public BoardReader(BufferedReader bufferedReader) {
@@ -26,7 +25,6 @@ public class BoardReader {
     public GameBoard readGame(String inputFile)
         throws IOException {
 
-        this.playBoard = new int[6][7];
         String rowData = null;
         if (bufferedReader == null) {
             bufferedReader = new BufferedReader(new FileReader(inputFile));
@@ -47,8 +45,8 @@ public class BoardReader {
     }
 
     protected void markPlayAtPosition(String gameData, int row, int column) {
-        this.playBoard[ row ][ column ] = Integer.parseInt(Character.toString(gameData.charAt(column)));
-        this.newPlayBoard.get(row).add(Integer.parseInt(Character.toString(gameData.charAt(column))));
+        int pieceToPlay = Integer.parseInt(Character.toString(gameData.charAt(column)));
+        this.newPlayBoard.get(row).add(pieceToPlay);
         checkIfMarkIsValidOrExit(row, column);
     }
 
@@ -60,12 +58,12 @@ public class BoardReader {
     }
 
     protected boolean markIsNotValid(int row, int column) {
-        return !( ( this.playBoard[ row ][ column ] == 0 ) ||
-               ( this.playBoard[ row ][ column ] == 1 ) ||
-               ( this.playBoard[ row ][ column ] == 2 ) );
+        return !( ( newPlayBoard.get(row).get(column) == 0 ) ||
+               ( newPlayBoard.get(row).get(column) == 1 ) ||
+               ( newPlayBoard.get(row).get(column) == 2 ) );
     }
 
-    public int[][] getPlayBoard() {
-        return playBoard;
+    public List<List<Integer>> getPlayBoardAsList() {
+        return newPlayBoard;
     }
 }
