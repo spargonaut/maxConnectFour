@@ -14,23 +14,13 @@ public class GameBoardTest {
 
     @Test
     public void shouldRemoveTheSpecifiedPieceFromTheBoard() throws Exception {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
         GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.removePiece(0);
 
-        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> expectedGameboard = createFiveBlankRows();
         expectedGameboard.add(createBlankRow());
         List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
 
@@ -39,23 +29,13 @@ public class GameBoardTest {
 
     @Test
     public void shouldPlayPieceForPlayerOneInTheColumnIndicated() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(createBlankRow());
         GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.playPieceInColumn(0);
 
-        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> expectedGameboard = createFiveBlankRows();
         expectedGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
         List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
 
@@ -64,23 +44,13 @@ public class GameBoardTest {
 
     @Test
     public void shouldPlayPieceForPlayerTwoInTheColumnIndicated() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
         GameBoard gameboard = new GameBoard(startingGameboard);
 
         gameboard.playPieceInColumn(1);
 
-        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> expectedGameboard = createFiveBlankRows();
         expectedGameboard.add(Arrays.asList(1, 2, 0, 0, 0, 0, 0));
 
         List<List<Integer>> actualMasterGame = gameboard.getGameBoardAsList();
@@ -106,12 +76,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicateAnInvalidPlayWhenPlayColumnIsBelowLowestColumnNumber() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
 
         GameBoard gameboard = new GameBoard(startingGameboard);
@@ -122,12 +87,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicateAnInvalidPlayWhenPlayColumnIsGreaterThanHighestColumnNumber() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
 
         GameBoard gameboard = new GameBoard(startingGameboard);
@@ -153,12 +113,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldGetTheCountOfThePiecesAlreadyPlayed() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));
         GameBoard gameboard = new GameBoard(startingGameboard);
 
@@ -168,12 +123,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicatePlayerOnesTurnWhenPlayCountIsEven() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));
         GameBoard gameboard = new GameBoard(startingGameboard);
 
@@ -183,12 +133,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldIndicatePlayerTwosTurnWhenPlayCountIsOdd() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 0));
         GameBoard gameboard = new GameBoard(startingGameboard);
 
@@ -216,12 +161,7 @@ public class GameBoardTest {
 
     @Test
     public void shouldIncreaseTheNumberOfPiecesPlayedWhenAPlayerPlaysAPiece() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         GameBoard gameboard = new GameBoard(startingGameboard);
@@ -234,24 +174,14 @@ public class GameBoardTest {
 
     @Test
     public void shouldRetrieveGameBoardAsListOfLists() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         GameBoard gameboard = new GameBoard(startingGameboard);
 
         List<List<Integer>> actualGameboard = gameboard.getGameBoardAsList();
 
-        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> expectedGameboard = createFiveBlankRows();
         expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         assertEquals(expectedGameboard, actualGameboard);
@@ -259,28 +189,28 @@ public class GameBoardTest {
 
     @Test
     public void shouldCreateGameBoardFromList() {
-        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
-        startingGameboard.add(createBlankRow());
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         GameBoard newGameBoard = new GameBoard(startingGameboard);
 
-        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
-        expectedGameboard.add(createBlankRow());
+        List<List<Integer>> expectedGameboard = createFiveBlankRows();
         expectedGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
 
         List<List<Integer>> actualGameBoard = newGameBoard.getGameBoardAsList();
 
         assertEquals(expectedGameboard, actualGameBoard);
         assertNotSame(expectedGameboard, actualGameBoard);
+    }
+
+    private List<List<Integer>> createFiveBlankRows() {
+        List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        expectedGameboard.add(createBlankRow());
+        return expectedGameboard;
     }
 
     private List<Integer> createBlankRow() {
