@@ -3,22 +3,29 @@ package org.spargonaut.maxConnectFour.gameboard;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 
 public class BoardPrinter {
 
+    private BufferedWriter outputWriter;
+
+    public BoardPrinter() {}
+
+    public BoardPrinter(BufferedWriter bufferedWriter) {
+        outputWriter = bufferedWriter;
+    }
+
     public void printGameBoard(GameBoard gameboard) {
         System.out.println("   1 2 3 4 5 6 7   <---  Column numbers\n -----------------");
-
-        int[][] playBoard = gameboard.getGameBoard();
-
-        for( int i = 0; i < 6; i++ ) {
+        List<List<Integer>> playBoard = gameboard.getGameBoardAsList();
+        for( List<Integer> row : playBoard) {
             System.out.print("_| ");
-            for( int j = 0; j < 7; j++ ) {
-                if( playBoard[i][j] == 0 ) {
+            for(Integer playPiece : row) {
+                if( playPiece == 0 ) {
                     System.out.print("  ");
                 } else {
-                    System.out.print( playBoard[i][j] + " " );
+                    System.out.print( playPiece + " " );
                 }
             }
             System.out.print("|_\n");
@@ -34,15 +41,18 @@ public class BoardPrinter {
     public void printGameBoardToFile(String outputFile, GameBoard gameboard)
         throws IOException {
 
-        BufferedWriter output = new BufferedWriter( new FileWriter( outputFile ) );
+        if (outputWriter == null) {
+            outputWriter = new BufferedWriter( new FileWriter( outputFile ) );
+        }
+
         int[][] playBoard = gameboard.getGameBoard();
 
         for( int i = 0; i < 6; i++ ) {
             for( int j = 0; j < 7; j++ ) {
-                output.write( playBoard[i][j] + 48 );
+                outputWriter.write(playBoard[i][j] + 48);
             }
-            output.write("\n");
+            outputWriter.write("\n");
         }
-        output.close();
+        outputWriter.close();
     }
 }
