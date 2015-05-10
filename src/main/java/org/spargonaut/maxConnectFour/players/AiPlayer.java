@@ -120,11 +120,19 @@ public class AiPlayer implements Player {
     }
 
     protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {
-        int[] lowestScoringMove = {-77, -88};
-        if( nextMove[1] < worstMove[ 1 ] ) {
-            lowestScoringMove[ 0 ] = columnToPlay;
-            lowestScoringMove[ 1 ] = nextMove[1];
+        Map<String, Integer> worstMoveMap = new HashMap<String, Integer>();
+        worstMoveMap.put(COLUMN, -77);
+        worstMoveMap.put(SCORE_DIFFERENCE, -88);
+
+        Map<String, Integer> nextMoveMap = new HashMap<String, Integer>();
+        nextMoveMap.put(COLUMN, nextMove[0]);
+        nextMoveMap.put(SCORE_DIFFERENCE, nextMove[1]);
+
+        if (nextMoveMap.get(SCORE_DIFFERENCE) < worstMove[1]) {
+            worstMoveMap.put(COLUMN, columnToPlay);
+            worstMoveMap.put(SCORE_DIFFERENCE, nextMoveMap.get(SCORE_DIFFERENCE));
         }
-        return lowestScoringMove;
+
+        return new int[]{worstMoveMap.get(COLUMN), worstMoveMap.get(SCORE_DIFFERENCE)};
     }
 }
