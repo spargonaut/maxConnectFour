@@ -1,11 +1,11 @@
 package org.spargonaut.maxConnectFour.players;
 
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
 /**
  * This is the AiPlayer class.  It simulates a minimax player with alpha beta pruning for the max connect four game.
@@ -66,11 +66,11 @@ public class AiPlayer implements Player {
         return move;
     }
 
-    protected int[] getHighestScoringMove(int[] bestMove, int[] worstMove, int columnToPlay) {
+    protected int[] getHighestScoringMove(int[] bestMove, int[] nextMove, int columnToPlay) {
         int[] highestScoringMove = {bestMove[0], bestMove[1]};
-        if( worstMove[ 1 ] > bestMove[ 1 ] ) {
+        if( nextMove[ 1 ] > bestMove[ 1 ] ) {
             highestScoringMove[ 0 ] = columnToPlay;
-            highestScoringMove[ 1 ] = worstMove[1];
+            highestScoringMove[ 1 ] = nextMove[1];
         }
         return highestScoringMove;
     }
@@ -108,11 +108,11 @@ public class AiPlayer implements Player {
         return move;
     }
 
-    protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] scoreDiff) {
+    protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {
         int[] lowestScoringMove = {-77, -88};
-        if( scoreDiff[1] < worstMove[ 1 ] ) {
+        if( nextMove[1] < worstMove[ 1 ] ) {
             lowestScoringMove[ 0 ] = columnToPlay;
-            lowestScoringMove[ 1 ] = scoreDiff[1];
+            lowestScoringMove[ 1 ] = nextMove[1];
         }
         return lowestScoringMove;
     }
