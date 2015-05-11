@@ -93,7 +93,7 @@ public class AiPlayer implements Player {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
         GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
-        int[] move = { 70, 700 };
+        int[] currentWorstMove = { 70, 700 };
 
         List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
 
@@ -102,17 +102,17 @@ public class AiPlayer implements Player {
 
             int[] nextMove = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
-            if( nextMove[1] < move[ 1 ] ) {
-                move = getLowestScoringMove(move, column, nextMove);
-                if( move[ 1 ] <= alpha ) {
+            if( nextMove[1] < currentWorstMove[ 1 ] ) {
+                currentWorstMove = getLowestScoringMove(currentWorstMove, column, nextMove);
+                if( currentWorstMove[ 1 ] <= alpha ) {
                     break;
                 }
-                beta = Math.min(beta, move[1]);
+                beta = Math.min(beta, currentWorstMove[1]);
             }
             testBoard.removePiece( column );
         }
 
-        return move;
+        return currentWorstMove;
     }
 
     protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
