@@ -64,8 +64,7 @@ public class AiPlayer implements Player {
 
     protected int[] getNextMoveForBestMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
         int[] nextMove;
-        boolean isMaxDepth = (level == maxDepth);
-        if (isMaxDepth) {
+        if (isAtMaxDepth(maxDepth, level)) {
             nextMove = new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
         } else {
             nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
@@ -118,8 +117,7 @@ public class AiPlayer implements Player {
 
     protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
         int[] nextMove = {-4, 444};
-        boolean isMaxDepth = (level == maxDepth);
-        if (isMaxDepth) {
+        if (isAtMaxDepth(maxDepth, level)) {
             nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
         } else {
             nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
@@ -142,5 +140,9 @@ public class AiPlayer implements Player {
         }
 
         return new int[]{worstMoveMap.get(COLUMN), worstMoveMap.get(SCORE_DIFFERENCE)};
+    }
+
+    public boolean isAtMaxDepth(int maxDepth, int currentLevel) {
+        return maxDepth == currentLevel;
     }
 }

@@ -227,6 +227,29 @@ public class AiPlayerTest {
         assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
     }
 
+    @Test
+    public void shouldReturnTrueWhenAtMaxSearchDepth() {
+        int maxDepth = 99;
+        int currentLevel = 99;
+
+        AiPlayer aiPlayer = new AiPlayer();
+        boolean isAtMaxDepth = aiPlayer.isAtMaxDepth(maxDepth, currentLevel);
+
+        assertEquals(true, isAtMaxDepth);
+    }
+
+    @Test
+    public void shouldReturnFalseWhenThereAreMorePlaysToSearch() {
+        int maxDepth = 99;
+        int currentLevel = 98;
+
+        AiPlayer aiPlayer = new AiPlayer();
+        boolean isAtMaxDepth = aiPlayer.isAtMaxDepth(maxDepth, currentLevel);
+
+        assertEquals(false, isAtMaxDepth
+        );
+    }
+
     private List<Integer> createBlankRow() {
         return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }
