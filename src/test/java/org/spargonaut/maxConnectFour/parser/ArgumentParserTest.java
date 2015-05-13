@@ -1,34 +1,17 @@
 package org.spargonaut.maxConnectFour.parser;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static org.junit.Assert.assertEquals;
 
 public class ArgumentParserTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
-
-    @Before
-    public void setUp() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @After
-    public void tearDown() {
-        System.setOut(null);
-    }
 
     @Test
     public void shouldThrowAnExceptionWhenLessThanFourArgumentsAreGiven() {
@@ -159,26 +142,6 @@ public class ArgumentParserTest {
         PlayerIdentifier player = argumentParser.getNextPlayer();
 
         assertEquals(player, PlayerIdentifier.COMPUTER);
-    }
-
-    @Test
-    public void shouldThrowAnExceptionWhenUnableToDetermineTheNextPlayer() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Houston we have a problem!\n" +
-                "I can't tell whos turn it is next\n\n" +
-                "you're going to have to try again.\n" +
-                "next time, please indicate if it is the human's turn next or the computer's turn" +
-                "\n\n\n\n");
-
-
-        ArgumentParser argumentParser = new ArgumentParser();
-        String[] arguments = new String[4];
-        arguments[0] = "interactive";
-        arguments[1] = "someFile.txt";
-        arguments[2] = "blarf";
-        arguments[3] = "3";
-
-        argumentParser.parseArguments(arguments);
     }
 
     @Test

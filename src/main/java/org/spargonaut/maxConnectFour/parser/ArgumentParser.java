@@ -13,18 +13,14 @@ public class ArgumentParser {
 
     public void parseArguments(String[] arguments) {
         checkForProperNumberOfArgments(arguments);
-        playMode = parsePlayMode(arguments[0]);
+        playMode = PlayMode.getEnum(arguments[0]);
         inputGameFile = arguments[1];
         if(playMode == PlayMode.INTERACTIVE) {
-            nextPlayer = getFirstPlayer(arguments);
+            nextPlayer = PlayerIdentifier.getEnum(arguments[2]);
         } else {
             outputGameFile = arguments[2];
         }
         searchDepth = Integer.parseInt(arguments[3]);
-    }
-
-    public PlayMode getPlayMode() {
-        return playMode;
     }
 
     private void checkForProperNumberOfArgments(String[] args) {
@@ -36,40 +32,8 @@ public class ArgumentParser {
         }
     }
 
-    private PlayMode parsePlayMode(String input) {
-        validateGameModeArgument(input);
-        PlayMode mode = (input.equalsIgnoreCase( "interactive" )) ? PlayMode.INTERACTIVE : PlayMode.ONE_MOVE;
-        return mode;
-    }
-
-    private void validateGameModeArgument(String playMode) {
-        if (!(playMode.equalsIgnoreCase("interactive") || playMode.equalsIgnoreCase( "one-move" ))) {
-            throw new IllegalArgumentException(playMode);
-        }
-    }
-
-    private PlayerIdentifier getFirstPlayer(String[] args) {
-        char firstPlayerParamater = args[2].charAt(0);
-
-        validateFirstPlayerParameter(firstPlayerParamater);
-        PlayerIdentifier firstPlayer = null;
-        if ("c".equalsIgnoreCase(Character.toString(firstPlayerParamater))) {
-            firstPlayer = PlayerIdentifier.COMPUTER;
-        } else {
-            firstPlayer = PlayerIdentifier.HUMAN;
-        }
-        return firstPlayer;
-    }
-
-    private void validateFirstPlayerParameter(char nextTurn) {
-        if( !( nextTurn == 'c' || nextTurn == 'C' || nextTurn == 'h' || nextTurn == 'H' ) ) {
-            String errorMessage = "Houston we have a problem!\n" +
-                    "I can't tell whos turn it is next\n\n" +
-                    "you're going to have to try again.\n" +
-                    "next time, please indicate if it is the human's turn next or the computer's turn" +
-                    "\n\n\n\n";
-            throw new IllegalArgumentException(errorMessage);
-        }
+    public PlayMode getPlayMode() {
+        return playMode;
     }
 
     public String getInputGameFile() {
