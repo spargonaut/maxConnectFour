@@ -1,9 +1,6 @@
 package org.spargonaut.maxConnectFour;
 
-import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
-import org.spargonaut.maxConnectFour.gameboard.BoardReader;
-import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
-import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.gameboard.*;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
@@ -124,16 +121,13 @@ public class MaxConnectFour {
     protected void printBoardAndScores(GameBoard currentGame) {
         BoardPrinter boardPrinter = new BoardPrinter();
         boardPrinter.printGameBoard(currentGame);
-        printCurrentScores(currentGame);
+        ScoreKeeper scoreKeeper = new ScoreKeeper(currentGame.getGameBoardAsList());
+        scoreKeeper.printCurrentScores();
     }
 
     protected void printCurrentGameBoardAndScores(GameBoard currentGame) {
         System.out.println("\n...and now the board looks like this: \n");
         printBoardAndScores(currentGame);
-    }
-
-    protected void printCurrentScores(GameBoard currentGame) {
-        System.out.println("Scores:\n Player1: " + currentGame.getScore(1) + "\n Player2: " + currentGame.getScore(2) + "\n ");
     }
 
     private void printTheFinalGameState(GameBoard currentGame) {

@@ -93,4 +93,8 @@ public class ScoreKeeper {
             otherPlayer = 1;
         return otherPlayer;
     }
+
+    public void printCurrentScores() {
+        System.out.println("Scores:\n Player1: " + getScoreForPlayer(1) + "\n Player2: " + getScoreForPlayer(2) + "\n");
+    }
 }

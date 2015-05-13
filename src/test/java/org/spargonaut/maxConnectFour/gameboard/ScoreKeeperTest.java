@@ -1,18 +1,32 @@
 package org.spargonaut.maxConnectFour.gameboard;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ScoreKeeperTest {
 
-    private int totalColumnCount = 7;
-    private int totalRowCount = 6;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void tearDown() {
+        System.setOut(null);
+    }
 
     @Test
     public void shouldIndicateAScoreOfOneWhenFourPlaysAreNextToEachOtherHorizontally() {
@@ -181,5 +195,24 @@ public class ScoreKeeperTest {
 
         int scoreDifference = scoreKeeper.getScoreDifferenceFromPerspectiveOf(2);
         assertThat(scoreDifference, is(-1));
+    }
+
+    @Test
+    public void shouldPrintThePlayersScoresToTheScreen() {
+        List<List<Integer>> gameboard = new ArrayList<List<Integer>>();
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 0, 0, 0, 0, 0, 0));
+        gameboard.add(Arrays.asList(1, 2, 2, 2, 2, 0, 0));
+        gameboard.add(createBlankRow());
+
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard);
+        scoreKeeper.printCurrentScores();
+
+        String expectedOutput = "Scores:\n Player1: 2\n Player2: 1\n\n";
+
+
+        assertEquals(expectedOutput, outContent.toString());
     }
 }
