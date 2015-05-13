@@ -2,6 +2,7 @@ package org.spargonaut.maxConnectFour;
 
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.BoardReader;
+import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
@@ -107,8 +108,8 @@ public class MaxConnectFour {
 
             printCurrentGameBoardAndScores(currentGame);
 
-            BoardPrinter boardPrinter = new BoardPrinter();
-            boardPrinter.printGameBoardToFile(argumentParser.getOutputGameFile(), currentGame);
+            BoardWriter boardWriter = new BoardWriter();
+            boardWriter.printGameBoardToFile(argumentParser.getOutputGameFile(), currentGame);
 
             break;
         }
@@ -146,6 +147,5 @@ public class MaxConnectFour {
         playMode = argumentParser.getPlayMode();
         input = argumentParser.getInputGameFile();
         depthLevel = argumentParser.getSearchDepth();
-
     }
 }
