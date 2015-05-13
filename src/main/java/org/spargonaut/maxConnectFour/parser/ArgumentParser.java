@@ -29,11 +29,10 @@ public class ArgumentParser {
 
     private void checkForProperNumberOfArgments(String[] args) {
         if( args.length != 4 ) {
-            System.out.println("Four command-line arguments are needed:\n"
+            String usageMessage = "Four command-line arguments are needed:\n"
                     + "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
-                    + " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
-
-            System.exit(0);
+                    + " or:  java [program name] one-move [input_file] [output_file] [depth]\n";
+            throw new IllegalArgumentException(usageMessage);
         }
     }
 
@@ -64,19 +63,18 @@ public class ArgumentParser {
 
     private void validateFirstPlayerParameter(char nextTurn) {
         if( !( nextTurn == 'c' || nextTurn == 'C' || nextTurn == 'h' || nextTurn == 'H' ) ) {
-            // I don't understand whos turn it is next.
-            System.out.println( "!!!!!!!--------->     Houston we have a problem.\n" +
+            String errorMessage = "Houston we have a problem!\n" +
                     "I can't tell whos turn it is next\n\n" +
                     "you're going to have to try again.\n" +
-                    "next time, please indicate if it is the human's turn next or the computer's turn\n\n\n" );
-            System.exit(0);
+                    "next time, please indicate if it is the human's turn next or the computer's turn" +
+                    "\n\n\n\n";
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 
     public String getInputGameFile() {
         return inputGameFile;
     }
-
 
     public int getSearchDepth() {
         return searchDepth;

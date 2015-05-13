@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.Assertion;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.rules.ExpectedException;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -24,7 +23,7 @@ public class BoardReaderTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -50,8 +49,7 @@ public class BoardReaderTest {
         BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
-        boolean expectedMarkIsNotValid = true;
-        assertEquals(expectedMarkIsNotValid, actualMarkIsNotValid);
+        assertEquals(true, actualMarkIsNotValid);
     }
 
     @Test
@@ -68,8 +66,7 @@ public class BoardReaderTest {
         BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
-        boolean expectedMarkIsNotValid = false;
-        assertEquals(expectedMarkIsNotValid, actualMarkIsNotValid);
+        assertEquals(false, actualMarkIsNotValid);
     }
 
     @Test
@@ -86,8 +83,7 @@ public class BoardReaderTest {
         BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
-        boolean expectedMarkIsNotValid = false;
-        assertEquals(expectedMarkIsNotValid, actualMarkIsNotValid);
+        assertEquals(false, actualMarkIsNotValid);
     }
 
     @Test
@@ -104,12 +100,14 @@ public class BoardReaderTest {
         BoardReader boardReader = new BoardReader(setUpPlayboard);
         boolean actualMarkIsNotValid = boardReader.markIsNotValid(row, column);
 
-        boolean expectedMarkIsNotValid = false;
-        assertEquals(expectedMarkIsNotValid, actualMarkIsNotValid);
+        assertEquals(false, actualMarkIsNotValid);
     }
 
     @Test
-    public void shouldExitWithMessageWhenMarkIsInvalid() {
+    public void shouldThrowAnExceptionWhenReadingInAnInvalidMark() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Problems!\n--The piece read from the input file was not a 1, a 2 or a 0");
+
         int row = 0;
         int column = 0;
         int valueAtPosition = 4;
@@ -120,17 +118,7 @@ public class BoardReaderTest {
         setUpPlayboard.add(rowList);
 
         BoardReader boardReader = new BoardReader(setUpPlayboard);
-
-        exit.expectSystemExitWithStatus(0);
-
-        exit.checkAssertionAfterwards(new Assertion() {
-            @Override
-            public void checkAssertion() throws Exception {
-                assertEquals(outContent.toString(), "\nProblems!\n--The piece read from the input file was not a 1, a 2 or a 0\n");
-            }
-        });
-
-        boardReader.checkIfMarkIsValidOrExit(row, column);
+        boardReader.checkIfMarkIsValid(row, column);
     }
 
     @Test

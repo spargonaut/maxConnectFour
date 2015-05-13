@@ -47,13 +47,13 @@ public class BoardReader {
     protected void markPlayAtPosition(String gameData, int row, int column) {
         int pieceToPlay = Integer.parseInt(Character.toString(gameData.charAt(column)));
         this.newPlayBoard.get(row).add(pieceToPlay);
-        checkIfMarkIsValidOrExit(row, column);
+        checkIfMarkIsValid(row, column);
     }
 
-    protected void checkIfMarkIsValidOrExit(int row, int column) {
+    protected void checkIfMarkIsValid(int row, int column) {
         if( markIsNotValid(row, column) ) {
-            System.out.println("\nProblems!\n--The piece read from the input file was not a 1, a 2 or a 0" );
-            System.exit(0);
+            String exceptionMessage = "Problems!\n--The piece read from the input file was not a 1, a 2 or a 0";
+            throw new RuntimeException(exceptionMessage);
         }
     }
 

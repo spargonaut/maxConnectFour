@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.Assertion;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.rules.ExpectedException;
 import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
@@ -19,7 +18,7 @@ public class ArgumentParserTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -32,20 +31,14 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldIndicateToTheUserWhenLessThanFourArgumentsAreUsedAndExitTheProgram() {
+    public void shouldThrowAnExceptionWhenLessThanFourArgumentsAreGiven() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Four command-line arguments are needed:\n"
+                + "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
+                + " or:  java [program name] one-move [input_file] [output_file] [depth]\n");
+
         ArgumentParser argumentParser = new ArgumentParser();
         String[] arguments = new String[3];
-        exit.expectSystemExitWithStatus(0);
-
-        exit.checkAssertionAfterwards(new Assertion() {
-            @Override
-            public void checkAssertion() throws Exception {
-                assertEquals(outContent.toString(), "Four command-line arguments are needed:\n"
-                        + "Usage: java [program name] interactive [input_file] [computer-next / human-next] [depth]\n"
-                        + " or:  java [program name] one-move [input_file] [output_file] [depth]\n\n");
-            }
-        });
-
         argumentParser.parseArguments(arguments);
     }
 
@@ -169,24 +162,21 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void shouldTellTheUserThatItCannotDetermineTheNextPlayerAndExitTheProgramWhenInInteractiveMode() {
+    public void shouldThrowAnExceptionWhenUnableToDetermineTheNextPlayer() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Houston we have a problem!\n" +
+                "I can't tell whos turn it is next\n\n" +
+                "you're going to have to try again.\n" +
+                "next time, please indicate if it is the human's turn next or the computer's turn" +
+                "\n\n\n\n");
+
+
         ArgumentParser argumentParser = new ArgumentParser();
         String[] arguments = new String[4];
         arguments[0] = "interactive";
         arguments[1] = "someFile.txt";
         arguments[2] = "blarf";
         arguments[3] = "3";
-        exit.expectSystemExitWithStatus(0);
-
-        exit.checkAssertionAfterwards(new Assertion() {
-            @Override
-            public void checkAssertion() throws Exception {
-                assertEquals(outContent.toString(), "!!!!!!!--------->     Houston we have a problem.\n" +
-                        "I can't tell whos turn it is next\n\n" +
-                        "you're going to have to try again.\n" +
-                        "next time, please indicate if it is the human's turn next or the computer's turn\n\n\n\n");
-            }
-        });
 
         argumentParser.parseArguments(arguments);
     }
