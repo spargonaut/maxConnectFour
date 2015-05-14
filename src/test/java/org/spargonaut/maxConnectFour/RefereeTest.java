@@ -62,27 +62,18 @@ public class RefereeTest {
 
     @Test
     public void shouldSaveTheGameBoardToAFile() throws IOException {
-        List<List<Integer>> setUpGameBoard = new ArrayList<List<Integer>>();
-        setUpGameBoard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
-        setUpGameBoard.add(createBlankRow());
-        setUpGameBoard.add(createBlankRow());
-        setUpGameBoard.add(createBlankRow());
-        setUpGameBoard.add(createBlankRow());
-        setUpGameBoard.add(createBlankRow());
-
-        GameBoard gameBoard = new GameBoard(setUpGameBoard);
-
-        BoardWriter boardWriter = mock(BoardWriter.class);
-
-        Referee referee = new Referee(gameBoard, PlayMode.ONE_MOVE, boardWriter);
+        GameBoard gameBoard = createGameBoard();
         String setupFileName = "some/file/name.txt";
+        BoardWriter boardWriter = mock(BoardWriter.class);
+        Referee referee = new Referee(gameBoard, PlayMode.ONE_MOVE, boardWriter);
+
         referee.saveGameState(setupFileName);
 
         verify(boardWriter).printGameBoardToFile(setupFileName, gameBoard);
     }
 
     private GameBoard createGameBoard() {
-        List<List<Integer>> playboard = new ArrayList<List<Integer>>();
+        List<List<Integer>> playboard = new ArrayList<>();
         playboard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
         playboard.add(createBlankRow());
         playboard.add(createBlankRow());
