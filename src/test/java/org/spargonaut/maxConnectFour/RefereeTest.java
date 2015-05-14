@@ -29,7 +29,7 @@ public class RefereeTest {
     }
 
     @Test
-    public void shouldPrintTheInitialGameBoardStateToTheScreen() {
+    public void shouldPrintTheInitialGameStateToTheScreen() {
         List<List<Integer>> playboard = new ArrayList<List<Integer>>();
         playboard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
         playboard.add(createBlankRow());
@@ -62,6 +62,39 @@ public class RefereeTest {
         referee.printInitialGameState();
 
         assertThat(outContent.toString(), is(expectedInitialGameBoardMessage));
+    }
+
+    @Test
+    public void shouldPrintTheGameBoardStateToTheScreen() {
+        List<List<Integer>> playboard = new ArrayList<List<Integer>>();
+        playboard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
+        playboard.add(createBlankRow());
+        playboard.add(createBlankRow());
+        playboard.add(createBlankRow());
+        playboard.add(createBlankRow());
+        playboard.add(createBlankRow());
+        GameBoard gameboard = new GameBoard(playboard);
+
+        PlayMode playmode = PlayMode.ONE_MOVE;
+        Referee referee = new Referee(gameboard, playmode);
+
+        referee.printGameBoardAndScores();
+
+        String expectedMessage = "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_| 1 1 1 1       |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n" +
+                "Scores:\n" +
+                " Player1: 1\n" +
+                " Player2: 0\n\n";
+
+        assertThat(outContent.toString(), is(expectedMessage));
     }
 
     private List<Integer> createBlankRow() {

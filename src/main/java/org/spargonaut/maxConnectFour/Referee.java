@@ -14,14 +14,21 @@ public class Referee {
         this.playMode = playmode;
     }
 
-    public void printInitialGameState() {
+    protected void printInitialGameState() {
         System.out.println("--------------------------------------------------------------------------------" +
                 "\n\n" +
                 "Max Connect Four Client - " + playMode + " Mode\n");
 
         BoardPrinter boardPrinter = new BoardPrinter();
-        boardPrinter.printGameBoard(this.gameboard);
+        boardPrinter.printGameBoard(gameboard);
 
+        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
+        scoreKeeper.printCurrentScores();
+    }
+
+    public void printGameBoardAndScores() {
+        BoardPrinter boardPrinter = new BoardPrinter();
+        boardPrinter.printGameBoard(gameboard);
         ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
         scoreKeeper.printCurrentScores();
     }
