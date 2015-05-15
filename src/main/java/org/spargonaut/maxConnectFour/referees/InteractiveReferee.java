@@ -49,6 +49,7 @@ public class InteractiveReferee {
                 case COMPUTER:
                     columnToPlay = aiPlayer.getBestPlay(gameboard, searchDepthZero);
                     gameboard.playPieceInColumn(columnToPlay);
+                    nextPlayer = PlayerIdentifier.HUMAN;
                     break;
             }
         }
