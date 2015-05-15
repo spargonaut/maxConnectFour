@@ -4,7 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
+import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -121,10 +124,48 @@ public class InteractiveRefereeTest {
         int searchDepth = 0;
         HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, new AiPlayer(), nextPlayer);
         interactiveReferee.play();
 
         verify(gameBoard).playPieceInColumn(columnToPlay);
+    }
+
+    @Test
+    public void shouldSetTheNextTurnToAiPlayerAfterTheHumanPlays() {
+        GameBoard gameBoard = createEmptyGameBoard();
+
+        int columnToPlay = 5;
+        int searchDepth = 0;
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+
+        PlayerIdentifier expectedNextPlayer = PlayerIdentifier.COMPUTER;
+
+        interactiveReferee.play();
+        PlayerIdentifier actualPlayerIdentifier = interactiveReferee.getNextPlayer();
+
+        assertThat(actualPlayerIdentifier, is(expectedNextPlayer));
+    }
+
+    @Test
+    public void shouldGetTheAiPlayerToPlayWhenItIsTheAiPlayersTurn() {
+        GameBoard gameBoard = createEmptyGameBoard();
+
+        int columnToPlay = 5;
+        int searchDepth = 0;
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+
+        AiPlayer aiPlayer = mock(AiPlayer.class);
+        when(aiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+
+        PlayerIdentifier nextPlayer = PlayerIdentifier.COMPUTER;
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, aiPlayer, nextPlayer);
+        interactiveReferee.play();
+
+        verify(aiPlayer).getBestPlay(gameBoard, searchDepth);
     }
 
     private HumanPlayer createMockedHumanPlayerThatProducesAColumnToPlay(GameBoard gameBoard, int columnToPlay, int searchDepth) {

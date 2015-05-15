@@ -4,7 +4,9 @@ import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
+import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
+import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
 public class InteractiveReferee {
 
@@ -13,11 +15,19 @@ public class InteractiveReferee {
     private final GameBoard gameboard;
     private final BoardPrinter boardPrinter;
     private HumanPlayer humanPlayer;
+    private AiPlayer aiPlayer;
+    private PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
 
     public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer) {
         this.humanPlayer = humanPlayer;
         this.gameboard = gameBoard;
         boardPrinter = new BoardPrinter();
+    }
+
+    public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer, AiPlayer aiPlayer, PlayerIdentifier nextPlayer) {
+        this(gameBoard, humanPlayer);
+        this.aiPlayer = aiPlayer;
+        this.nextPlayer = nextPlayer;
     }
 
     public void play() {
@@ -28,8 +38,16 @@ public class InteractiveReferee {
         if (gameboard.hasPossiblePlays()) {
             System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
 
-            int columnToPlay = humanPlayer.getBestPlay(gameboard, searchDepthZero);
-            gameboard.playPieceInColumn(columnToPlay);
+            switch (getNextPlayer()) {
+                case HUMAN:
+                    int columnToPlay = humanPlayer.getBestPlay(gameboard, searchDepthZero);
+                    gameboard.playPieceInColumn(columnToPlay);
+                    nextPlayer = PlayerIdentifier.COMPUTER;
+                    break;
+
+                case COMPUTER:
+                    aiPlayer.getBestPlay(gameboard, searchDepthZero);
+            }
         }
 
         printTheFinalGameState();
@@ -55,4 +73,7 @@ public class InteractiveReferee {
         printGameState();
     }
 
+    protected PlayerIdentifier getNextPlayer() {
+        return nextPlayer;
+    }
 }
