@@ -55,7 +55,7 @@ public class Referee {
         boardWriter.printGameBoardToFile(fileName, gameboard);
     }
 
-    public void makePlay(int searchDepth) {
+    public void play(int searchDepth) {
         if (gameboard.getCountOfPiecesPlayed() >= 42) {
             System.out.println("The Board is Full\n\nGame Over");
         } else {

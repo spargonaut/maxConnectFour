@@ -1,6 +1,9 @@
 package org.spargonaut.maxConnectFour;
 
-import org.spargonaut.maxConnectFour.gameboard.*;
+import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
+import org.spargonaut.maxConnectFour.gameboard.BoardReader;
+import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
@@ -89,25 +92,10 @@ public class MaxConnectFour {
             break;
 
         case ONE_MOVE:
-            printInitialGameBoardState(currentGame);
-
-            // ****************** this chunk of code makes the computer play
-            if( currentGame.getCountOfPiecesPlayed() < 42 ) {
-
-                // Tell the user which player the computer is playing for
-                System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );
-                playColumn = calculon.getBestPlay( currentGame, depthLevel );
-                currentGame.playPieceInColumn( playColumn );
-
-            } else {
-                System.out.println("\nI can't play.\nThe Board is Full\n\nGame Over");
-            }
-
-            printCurrentGameBoardAndScores(currentGame);
-
-            BoardWriter boardWriter = new BoardWriter();
-            boardWriter.printGameBoardToFile(argumentParser.getOutputGameFile(), currentGame);
-
+            AiPlayer aiPlayer = new AiPlayer(argumentParser.getSearchDepth());
+            Referee referee = new Referee(currentGame, PlayMode.ONE_MOVE, aiPlayer);
+            referee.printInitialGameState();
+            referee.play(argumentParser.getSearchDepth());
             break;
         }
     }

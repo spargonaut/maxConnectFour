@@ -87,7 +87,7 @@ public class RefereeTest {
         Referee referee = new Referee(gameBoard, playmode);
 
         int searchDepth = 1;
-        referee.makePlay(searchDepth);
+        referee.play(searchDepth);
 
         String expectedOutput = "The Board is Full\n" +
                 "\n" +
@@ -128,7 +128,7 @@ public class RefereeTest {
         when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
 
         Referee referee = new Referee(gameBoard, playmode, mockAiPlayer);
-        referee.makePlay(searchDepth);
+        referee.play(searchDepth);
 
         String expectedOutput = "\n\n" +
                 " I am playing as player: 2" +
