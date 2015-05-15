@@ -14,15 +14,10 @@ public class InteractiveReferee {
     private final BoardPrinter boardPrinter;
     private HumanPlayer humanPlayer;
 
-    public InteractiveReferee(GameBoard gameBoard) {
-        this.gameboard = gameBoard;
-
-        boardPrinter = new BoardPrinter();
-    }
-
     public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer) {
-        this(gameBoard);
         this.humanPlayer = humanPlayer;
+        this.gameboard = gameBoard;
+        boardPrinter = new BoardPrinter();
     }
 
     public void play() {

@@ -35,10 +35,9 @@ public class InteractiveRefereeTest {
     public void shouldPrintOutTheIntialGameStateAtTheBeginningOfTheGame() {
         GameBoard gameBoard = createEmptyGameBoard();
 
-        int searchDepth = 0;
         int columnToPlay = 5;
-        HumanPlayer humanPlayer = mock(HumanPlayer.class);
-        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+        int searchDepth = 0;
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
 
         InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
 
@@ -101,11 +100,12 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldGetTheNextMoveFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
-        int searchDepth = 0;
         GameBoard gameBoard = createEmptyGameBoard();
 
-        HumanPlayer humanPlayer = mock(HumanPlayer.class);
-        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(5);
+        int columnToPlay = 5;
+        int searchDepth = 0;
+
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
 
         InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
         interactiveReferee.play();
@@ -117,10 +117,9 @@ public class InteractiveRefereeTest {
     public void shouldApplyTheMoveRetrievedFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
         GameBoard gameBoard = spy(createEmptyGameBoard());
 
-        int searchDepth = 0;
         int columnToPlay = 5;
-        HumanPlayer humanPlayer = mock(HumanPlayer.class);
-        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+        int searchDepth = 0;
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
 
         InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
         interactiveReferee.play();
@@ -128,6 +127,11 @@ public class InteractiveRefereeTest {
         verify(gameBoard).playPieceInColumn(columnToPlay);
     }
 
+    private HumanPlayer createMockedHumanPlayerThatProducesAColumnToPlay(GameBoard gameBoard, int columnToPlay, int searchDepth) {
+        HumanPlayer humanPlayer = mock(HumanPlayer.class);
+        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+        return  humanPlayer;
+    }
 
     private GameBoard createEmptyGameBoard() {
         List<List<Integer>> playboard = new ArrayList<>();
