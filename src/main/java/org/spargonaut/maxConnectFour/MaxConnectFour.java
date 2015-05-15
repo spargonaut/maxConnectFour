@@ -52,7 +52,7 @@ public class MaxConnectFour {
 
             System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
 
-            while ( currentGame.getCountOfPiecesPlayed() < 42 ) {
+            while ( currentGame.hasPossiblePlays() ) {
                 System.out.println("\n--------------------------------------------------------------------------------\n");
                 switch ( nextTurnEnum ) {
                 case HUMAN:
