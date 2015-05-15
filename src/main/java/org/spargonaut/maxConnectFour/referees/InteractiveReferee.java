@@ -4,6 +4,7 @@ import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
+import org.spargonaut.maxConnectFour.players.HumanPlayer;
 
 public class InteractiveReferee {
 
@@ -11,6 +12,7 @@ public class InteractiveReferee {
 
     private final GameBoard gameboard;
     private final BoardPrinter boardPrinter;
+    private HumanPlayer humanPlayer;
 
     public InteractiveReferee(GameBoard gameBoard) {
         this.gameboard = gameBoard;
@@ -18,9 +20,18 @@ public class InteractiveReferee {
         boardPrinter = new BoardPrinter();
     }
 
+    public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer) {
+        this(gameBoard);
+        this.humanPlayer = humanPlayer;
+    }
+
     public void play() {
+        int searchDepthZero = 0;
+
         printInitialGameState();
         System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
+
+        humanPlayer.getBestPlay(gameboard, searchDepthZero);
 
         printTheFinalGameState();
     }

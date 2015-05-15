@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.players.HumanPlayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
 public class InteractiveRefereeTest {
 
@@ -89,6 +91,21 @@ public class InteractiveRefereeTest {
                 " Player2: 3\n\n";
         interactiveReferee.play();
         assertThat(outContent.toString(), endsWith(expectedOutput));
+    }
+
+    @Test
+    public void shouldGetTheNextMoveFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
+        int searchDepth = 0;
+        GameBoard gameBoard = createEmptyGameBoard();
+
+        HumanPlayer humanPlayer = mock(HumanPlayer.class);
+        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(5);
+
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        interactiveReferee.play();
+
+        verify(humanPlayer).getBestPlay(gameBoard, searchDepth);
     }
 
 
