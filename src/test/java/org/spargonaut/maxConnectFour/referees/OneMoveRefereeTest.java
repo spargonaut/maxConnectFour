@@ -1,8 +1,9 @@
-package org.spargonaut.maxConnectFour;
+package org.spargonaut.maxConnectFour.referees;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
@@ -18,7 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class RefereeTest {
+public class OneMoveRefereeTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -36,13 +37,13 @@ public class RefereeTest {
     public void shouldPrintTheInitialGameStateToTheScreen() {
         GameBoard gameboard = createGameBoard();
         PlayMode playmode = PlayMode.ONE_MOVE;
-        Referee referee = new Referee(gameboard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard, playmode);
 
         String expectedInitialGameBoardMessage = "--------------------------------------------------------------------------------" +
                 "\n\n" +
                 "Max Connect Four Client - " + playmode + " Mode" +
                 "\n\n" + createBoardAndScoresString();
-        referee.printInitialGameState();
+        oneMoveReferee.printInitialGameState();
 
         assertThat(outContent.toString(), is(expectedInitialGameBoardMessage));
     }
@@ -51,9 +52,9 @@ public class RefereeTest {
     public void shouldPrintTheGameBoardStateToTheScreen() {
         GameBoard gameboard = createGameBoard();
         PlayMode playmode = PlayMode.ONE_MOVE;
-        Referee referee = new Referee(gameboard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard, playmode);
 
-        referee.printGameBoardAndScores();
+        oneMoveReferee.printGameBoardAndScores();
 
         String expectedMessage = createBoardAndScoresString();
 
@@ -65,9 +66,9 @@ public class RefereeTest {
         GameBoard gameBoard = createGameBoard();
         String setupFileName = "some/file/name.txt";
         BoardWriter boardWriter = mock(BoardWriter.class);
-        Referee referee = new Referee(gameBoard, PlayMode.ONE_MOVE, boardWriter);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, PlayMode.ONE_MOVE, boardWriter);
 
-        referee.saveGameState(setupFileName);
+        oneMoveReferee.saveGameState(setupFileName);
 
         verify(boardWriter).printGameBoardToFile(setupFileName, gameBoard);
     }
@@ -84,10 +85,10 @@ public class RefereeTest {
         GameBoard gameBoard = new GameBoard(playboard);
 
         PlayMode playmode = PlayMode.ONE_MOVE;
-        Referee referee = new Referee(gameBoard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode);
 
         int searchDepth = 1;
-        referee.play(searchDepth);
+        oneMoveReferee.play(searchDepth);
 
         String expectedOutput = "The Board is Full\n" +
                 "\n" +
@@ -127,8 +128,8 @@ public class RefereeTest {
         when(mockAiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(6);
         when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
 
-        Referee referee = new Referee(gameBoard, playmode, mockAiPlayer);
-        referee.play(searchDepth);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode, mockAiPlayer);
+        oneMoveReferee.play(searchDepth);
 
         String expectedOutput = "\n\n" +
                 " I am playing as player: 2" +

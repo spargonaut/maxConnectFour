@@ -9,6 +9,7 @@ import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
 import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
+import org.spargonaut.maxConnectFour.referees.OneMoveReferee;
 
 import java.io.IOException;
 
@@ -93,9 +94,9 @@ public class MaxConnectFour {
 
         case ONE_MOVE:
             AiPlayer aiPlayer = new AiPlayer(argumentParser.getSearchDepth());
-            Referee referee = new Referee(currentGame, PlayMode.ONE_MOVE, aiPlayer);
-            referee.printInitialGameState();
-            referee.play(argumentParser.getSearchDepth());
+            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, PlayMode.ONE_MOVE, aiPlayer);
+            oneMoveReferee.printInitialGameState();
+            oneMoveReferee.play(argumentParser.getSearchDepth());
             break;
         }
     }

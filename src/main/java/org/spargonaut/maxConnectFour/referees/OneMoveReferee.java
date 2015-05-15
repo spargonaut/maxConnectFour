@@ -1,5 +1,6 @@
-package org.spargonaut.maxConnectFour;
+package org.spargonaut.maxConnectFour.referees;
 
+import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
@@ -8,7 +9,7 @@ import org.spargonaut.maxConnectFour.players.AiPlayer;
 
 import java.io.IOException;
 
-public class Referee {
+public class OneMoveReferee {
 
     private GameBoard gameboard;
     private BoardWriter boardWriter;
@@ -17,12 +18,12 @@ public class Referee {
     private ScoreKeeper scoreKeeper;
     private AiPlayer aiPlayer;
 
-    public Referee(GameBoard gameboard, PlayMode playmode, AiPlayer aiPlayer) {
+    public OneMoveReferee(GameBoard gameboard, PlayMode playmode, AiPlayer aiPlayer) {
         this(gameboard, playmode);
         this.aiPlayer = aiPlayer;
     }
 
-    public Referee(GameBoard gameboard, PlayMode playmode) {
+    public OneMoveReferee(GameBoard gameboard, PlayMode playmode) {
         this.gameboard = gameboard;
         this.playMode = playmode;
 
@@ -30,12 +31,12 @@ public class Referee {
         scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
     }
 
-    public Referee(GameBoard gameBoard, PlayMode oneMove, BoardWriter boardWriter) {
+    public OneMoveReferee(GameBoard gameBoard, PlayMode oneMove, BoardWriter boardWriter) {
         this(gameBoard, oneMove);
         this.boardWriter = boardWriter;
     }
 
-    protected void printInitialGameState() {
+    public void printInitialGameState() {
         System.out.println("--------------------------------------------------------------------------------" +
                 "\n\n" +
                 "Max Connect Four Client - " + playMode + " Mode\n");
