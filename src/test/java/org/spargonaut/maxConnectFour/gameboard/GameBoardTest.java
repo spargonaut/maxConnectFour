@@ -122,6 +122,30 @@ public class GameBoardTest {
     }
 
     @Test
+    public void shouldIndicateThereArePossiblePlaysRemainingWhenTheGameboardIsNotFull() {
+        List<List<Integer>> startingGameboard = createFiveBlankRows();
+        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameBoard = new GameBoard(startingGameboard);
+
+        assertThat(gameBoard.hasPossiblePlays(), is(true));
+    }
+
+    @Test
+    public void shouldIndicateThereAreNoPossiblePlaysWhenTheGameboardIsFull() {
+        List<List<Integer>> startingGameboard = new ArrayList<List<Integer>>();
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        startingGameboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        GameBoard gameBoard = new GameBoard(startingGameboard);
+
+        assertThat(gameBoard.hasPossiblePlays(), is(false));
+    }
+
+    @Test
     public void shouldIndicatePlayerOnesTurnWhenPlayCountIsEven() {
         List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));

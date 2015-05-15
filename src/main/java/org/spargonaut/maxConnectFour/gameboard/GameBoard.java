@@ -103,4 +103,8 @@ public class GameBoard {
     public List<List<Integer>> getGameBoardAsList() {
         return playboard;
     }
+
+    public boolean hasPossiblePlays() {
+        return playedPieceCount < MAX_NUMBER_OF_PLAYS;
+    }
 }
