@@ -112,16 +112,6 @@ public class GameBoardTest {
     }
 
     @Test
-    public void shouldGetTheCountOfThePiecesAlreadyPlayed() {
-        List<List<Integer>> startingGameboard = createFiveBlankRows();
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 1, 2));
-        GameBoard gameboard = new GameBoard(startingGameboard);
-
-        int countOfPiecesPlayed = gameboard.getCountOfPiecesPlayed();
-        assertThat(countOfPiecesPlayed, is(2));
-    }
-
-    @Test
     public void shouldIndicateThereArePossiblePlaysRemainingWhenTheGameboardIsNotFull() {
         List<List<Integer>> startingGameboard = createFiveBlankRows();
         startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
@@ -181,19 +171,6 @@ public class GameBoardTest {
 
         int expectedPlaysRemaining = 4;
         assertThat(actualPlaysRemaining, is(expectedPlaysRemaining));
-    }
-
-    @Test
-    public void shouldIncreaseTheNumberOfPiecesPlayedWhenAPlayerPlaysAPiece() {
-        List<List<Integer>> startingGameboard = createFiveBlankRows();
-        startingGameboard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
-
-        GameBoard gameboard = new GameBoard(startingGameboard);
-
-        gameboard.playPieceInColumn(0);
-
-        int numberOfPiecesPlayed = gameboard.getCountOfPiecesPlayed();
-        assertThat(numberOfPiecesPlayed, is(2));
     }
 
     @Test

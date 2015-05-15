@@ -57,12 +57,12 @@ public class OneMoveReferee {
     }
 
     public void play(int searchDepth) {
-        if (gameboard.getCountOfPiecesPlayed() >= 42) {
-            System.out.println("The Board is Full\n\nGame Over");
-        } else {
+        if (gameboard.hasPossiblePlays()) {
             System.out.println( "\n\n I am playing as player: " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + aiPlayer.getSearchDepth() );
             int bestPlay = aiPlayer.getBestPlay(gameboard, searchDepth);
             gameboard.playPieceInColumn(bestPlay);
+        } else {
+            System.out.println("The Board is Full\n\nGame Over");
         }
         printGameBoardAndScores();
     }

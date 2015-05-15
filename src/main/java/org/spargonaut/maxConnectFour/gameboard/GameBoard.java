@@ -40,10 +40,6 @@ public class GameBoard {
         return (playedPieceCount % 2) + 1 ;
     }
 
-    public int getCountOfPiecesPlayed() {
-        return playedPieceCount;
-    }
-
     public boolean isValidPlay(int column) {
         boolean playIsValid = true;
         if (playIsOutOfBounds(column) || columnIsNotFull(column)) {
