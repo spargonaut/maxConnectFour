@@ -168,6 +168,22 @@ public class InteractiveRefereeTest {
         verify(aiPlayer).getBestPlay(gameBoard, searchDepth);
     }
 
+    @Test
+    public void shouldApplyTheMoveRetrievedFromTheAiPlayerWhenThereArePossiblePlaysToMake() {
+        GameBoard gameBoard = spy(createEmptyGameBoard());
+
+        int columnToPlay = 5;
+        int searchDepth = 0;
+        AiPlayer aiPlayer = mock(AiPlayer.class);
+        when(aiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+
+        PlayerIdentifier nextPlayer = PlayerIdentifier.COMPUTER;
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, new HumanPlayer(), aiPlayer, nextPlayer);
+        interactiveReferee.play();
+
+        verify(gameBoard).playPieceInColumn(columnToPlay);
+    }
+
     private HumanPlayer createMockedHumanPlayerThatProducesAColumnToPlay(GameBoard gameBoard, int columnToPlay, int searchDepth) {
         HumanPlayer humanPlayer = mock(HumanPlayer.class);
         when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
