@@ -47,4 +47,11 @@ public class Referee {
     public void saveGameState(String fileName) throws IOException {
         boardWriter.printGameBoardToFile(fileName, gameboard);
     }
+
+    public void makePlay() {
+        if (gameboard.getCountOfPiecesPlayed() >= 42) {
+            System.out.println("The Board is Full\n\nGame Over");
+        }
+        printGameBoardAndScores();
+    }
 }

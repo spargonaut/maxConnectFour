@@ -72,6 +72,42 @@ public class RefereeTest {
         verify(boardWriter).printGameBoardToFile(setupFileName, gameBoard);
     }
 
+    @Test
+    public void shouldTellTheUserThatTheGameBoardIsFullWhenTheMaxNumberOfPlaysHaveBeenMade() {
+        List<List<Integer>> playboard = new ArrayList<>();
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        GameBoard gameBoard = new GameBoard(playboard);
+
+        PlayMode playmode = PlayMode.ONE_MOVE;
+        Referee referee = new Referee(gameBoard, playmode);
+
+        referee.makePlay();
+
+        String expectedOutput = "The Board is Full\n" +
+                "\n" +
+                "Game Over\n" +
+                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n" +
+                "Scores:\n" +
+                " Player1: 12\n" +
+                " Player2: 12\n\n";
+
+        assertThat(outContent.toString(), is(expectedOutput));
+    }
+
     private GameBoard createGameBoard() {
         List<List<Integer>> playboard = new ArrayList<>();
         playboard.add(Arrays.asList(1, 1, 1, 1, 0, 0, 0));
