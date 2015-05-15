@@ -4,6 +4,7 @@ import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
+import org.spargonaut.maxConnectFour.players.AiPlayer;
 
 import java.io.IOException;
 
@@ -14,6 +15,12 @@ public class Referee {
     private PlayMode playMode;
     private BoardPrinter boardPrinter;
     private ScoreKeeper scoreKeeper;
+    private AiPlayer aiPlayer;
+
+    public Referee(GameBoard gameboard, PlayMode playmode, AiPlayer aiPlayer) {
+        this(gameboard, playmode);
+        this.aiPlayer = aiPlayer;
+    }
 
     public Referee(GameBoard gameboard, PlayMode playmode) {
         this.gameboard = gameboard;
@@ -48,9 +55,13 @@ public class Referee {
         boardWriter.printGameBoardToFile(fileName, gameboard);
     }
 
-    public void makePlay() {
+    public void makePlay(int searchDepth) {
         if (gameboard.getCountOfPiecesPlayed() >= 42) {
             System.out.println("The Board is Full\n\nGame Over");
+        } else {
+            System.out.println( "\n\n I am playing as player: " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + aiPlayer.getSearchDepth() );
+            int bestPlay = aiPlayer.getBestPlay(gameboard, searchDepth);
+            gameboard.playPieceInColumn(bestPlay);
         }
         printGameBoardAndScores();
     }

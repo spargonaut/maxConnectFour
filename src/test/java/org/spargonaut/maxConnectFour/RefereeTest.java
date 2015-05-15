@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.players.AiPlayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,8 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class RefereeTest {
 
@@ -86,7 +86,8 @@ public class RefereeTest {
         PlayMode playmode = PlayMode.ONE_MOVE;
         Referee referee = new Referee(gameBoard, playmode);
 
-        referee.makePlay();
+        int searchDepth = 1;
+        referee.makePlay(searchDepth);
 
         String expectedOutput = "The Board is Full\n" +
                 "\n" +
@@ -99,6 +100,50 @@ public class RefereeTest {
                 "_| 2 1 2 1 2 1 2 |_\n" +
                 "_| 1 2 1 2 1 2 1 |_\n" +
                 "_| 2 1 2 1 2 1 2 |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n" +
+                "Scores:\n" +
+                " Player1: 12\n" +
+                " Player2: 12\n\n";
+
+        assertThat(outContent.toString(), is(expectedOutput));
+    }
+
+    @Test
+    public void shouldGetTheAIPlayerToPlayAPieceAndPrintTheGameBoardAndScoresToTheScreenAndSaveTheGameToAFile() {
+        List<List<Integer>> playboard = new ArrayList<>();
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 0));
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        GameBoard gameBoard = new GameBoard(playboard);
+
+        int searchDepth = 2;
+        PlayMode playmode = PlayMode.ONE_MOVE;
+
+        AiPlayer mockAiPlayer = mock(AiPlayer.class);
+        when(mockAiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(6);
+        when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
+
+        Referee referee = new Referee(gameBoard, playmode, mockAiPlayer);
+        referee.makePlay(searchDepth);
+
+        String expectedOutput = "\n\n" +
+                " I am playing as player: 2" +
+                "\n" +
+                "  searching for the best play to depth level: " +
+                searchDepth +
+                "\n" +
+                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
+                "_| 2 1 2 1 2 1 2 |_\n" +
+                "_| 1 2 1 2 1 2 1 |_\n" +
                 " -----------------\n" +
                 "   1 2 3 4 5 6 7   <---Column numbers\n" +
                 "Scores:\n" +

@@ -250,6 +250,15 @@ public class AiPlayerTest {
         );
     }
 
+    @Test
+    public void shouldCreateANewAiPlayerWithASearchDepth() {
+        int searchDepth = 5;
+        AiPlayer aiPlayer = new AiPlayer(searchDepth);
+
+        int expectedSearchDepth = 5;
+        assertEquals(aiPlayer.getSearchDepth(), expectedSearchDepth);
+    }
+
     private List<Integer> createBlankRow() {
         return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }

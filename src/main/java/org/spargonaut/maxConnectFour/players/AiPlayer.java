@@ -19,6 +19,19 @@ public class AiPlayer implements Player {
     private final String COLUMN = "column";
     private final String SCORE_DIFFERENCE = "score_difference";
 
+    private final int searchDepth;
+    private final GameBoard gameboard;
+
+    public AiPlayer() {
+        this.searchDepth = 1;
+        this.gameboard = null;
+    }
+
+    public AiPlayer(int searchDepth) {
+        this.searchDepth = searchDepth;
+        this.gameboard = null;
+    }
+
     public int getRandomPlay( GameBoard currentGame ) {
         Random randy = new Random();
         List<Integer> validPlays = currentGame.getColumnsOfValidPlays();
@@ -144,5 +157,9 @@ public class AiPlayer implements Player {
 
     public boolean isAtMaxDepth(int maxDepth, int currentLevel) {
         return maxDepth == currentLevel;
+    }
+
+    public int getSearchDepth() {
+        return this.searchDepth;
     }
 }
