@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
@@ -58,6 +59,39 @@ public class InteractiveRefereeTest {
 
         assertThat(outContent.toString(), startsWith(expectedOutput));
     }
+
+    @Test
+    public void shouldPrintTheFinalGameStateWhenTheGameBoardIsFull() {
+        List<List<Integer>> playboard = new ArrayList<>();
+        playboard.add(Arrays.asList(2, 2, 1, 2, 2, 2, 2));
+        playboard.add(Arrays.asList(1, 1, 2, 1, 1, 1, 1));
+        playboard.add(Arrays.asList(2, 2, 1, 2, 2, 2, 2));
+        playboard.add(Arrays.asList(1, 1, 2, 1, 1, 1, 1));
+        playboard.add(Arrays.asList(2, 2, 1, 2, 2, 2, 2));
+        playboard.add(Arrays.asList(1, 1, 1, 2, 1, 1, 1));
+        GameBoard gameBoard = new GameBoard(playboard);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard);
+
+        String expectedOutput = "Here is the final game state" +
+                "\n\n" +
+                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_| 2 2 1 2 2 2 2 |_\n" +
+                "_| 1 1 2 1 1 1 1 |_\n" +
+                "_| 2 2 1 2 2 2 2 |_\n" +
+                "_| 1 1 2 1 1 1 1 |_\n" +
+                "_| 2 2 1 2 2 2 2 |_\n" +
+                "_| 1 1 1 2 1 1 1 |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n" +
+                "Scores:\n" +
+                " Player1: 2\n" +
+                " Player2: 3\n\n";
+        interactiveReferee.play();
+        assertThat(outContent.toString(), endsWith(expectedOutput));
+    }
+
+
 
     private GameBoard createEmptyGameBoard() {
         List<List<Integer>> playboard = new ArrayList<>();
