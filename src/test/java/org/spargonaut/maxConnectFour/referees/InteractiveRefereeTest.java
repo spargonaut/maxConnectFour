@@ -29,7 +29,7 @@ public class InteractiveRefereeTest {
     }
 
     @Test
-    public void shouldPrintOutTheIntialGameBoardStateAtTheBeginningOfTheGame() {
+    public void shouldPrintOutTheIntialGameStateAtTheBeginningOfTheGame() {
 
         GameBoard gameBoard = createEmptyGameBoard();
         InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard);
@@ -50,12 +50,13 @@ public class InteractiveRefereeTest {
                 "   1 2 3 4 5 6 7   <---Column numbers\n" +
                 "Scores:\n" +
                 " Player1: 0\n" +
-                " Player2: 0";
+                " Player2: 0" +
+                "\n\n\n" +
+                "It is now Player 1's Turn";
 
         interactiveReferee.play();
 
         assertThat(outContent.toString(), startsWith(expectedOutput));
-
     }
 
     private GameBoard createEmptyGameBoard() {

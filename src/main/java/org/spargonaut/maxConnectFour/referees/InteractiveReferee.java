@@ -20,6 +20,7 @@ public class InteractiveReferee {
 
     public void play() {
         printInitialGameState();
+        System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
 
     }
 
