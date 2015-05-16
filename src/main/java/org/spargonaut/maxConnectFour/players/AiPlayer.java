@@ -40,12 +40,14 @@ public class AiPlayer implements Player {
     }
 
     public Integer getBestPlay( GameBoard currentGame, int depthLevel ) {
+        System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );
         depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
         int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
         Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
         bestPlayMap.put(ALPHA, -999);
         bestPlayMap.put(BETA, 99999);
         int[] bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
+        System.out.println("  and I'm playing in column " + (bestPlay[0] + 1));
         return bestPlay[0];
     }
 
@@ -156,7 +158,7 @@ public class AiPlayer implements Player {
     }
 
     public boolean isAtMaxDepth(int maxDepth, int currentLevel) {
-        return maxDepth == currentLevel;
+        return maxDepth <= currentLevel;
     }
 
     public int getSearchDepth() {

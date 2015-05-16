@@ -1,17 +1,37 @@
 package org.spargonaut.maxConnectFour.players;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class AiPlayerTest {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void tearDown() {
+        System.setOut(null);
+    }
+
+//  These tests being commented out is bad and I feel bad
 //	@Test
 //	public void shouldReturnAlphaWhenMaximizingAlphaWithAlphaIsGreaterThanTheScoreOfTheBestMove() {
 //
@@ -201,16 +221,16 @@ public class AiPlayerTest {
         int alpha = 6;
         int beta = 7;
 
-        List<List<Integer>> newEmptyGameBoard = new ArrayList<List<Integer>>();
-        newEmptyGameBoard.add(createBlankRow());
-        newEmptyGameBoard.add(createBlankRow());
-        newEmptyGameBoard.add(createBlankRow());
-        newEmptyGameBoard.add(createBlankRow());
-        newEmptyGameBoard.add(createBlankRow());
-        newEmptyGameBoard.add(createBlankRow());
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
 
         GameBoard gameBoard = mock(GameBoard.class);
-        when(gameBoard.getGameBoardAsList()).thenReturn(newEmptyGameBoard);
+        when(gameBoard.getGameBoardAsList()).thenReturn(newEmptyPlayBoard);
 
         int columnForNextPlay = 2;
         int scoreDiffForNextPlay = 5;
@@ -257,6 +277,52 @@ public class AiPlayerTest {
 
         int expectedSearchDepth = 5;
         assertEquals(aiPlayer.getSearchDepth(), expectedSearchDepth);
+    }
+
+    @Test
+    public void shouldTellTheUserWhichPlayerItIsFindingTheBestMoveForAndTheSearchDepthItIsUsing() {
+        int searchDepthLevel = 0;
+
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        GameBoard gameBoard = new GameBoard(newEmptyPlayBoard);
+
+        AiPlayer aiPlayer = new AiPlayer(searchDepthLevel);
+        aiPlayer.getBestPlay(gameBoard, searchDepthLevel);
+
+        String expectedString = "\n\n" +
+                " I am playing as player: 1" +
+                "\n" +
+                "  searching for the best play to depth level: " + searchDepthLevel +
+                "\n";
+
+        assertThat(outContent.toString(), startsWith(expectedString));
+    }
+
+    @Test
+    public void shouldTellTheUserWhichColumnTheAiPlayerIsPlayingIn() {
+        int searchDepthLevel = 0;
+
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        newEmptyPlayBoard.add(createBlankRow());
+        GameBoard gameBoard = new GameBoard(newEmptyPlayBoard);
+
+        AiPlayer aiPlayer = new AiPlayer(searchDepthLevel);
+        aiPlayer.getBestPlay(gameBoard, searchDepthLevel);
+
+        String expectedString = "  and I'm playing in column 1\n";
+
+        assertThat(outContent.toString(), endsWith(expectedString));
     }
 
     private List<Integer> createBlankRow() {
