@@ -29,7 +29,7 @@ public abstract class Referee {
         scoreKeeper.printCurrentScores();
     }
 
-    public void printGameBoardAndScores() {
+    protected void printGameBoardAndScores() {
         boardPrinter.printGameBoard(gameboard);
         scoreKeeper.printCurrentScores();
     }

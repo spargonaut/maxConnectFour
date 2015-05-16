@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.endsWith;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -44,36 +44,31 @@ public class OneMoveRefereeTest {
 
     @Test
     public void shouldPrintTheInitialGameStateToTheScreen() {
-
         OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
+        oneMoveReferee.play();
 
         String expectedInitialGameBoardMessage = "--------------------------------------------------------------------------------" +
                 "\n\n" +
                 "Max Connect Four Client - One-move Mode" +
                 "\n\n" + createBoardAndScoresString();
-        oneMoveReferee.printInitialGameState();
 
-        assertThat(outContent.toString(), is(expectedInitialGameBoardMessage));
+        assertThat(outContent.toString(), startsWith(expectedInitialGameBoardMessage));
     }
 
     @Test
     public void shouldPrintTheGameBoardStateToTheScreen() {
-
         OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
-
-        oneMoveReferee.printGameBoardAndScores();
+        oneMoveReferee.play();
 
         String expectedMessage = createBoardAndScoresString();
 
-        assertThat(outContent.toString(), is(expectedMessage));
+        assertThat(outContent.toString(), endsWith(expectedMessage));
     }
 
     @Test
     public void shouldSaveTheGameBoardToAFileAfterTheAiPlayerHasPlayed() throws IOException {
-
         OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
-
-        oneMoveReferee.saveGameState(setupFileName);
+        oneMoveReferee.play();
 
         verify(mockBoardWriter).printGameBoardToFile(setupFileName, baseGameBoard);
     }

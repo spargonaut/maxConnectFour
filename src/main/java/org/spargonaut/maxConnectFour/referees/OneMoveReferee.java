@@ -24,7 +24,7 @@ public class OneMoveReferee extends Referee {
         this.fileToSave = fileToSave;
     }
 
-    public void saveGameState(String fileName) {
+    private void saveGameState(String fileName) {
         try {
             boardWriter.printGameBoardToFile(fileName, gameboard);
         } catch (IOException e) {
