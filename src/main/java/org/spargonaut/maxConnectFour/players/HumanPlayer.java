@@ -33,4 +33,8 @@ public class HumanPlayer implements Player {
 
         return playColumn;
     }
+
+    public int getSearchDepth() {
+        return 0;
+    }
 }

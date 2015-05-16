@@ -4,16 +4,17 @@ import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
+import org.spargonaut.maxConnectFour.players.Player;
 
 import java.io.IOException;
 
 public class OneMoveReferee extends Referee {
 
     private BoardWriter boardWriter;
-    private AiPlayer aiPlayer;
+    private Player aiPlayer;
     private String fileToSave;
 
-    public OneMoveReferee(GameBoard gameboard, AiPlayer aiPlayer) {
+    public OneMoveReferee(GameBoard gameboard, Player aiPlayer) {
         super(gameboard, PlayMode.ONE_MOVE);
         this.aiPlayer = aiPlayer;
     }

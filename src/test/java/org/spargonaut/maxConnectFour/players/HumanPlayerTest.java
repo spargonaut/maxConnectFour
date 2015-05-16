@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -57,5 +58,19 @@ public class HumanPlayerTest {
         humanPlayer.getBestPlay(gameBoard);
 
         assertEquals(outContent.toString(), "That was an invalid play\n--Try again!\n");
+    }
+
+    @Test
+    public void shouldReturnZeroAsTheSearchDepth() {
+        InputParser inputParser = mock(InputParser.class);
+        when(inputParser.getNextPlayFromHuman()).thenReturn(0);
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.isValidPlay(-1)).thenReturn(false).thenReturn(true);
+
+        HumanPlayer humanPlayer = new HumanPlayer(inputParser);
+        humanPlayer.getBestPlay(gameBoard);
+
+        assertThat(humanPlayer.getSearchDepth(), is(0));
     }
 }

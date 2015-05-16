@@ -5,17 +5,13 @@ import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
+import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.referees.InteractiveReferee;
 import org.spargonaut.maxConnectFour.referees.OneMoveReferee;
 
 import java.io.IOException;
 
 public class MaxConnectFour {
-
-    private PlayMode playMode;
-    private String input;
-
-    private ArgumentParser argumentParser;
 
     public static void main(String[] args) {
         MaxConnectFour game = new MaxConnectFour();
@@ -28,16 +24,16 @@ public class MaxConnectFour {
 
     public void play(String[] args) throws IOException {
 
-        parseInputArguments(args);
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.parseArguments(args);
 
         BoardReader boardReader = new BoardReader();
-        GameBoard currentGame = boardReader.readGame(input);
+        GameBoard currentGame = boardReader.readGame(argumentParser.getInputGameFile());
 
-        // create the Ai Player
-        AiPlayer calculon = new AiPlayer(argumentParser.getSearchDepth());
-        HumanPlayer human = new HumanPlayer();
+        Player calculon = new AiPlayer(argumentParser.getSearchDepth());
+        Player human = new HumanPlayer();
 
-        switch(playMode) {
+        switch(argumentParser.getPlayMode()) {
         case INTERACTIVE:
             InteractiveReferee referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
             referee.play();
@@ -48,12 +44,5 @@ public class MaxConnectFour {
             oneMoveReferee.play();
             break;
         }
-    }
-
-    private void parseInputArguments(String[] args) {
-        argumentParser = new ArgumentParser();
-        argumentParser.parseArguments(args);
-        playMode = argumentParser.getPlayMode();
-        input = argumentParser.getInputGameFile();
     }
 }
