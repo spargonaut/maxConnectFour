@@ -35,8 +35,15 @@ public class OneMoveRefereeTest {
 
     @Test
     public void shouldPrintTheInitialGameStateToTheScreen() {
-        GameBoard gameboard = createGameBoard();
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard);
+        GameBoard gameBoard = createGameBoard();
+
+        AiPlayer mockAiPlayer = mock(AiPlayer.class);
+        when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(1);
+
+        String setupFileName = "some/file/name.txt";
+        BoardWriter boardWriter = mock(BoardWriter.class);
+
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer, boardWriter, setupFileName);
 
         String expectedInitialGameBoardMessage = "--------------------------------------------------------------------------------" +
                 "\n\n" +
@@ -49,8 +56,15 @@ public class OneMoveRefereeTest {
 
     @Test
     public void shouldPrintTheGameBoardStateToTheScreen() {
-        GameBoard gameboard = createGameBoard();
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard);
+        GameBoard gameBoard = createGameBoard();
+
+        AiPlayer mockAiPlayer = mock(AiPlayer.class);
+        when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(1);
+
+        String setupFileName = "some/file/name.txt";
+        BoardWriter boardWriter = mock(BoardWriter.class);
+
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer, boardWriter, setupFileName);
 
         oneMoveReferee.printGameBoardAndScores();
 
@@ -60,11 +74,15 @@ public class OneMoveRefereeTest {
     }
 
     @Test
-    public void shouldSaveTheGameBoardToAFile() throws IOException {
+    public void shouldSaveTheGameBoardToAFileAfterTheAiPlayerHasPlayed() throws IOException {
         GameBoard gameBoard = createGameBoard();
         String setupFileName = "some/file/name.txt";
+
+        AiPlayer mockAiPlayer = mock(AiPlayer.class);
+        when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(1);
+
         BoardWriter boardWriter = mock(BoardWriter.class);
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, boardWriter);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer, boardWriter, setupFileName);
 
         oneMoveReferee.saveGameState(setupFileName);
 
@@ -82,8 +100,12 @@ public class OneMoveRefereeTest {
         playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
         GameBoard gameBoard = new GameBoard(playboard);
 
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard);
+        String setupFileName = "some/file/name.txt";
+        BoardWriter boardWriter = mock(BoardWriter.class);
 
+        AiPlayer mockAiPlayer = mock(AiPlayer.class);
+
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer, boardWriter, setupFileName);
         oneMoveReferee.play();
 
         String expectedOutput = "The Board is Full\n" +
@@ -119,11 +141,14 @@ public class OneMoveRefereeTest {
 
         int searchDepth = 2;
 
+        String setupFileName = "some/file/name.txt";
+        BoardWriter boardWriter = mock(BoardWriter.class);
+
         AiPlayer mockAiPlayer = mock(AiPlayer.class);
         when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(6);
         when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
 
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer, boardWriter, setupFileName);
         oneMoveReferee.play();
 
         String expectedOutput = "\n\n" +
