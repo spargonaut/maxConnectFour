@@ -52,9 +52,16 @@ public class InteractiveReferee {
                     nextPlayer = PlayerIdentifier.HUMAN;
                     break;
             }
+
+            printCurrentGameBoardAndScores();
         }
 
         printTheFinalGameState();
+    }
+
+    private void printCurrentGameBoardAndScores() {
+        System.out.println("\n...and now the board looks like this: \n");
+        printGameState();
     }
 
     private void printGameState() {

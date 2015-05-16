@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -224,6 +224,23 @@ public class InteractiveRefereeTest {
         interactiveReferee.play();
 
         verify(gameBoard, times(2)).hasPossiblePlays();
+    }
+
+    @Test
+    public void shouldPrintTheCurrentGameStateBetweenPlays() {
+        GameBoard gameBoard = createMockGameBoard();
+
+        int columnToPlay = 5;
+        int searchDepth = 0;
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+
+        String expectedOutput = "...and now the board looks like this:";
+
+        interactiveReferee.play();
+
+        assertThat(outContent.toString(), containsString(expectedOutput));
     }
 
     private HumanPlayer createMockedHumanPlayerThatProducesAColumnToPlay(GameBoard gameBoard, int columnToPlay, int searchDepth) {
