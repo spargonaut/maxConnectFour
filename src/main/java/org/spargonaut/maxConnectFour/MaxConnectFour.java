@@ -44,7 +44,7 @@ public class MaxConnectFour {
             break;
 
         case ONE_MOVE:
-            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, PlayMode.ONE_MOVE, calculon);
+            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, calculon);
             oneMoveReferee.play();
             break;
         }

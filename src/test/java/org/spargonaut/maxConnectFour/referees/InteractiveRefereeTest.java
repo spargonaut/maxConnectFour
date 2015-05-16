@@ -46,7 +46,7 @@ public class InteractiveRefereeTest {
 
         String expectedOutput = "--------------------------------------------------------------------------------\n" +
                 "\n" +
-                "Max Connect Four Client - INTERACTIVE Mode\n" +
+                "Max Connect Four Client - Interactive Mode\n" +
                 "\n" +
                 "   1 2 3 4 5 6 7   <---  Column numbers\n" +
                 " -----------------\n" +

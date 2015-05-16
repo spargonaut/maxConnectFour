@@ -21,7 +21,7 @@ public abstract class Referee {
     public void printInitialGameState() {
         System.out.println("--------------------------------------------------------------------------------" +
                 "\n\n" +
-                "Max Connect Four Client - " + playMode + " Mode\n");
+                "Max Connect Four Client - " + playMode.getValue() + " Mode\n");
 
         boardPrinter.printGameBoard(gameboard);
 

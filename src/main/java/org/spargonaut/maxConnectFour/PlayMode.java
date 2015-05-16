@@ -16,4 +16,8 @@ public enum PlayMode {
         }
         throw new IllegalArgumentException("Unable to determine PlayMode\n");
     }
+
+    public String getValue() {
+        return value;
+    }
 }

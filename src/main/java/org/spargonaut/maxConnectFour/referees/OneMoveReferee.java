@@ -12,17 +12,17 @@ public class OneMoveReferee extends Referee {
     private BoardWriter boardWriter;
     private AiPlayer aiPlayer;
 
-    public OneMoveReferee(GameBoard gameboard, PlayMode playmode) {
-        super(gameboard, playmode);
+    public OneMoveReferee(GameBoard gameboard) {
+        super(gameboard, PlayMode.ONE_MOVE);
     }
 
-    public OneMoveReferee(GameBoard gameboard, PlayMode playmode, AiPlayer aiPlayer) {
-        this(gameboard, playmode);
+    public OneMoveReferee(GameBoard gameboard, AiPlayer aiPlayer) {
+        this(gameboard);
         this.aiPlayer = aiPlayer;
     }
 
-    public OneMoveReferee(GameBoard gameBoard, PlayMode oneMove, BoardWriter boardWriter) {
-        this(gameBoard, oneMove);
+    public OneMoveReferee(GameBoard gameBoard, BoardWriter boardWriter) {
+        this(gameBoard);
         this.boardWriter = boardWriter;
     }
 

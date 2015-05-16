@@ -3,7 +3,6 @@ package org.spargonaut.maxConnectFour.referees;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
@@ -37,12 +36,11 @@ public class OneMoveRefereeTest {
     @Test
     public void shouldPrintTheInitialGameStateToTheScreen() {
         GameBoard gameboard = createGameBoard();
-        PlayMode playmode = PlayMode.ONE_MOVE;
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard);
 
         String expectedInitialGameBoardMessage = "--------------------------------------------------------------------------------" +
                 "\n\n" +
-                "Max Connect Four Client - " + playmode + " Mode" +
+                "Max Connect Four Client - One-move Mode" +
                 "\n\n" + createBoardAndScoresString();
         oneMoveReferee.printInitialGameState();
 
@@ -52,8 +50,7 @@ public class OneMoveRefereeTest {
     @Test
     public void shouldPrintTheGameBoardStateToTheScreen() {
         GameBoard gameboard = createGameBoard();
-        PlayMode playmode = PlayMode.ONE_MOVE;
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameboard);
 
         oneMoveReferee.printGameBoardAndScores();
 
@@ -67,7 +64,7 @@ public class OneMoveRefereeTest {
         GameBoard gameBoard = createGameBoard();
         String setupFileName = "some/file/name.txt";
         BoardWriter boardWriter = mock(BoardWriter.class);
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, PlayMode.ONE_MOVE, boardWriter);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, boardWriter);
 
         oneMoveReferee.saveGameState(setupFileName);
 
@@ -85,10 +82,8 @@ public class OneMoveRefereeTest {
         playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
         GameBoard gameBoard = new GameBoard(playboard);
 
-        PlayMode playmode = PlayMode.ONE_MOVE;
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard);
 
-        int searchDepth = 1;
         oneMoveReferee.play();
 
         String expectedOutput = "The Board is Full\n" +
@@ -123,13 +118,12 @@ public class OneMoveRefereeTest {
         GameBoard gameBoard = new GameBoard(playboard);
 
         int searchDepth = 2;
-        PlayMode playmode = PlayMode.ONE_MOVE;
 
         AiPlayer mockAiPlayer = mock(AiPlayer.class);
         when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(6);
         when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
 
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode, mockAiPlayer);
+        OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, mockAiPlayer);
         oneMoveReferee.play();
 
         String expectedOutput = "\n\n" +
