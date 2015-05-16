@@ -23,10 +23,12 @@ import static org.mockito.Mockito.*;
 public class InteractiveRefereeTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private GameBoard baseMockGameBoard;
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
+        baseMockGameBoard = createMockGameBoard();
     }
 
     @After
@@ -36,13 +38,12 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldPrintOutTheIntialGameStateAtTheBeginningOfTheGame() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer);
+        interactiveReferee.play();
 
         String expectedOutput = "--------------------------------------------------------------------------------\n" +
                 "\n" +
@@ -64,7 +65,6 @@ public class InteractiveRefereeTest {
                 "\n\n\n" +
                 "It is now Player 1's Turn";
 
-        interactiveReferee.play();
 
         assertThat(outContent.toString(), startsWith(expectedOutput));
     }
@@ -79,7 +79,9 @@ public class InteractiveRefereeTest {
         playboard.add(Arrays.asList(2, 2, 1, 2, 2, 2, 2));
         playboard.add(Arrays.asList(1, 1, 1, 2, 1, 1, 1));
         GameBoard gameBoard = new GameBoard(playboard);
+
         InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, new HumanPlayer());
+        interactiveReferee.play();
 
         String expectedOutput = "Here is the final game state" +
                 "\n\n" +
@@ -97,148 +99,129 @@ public class InteractiveRefereeTest {
                 " Player1: 2\n" +
                 " Player2: 3\n\n";
 
-        interactiveReferee.play();
         assertThat(outContent.toString(), endsWith(expectedOutput));
     }
 
     @Test
     public void shouldGetTheNextMoveFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
 
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer);
         interactiveReferee.play();
 
-        verify(humanPlayer).getBestPlay(gameBoard);
+        verify(humanPlayer).getBestPlay(baseMockGameBoard);
     }
 
     @Test
     public void shouldApplyTheMoveRetrievedFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
         PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, new AiPlayer(), nextPlayer);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer, new AiPlayer(), nextPlayer);
         interactiveReferee.play();
 
-        verify(gameBoard).playPieceInColumn(columnToPlay);
+        verify(baseMockGameBoard).playPieceInColumn(columnToPlay);
     }
 
     @Test
     public void shouldSetTheNextTurnToAiPlayerAfterTheHumanPlays() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer);
+        interactiveReferee.play();
 
         PlayerIdentifier expectedNextPlayer = PlayerIdentifier.COMPUTER;
 
-        interactiveReferee.play();
-        PlayerIdentifier actualPlayerIdentifier = interactiveReferee.getNextPlayer();
-
-        assertThat(actualPlayerIdentifier, is(expectedNextPlayer));
+        assertThat(interactiveReferee.getNextPlayer(), is(expectedNextPlayer));
     }
 
     @Test
     public void shouldGetTheAiPlayerToPlayWhenItIsTheAiPlayersTurn() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
         AiPlayer aiPlayer = mock(AiPlayer.class);
-        when(aiPlayer.getBestPlay(gameBoard)).thenReturn(columnToPlay);
+        when(aiPlayer.getBestPlay(baseMockGameBoard)).thenReturn(columnToPlay);
 
         PlayerIdentifier nextPlayer = PlayerIdentifier.COMPUTER;
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, aiPlayer, nextPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer, aiPlayer, nextPlayer);
         interactiveReferee.play();
 
-        verify(aiPlayer).getBestPlay(gameBoard);
+        verify(aiPlayer).getBestPlay(baseMockGameBoard);
     }
 
     @Test
     public void shouldApplyTheMoveRetrievedFromTheAiPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
-        int searchDepth = 0;
+
         AiPlayer aiPlayer = mock(AiPlayer.class);
-        when(aiPlayer.getBestPlay(gameBoard)).thenReturn(columnToPlay);
+        when(aiPlayer.getBestPlay(baseMockGameBoard)).thenReturn(columnToPlay);
 
         PlayerIdentifier nextPlayer = PlayerIdentifier.COMPUTER;
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, new HumanPlayer(), aiPlayer, nextPlayer);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, new HumanPlayer(), aiPlayer, nextPlayer);
         interactiveReferee.play();
 
-        verify(gameBoard).playPieceInColumn(columnToPlay);
+        verify(baseMockGameBoard).playPieceInColumn(columnToPlay);
     }
 
     @Test
     public void shouldSetTheNextTurnToHumanPlayerAfterTheAiPlayerPlays() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
-        int searchDepth = 0;
+
         AiPlayer aiPlayer = mock(AiPlayer.class);
-        when(aiPlayer.getBestPlay(gameBoard)).thenReturn(columnToPlay);
+        when(aiPlayer.getBestPlay(baseMockGameBoard)).thenReturn(columnToPlay);
 
         PlayerIdentifier nextPlayer = PlayerIdentifier.COMPUTER;
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, new HumanPlayer(), aiPlayer, nextPlayer);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, new HumanPlayer(), aiPlayer, nextPlayer);
+        interactiveReferee.play();
 
         PlayerIdentifier expectedNextPlayer = PlayerIdentifier.HUMAN;
 
-        interactiveReferee.play();
-        PlayerIdentifier actualPlayerIdentifier = interactiveReferee.getNextPlayer();
-
-        assertThat(actualPlayerIdentifier, is(expectedNextPlayer));
+        assertThat(interactiveReferee.getNextPlayer(), is(expectedNextPlayer));
     }
 
     @Test
     public void shouldContinueToAskForPlaysUntilTheGameBoardIsFull() {
-        int searchDepth = 0;
-        int columnToPlay = 5;
-        PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
+        when(baseMockGameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
 
-        GameBoard gameBoard = createMockGameBoard();
+        int columnToPlay = 5;
 
         HumanPlayer humanPlayer = mock(HumanPlayer.class);
-        when(humanPlayer.getBestPlay(gameBoard)).thenReturn(columnToPlay);
+        when(humanPlayer.getBestPlay(baseMockGameBoard)).thenReturn(columnToPlay);
 
         AiPlayer aiPlayer = mock(AiPlayer.class);
-        when(aiPlayer.getBestPlay(gameBoard)).thenReturn(columnToPlay);
+        when(aiPlayer.getBestPlay(baseMockGameBoard)).thenReturn(columnToPlay);
 
-        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, aiPlayer, nextPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer, aiPlayer, nextPlayer);
         interactiveReferee.play();
 
-        verify(gameBoard, times(2)).hasPossiblePlays();
+        verify(baseMockGameBoard, times(2)).hasPossiblePlays();
     }
 
     @Test
     public void shouldPrintTheCurrentGameStateBetweenPlays() {
-        GameBoard gameBoard = createMockGameBoard();
-
         int columnToPlay = 5;
         int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(gameBoard, columnToPlay, searchDepth);
+        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
 
-        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer);
+        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer);
+        interactiveReferee.play();
 
         String expectedOutput = "...and now the board looks like this:";
-
-        interactiveReferee.play();
 
         assertThat(outContent.toString(), containsString(expectedOutput));
     }
