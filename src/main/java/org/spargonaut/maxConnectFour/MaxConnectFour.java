@@ -13,12 +13,6 @@ import org.spargonaut.maxConnectFour.referees.Referee;
 public class MaxConnectFour {
 
     public static void main(String[] args) {
-        MaxConnectFour game = new MaxConnectFour();
-        game.play(args);
-    }
-
-    public void play(String[] args) {
-
         ArgumentParser argumentParser = new ArgumentParser();
         argumentParser.parseArguments(args);
 
@@ -31,13 +25,13 @@ public class MaxConnectFour {
         Referee referee = null;
 
         switch(argumentParser.getPlayMode()) {
-        case INTERACTIVE:
-            referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
-            break;
+            case INTERACTIVE:
+                referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
+                break;
 
-        case ONE_MOVE:
-            referee = new OneMoveReferee(currentGame, calculon, argumentParser.getOutputGameFile());
-            break;
+            case ONE_MOVE:
+                referee = new OneMoveReferee(currentGame, calculon, argumentParser.getOutputGameFile());
+                break;
         }
 
         referee.play();
