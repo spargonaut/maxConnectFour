@@ -5,12 +5,13 @@ import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
+import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
 public class InteractiveReferee extends Referee {
 
-    private HumanPlayer humanPlayer;
-    private AiPlayer aiPlayer;
+    private Player humanPlayer;
+    private Player aiPlayer;
     private PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
 
     public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer) {
@@ -32,17 +33,14 @@ public class InteractiveReferee extends Referee {
         while (gameboard.hasPossiblePlays()) {
             System.out.println("\n--------------------------------------------------------------------------------\n");
 
-            int columnToPlay = -1;
             switch (getNextPlayer()) {
                 case HUMAN:
-                    columnToPlay = humanPlayer.getBestPlay(gameboard);
-                    gameboard.playPieceInColumn(columnToPlay);
+                    playPieceBy(humanPlayer);
                     nextPlayer = PlayerIdentifier.COMPUTER;
                     break;
 
                 case COMPUTER:
-                    columnToPlay = aiPlayer.getBestPlay(gameboard);
-                    gameboard.playPieceInColumn(columnToPlay);
+                    playPieceBy(aiPlayer);
                     nextPlayer = PlayerIdentifier.HUMAN;
                     break;
             }
@@ -51,6 +49,11 @@ public class InteractiveReferee extends Referee {
         }
 
         printTheFinalGameState();
+    }
+
+    private void playPieceBy(Player player) {
+        int columnToPlay = player.getBestPlay(gameboard);
+        gameboard.playPieceInColumn(columnToPlay);
     }
 
     private void printCurrentGameBoardAndScores() {
