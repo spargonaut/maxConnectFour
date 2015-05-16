@@ -33,4 +33,6 @@ public abstract class Referee {
         boardPrinter.printGameBoard(gameboard);
         scoreKeeper.printCurrentScores();
     }
+
+    public abstract void play();
 }

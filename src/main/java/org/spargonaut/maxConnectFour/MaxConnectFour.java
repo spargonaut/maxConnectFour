@@ -8,6 +8,7 @@ import org.spargonaut.maxConnectFour.players.HumanPlayer;
 import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.referees.InteractiveReferee;
 import org.spargonaut.maxConnectFour.referees.OneMoveReferee;
+import org.spargonaut.maxConnectFour.referees.Referee;
 
 import java.io.IOException;
 
@@ -33,16 +34,18 @@ public class MaxConnectFour {
         Player calculon = new AiPlayer(argumentParser.getSearchDepth());
         Player human = new HumanPlayer();
 
+        Referee referee = null;
+
         switch(argumentParser.getPlayMode()) {
         case INTERACTIVE:
-            InteractiveReferee referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
-            referee.play();
+            referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
             break;
 
         case ONE_MOVE:
-            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, calculon);
-            oneMoveReferee.play();
+            referee = new OneMoveReferee(currentGame, calculon);
             break;
         }
+
+        referee.play();
     }
 }
