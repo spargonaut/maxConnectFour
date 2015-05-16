@@ -14,20 +14,21 @@ public class OneMoveReferee extends Referee {
     private Player aiPlayer;
     private String fileToSave;
 
-    public OneMoveReferee(GameBoard gameboard, Player aiPlayer) {
+    public OneMoveReferee(GameBoard gameboard, Player aiPlayer, String fileToSave) {
         super(gameboard, PlayMode.ONE_MOVE);
         this.aiPlayer = aiPlayer;
+        this.fileToSave = fileToSave;
+        boardWriter = new BoardWriter();
     }
 
     public OneMoveReferee(GameBoard gameBoard, AiPlayer aiPlayer, BoardWriter boardWriter, String fileToSave) {
-        this(gameBoard, aiPlayer);
+        this(gameBoard, aiPlayer, fileToSave);
         this.boardWriter = boardWriter;
-        this.fileToSave = fileToSave;
     }
 
-    private void saveGameState(String fileName) {
+    private void saveGameState() {
         try {
-            boardWriter.printGameBoardToFile(fileName, gameboard);
+            boardWriter.printGameBoardToFile(fileToSave, gameboard);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,6 +44,6 @@ public class OneMoveReferee extends Referee {
             System.out.println("The Board is Full\n\nGame Over");
         }
         printGameBoardAndScores();
-        saveGameState(fileToSave);
+        saveGameState();
     }
 }

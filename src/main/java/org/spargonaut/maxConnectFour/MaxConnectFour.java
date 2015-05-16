@@ -10,20 +10,14 @@ import org.spargonaut.maxConnectFour.referees.InteractiveReferee;
 import org.spargonaut.maxConnectFour.referees.OneMoveReferee;
 import org.spargonaut.maxConnectFour.referees.Referee;
 
-import java.io.IOException;
-
 public class MaxConnectFour {
 
     public static void main(String[] args) {
         MaxConnectFour game = new MaxConnectFour();
-        try {
-            game.play(args);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        game.play(args);
     }
 
-    public void play(String[] args) throws IOException {
+    public void play(String[] args) {
 
         ArgumentParser argumentParser = new ArgumentParser();
         argumentParser.parseArguments(args);
@@ -42,7 +36,7 @@ public class MaxConnectFour {
             break;
 
         case ONE_MOVE:
-            referee = new OneMoveReferee(currentGame, calculon);
+            referee = new OneMoveReferee(currentGame, calculon, argumentParser.getOutputGameFile());
             break;
         }
 

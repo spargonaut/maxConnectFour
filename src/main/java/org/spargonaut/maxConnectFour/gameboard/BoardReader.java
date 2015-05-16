@@ -22,25 +22,35 @@ public class BoardReader {
 
     public BoardReader() {};
 
-    public GameBoard readGame(String inputFile)
-        throws IOException {
+    public GameBoard readGame(String inputFile) {
 
-        String rowData = null;
-        if (bufferedReader == null) {
-            bufferedReader = new BufferedReader(new FileReader(inputFile));
-        }
+        String rowData;
+        try {
+            if (bufferedReader == null) {
+                bufferedReader = new BufferedReader(new FileReader(inputFile));
+            }
 
-        newPlayBoard = new ArrayList<List<Integer>>();
-        for(int rowIndex = 0; rowIndex < 6; rowIndex++) {
-            rowData = bufferedReader.readLine();
-            List<Integer> row = new ArrayList<Integer>();
-            newPlayBoard.add(row);
-            for( int columnIndex = 0; columnIndex < 7; columnIndex++ ) {
-                markPlayAtPosition(rowData, rowIndex, columnIndex);
+            newPlayBoard = new ArrayList<List<Integer>>();
+            for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
+                rowData = bufferedReader.readLine();
+                List<Integer> row = new ArrayList<Integer>();
+                newPlayBoard.add(row);
+                for (int columnIndex = 0; columnIndex < 7; columnIndex++) {
+                    markPlayAtPosition(rowData, rowIndex, columnIndex);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
-        bufferedReader.close();
         return new GameBoard(newPlayBoard);
     }
 
