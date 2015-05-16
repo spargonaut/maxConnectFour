@@ -204,6 +204,16 @@ public class GameBoardTest {
         assertNotSame(expectedGameboard, actualGameBoard);
     }
 
+    @Test
+    public void shouldCreateAnEmptyGameBoardWhenCalledWithTheDefaultConstructor() {
+        GameBoard gameBoard = new GameBoard();
+
+        List<List<Integer>> expectedPlayBoard = createFiveBlankRows();
+        expectedPlayBoard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 0));
+
+        assertEquals(expectedPlayBoard, gameBoard.getGameBoardAsList());
+    }
+
     private List<List<Integer>> createFiveBlankRows() {
         List<List<Integer>> expectedGameboard = new ArrayList<List<Integer>>();
         expectedGameboard.add(createBlankRow());

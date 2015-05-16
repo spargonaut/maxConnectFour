@@ -12,6 +12,19 @@ public class GameBoard {
     private int totalRowCount = 6;
     private final int MAX_NUMBER_OF_PLAYS = totalColumnCount * totalRowCount;
 
+    public GameBoard() {
+        playedPieceCount = 0;
+        playboard = new ArrayList<>();
+        for (int row = 0; row < totalRowCount; row++) {
+            List<Integer> newRow = new ArrayList<>();
+            for(int column = 0; column < totalColumnCount; column++) {
+                newRow.add(0);
+            }
+            playboard.add(newRow);
+        }
+        scoreKeeper = new ScoreKeeper(playboard);
+    }
+
     public GameBoard(List<List<Integer>> startingGameboard) {
         playedPieceCount = 0;
         playboard = new ArrayList<List<Integer>>();
