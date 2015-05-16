@@ -3,24 +3,19 @@ package org.spargonaut.maxConnectFour.referees;
 import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardPrinter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
-import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
-public class InteractiveReferee {
+public class InteractiveReferee extends Referee {
 
-    private final PlayMode playMode = PlayMode.INTERACTIVE;
-
-    private final GameBoard gameboard;
-    private final BoardPrinter boardPrinter;
     private HumanPlayer humanPlayer;
     private AiPlayer aiPlayer;
     private PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
 
     public InteractiveReferee(GameBoard gameBoard, HumanPlayer humanPlayer) {
+        super(gameBoard, PlayMode.INTERACTIVE);
         this.humanPlayer = humanPlayer;
-        this.gameboard = gameBoard;
         boardPrinter = new BoardPrinter();
     }
 
@@ -31,8 +26,6 @@ public class InteractiveReferee {
     }
 
     public void play() {
-        int searchDepthZero = 0;
-
         printInitialGameState();
         System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
 
@@ -62,27 +55,12 @@ public class InteractiveReferee {
 
     private void printCurrentGameBoardAndScores() {
         System.out.println("\n...and now the board looks like this: \n");
-        printGameState();
-    }
-
-    private void printGameState() {
-        boardPrinter.printGameBoard(gameboard);
-
-        ScoreKeeper scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
-        scoreKeeper.printCurrentScores();
-    }
-
-    private void printInitialGameState() {
-        System.out.println("--------------------------------------------------------------------------------" +
-                "\n\n" +
-                "Max Connect Four Client - " + playMode + " Mode\n");
-
-        printGameState();
+        printGameBoardAndScores();
     }
 
     private void printTheFinalGameState() {
         System.out.println("Here is the final game state\n");
-        printGameState();
+        printGameBoardAndScores();
     }
 
     protected PlayerIdentifier getNextPlayer() {
