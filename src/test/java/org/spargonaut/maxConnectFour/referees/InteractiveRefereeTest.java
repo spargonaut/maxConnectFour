@@ -36,7 +36,10 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldPrintOutTheIntialGameStateAtTheBeginningOfTheGame() {
-        GameBoard gameBoard = createEmptyGameBoard();
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
+        when(gameBoard.getCurrentTurnBasedOnNumberOfPlays()).thenReturn(1);
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -103,7 +106,9 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldGetTheNextMoveFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = createEmptyGameBoard();
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -118,7 +123,9 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldApplyTheMoveRetrievedFromTheHumanPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = spy(createEmptyGameBoard());
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -133,7 +140,9 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldSetTheNextTurnToAiPlayerAfterTheHumanPlays() {
-        GameBoard gameBoard = createEmptyGameBoard();
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -151,7 +160,9 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldGetTheAiPlayerToPlayWhenItIsTheAiPlayersTurn() {
-        GameBoard gameBoard = createEmptyGameBoard();
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -170,7 +181,9 @@ public class InteractiveRefereeTest {
 
     @Test
     public void shouldApplyTheMoveRetrievedFromTheAiPlayerWhenThereArePossiblePlaysToMake() {
-        GameBoard gameBoard = spy(createEmptyGameBoard());
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -185,8 +198,10 @@ public class InteractiveRefereeTest {
     }
 
     @Test
-    public void shouldSetTheNextTurnToHumanPlayerAfterTheHumanPlays() {
-        GameBoard gameBoard = createEmptyGameBoard();
+    public void shouldSetTheNextTurnToHumanPlayerAfterTheAiPlayerPlays() {
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
 
         int columnToPlay = 5;
         int searchDepth = 0;
@@ -202,6 +217,29 @@ public class InteractiveRefereeTest {
         PlayerIdentifier actualPlayerIdentifier = interactiveReferee.getNextPlayer();
 
         assertThat(actualPlayerIdentifier, is(expectedNextPlayer));
+    }
+
+    @Test
+    public void shouldContinueToAskForPlaysUntilTheGameBoardIsFull() {
+        int searchDepth = 0;
+        int columnToPlay = 5;
+        PlayerIdentifier nextPlayer = PlayerIdentifier.HUMAN;
+
+        GameBoard gameBoard = mock(GameBoard.class);
+        when(gameBoard.getGameBoardAsList()).thenReturn(createEmptyGameBoard().getGameBoardAsList());
+
+        HumanPlayer humanPlayer = mock(HumanPlayer.class);
+        when(humanPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+
+        AiPlayer aiPlayer = mock(AiPlayer.class);
+        when(aiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(columnToPlay);
+
+        when(gameBoard.hasPossiblePlays()).thenReturn(true).thenReturn(false);
+
+        InteractiveReferee interactiveReferee = new InteractiveReferee(gameBoard, humanPlayer, aiPlayer, nextPlayer);
+        interactiveReferee.play();
+
+        verify(gameBoard, times(2)).hasPossiblePlays();
     }
 
     private HumanPlayer createMockedHumanPlayerThatProducesAColumnToPlay(GameBoard gameBoard, int columnToPlay, int searchDepth) {

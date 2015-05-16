@@ -35,7 +35,7 @@ public class InteractiveReferee {
 
         printInitialGameState();
 
-        if (gameboard.hasPossiblePlays()) {
+        while (gameboard.hasPossiblePlays()) {
             System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
 
             int columnToPlay = -1;
