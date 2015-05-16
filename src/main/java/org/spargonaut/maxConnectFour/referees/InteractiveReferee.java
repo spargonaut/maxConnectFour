@@ -34,20 +34,21 @@ public class InteractiveReferee {
         int searchDepthZero = 0;
 
         printInitialGameState();
+        System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
 
         while (gameboard.hasPossiblePlays()) {
-            System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
+            System.out.println("\n--------------------------------------------------------------------------------\n");
 
             int columnToPlay = -1;
             switch (getNextPlayer()) {
                 case HUMAN:
-                    columnToPlay = humanPlayer.getBestPlay(gameboard, searchDepthZero);
+                    columnToPlay = humanPlayer.getBestPlay(gameboard);
                     gameboard.playPieceInColumn(columnToPlay);
                     nextPlayer = PlayerIdentifier.COMPUTER;
                     break;
 
                 case COMPUTER:
-                    columnToPlay = aiPlayer.getBestPlay(gameboard, searchDepthZero);
+                    columnToPlay = aiPlayer.getBestPlay(gameboard);
                     gameboard.playPieceInColumn(columnToPlay);
                     nextPlayer = PlayerIdentifier.HUMAN;
                     break;

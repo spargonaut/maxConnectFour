@@ -7,8 +7,7 @@ import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
-import org.spargonaut.maxConnectFour.players.Player;
-import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
+import org.spargonaut.maxConnectFour.referees.InteractiveReferee;
 import org.spargonaut.maxConnectFour.referees.OneMoveReferee;
 
 import java.io.IOException;
@@ -38,65 +37,23 @@ public class MaxConnectFour {
         GameBoard currentGame = boardReader.readGame(input);
 
         // create the Ai Player
-        Player calculon = new AiPlayer();
-        Player human = new HumanPlayer();
+        AiPlayer calculon = new AiPlayer(argumentParser.getSearchDepth());
+        HumanPlayer human = new HumanPlayer();
 
         //  variables to keep up with the game
         int playColumn = 99;				//  the players choice of column to play
 
         switch(playMode) {
         case INTERACTIVE:
-            PlayerIdentifier nextTurnEnum = argumentParser.getNextPlayer();
-
-            printInitialGameBoardState(currentGame);
-
-            System.out.println( "\nIt is now Player " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn" );
-
-            while ( currentGame.hasPossiblePlays() ) {
-                System.out.println("\n--------------------------------------------------------------------------------\n");
-                switch ( nextTurnEnum ) {
-                case HUMAN:
-                    playColumn = human.getBestPlay(currentGame, depthLevel);
-                    currentGame.playPieceInColumn(playColumn);
-                    nextTurnEnum = PlayerIdentifier.COMPUTER;
-                    break;
-
-                case COMPUTER:
-                    System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );
-
-                    // AI play - solution play
-                    playColumn = calculon.getBestPlay( currentGame, depthLevel );
-
-                    System.out.println("  and I'm playing in column " + playColumn);
-
-                    //play the piece
-                    currentGame.playPieceInColumn( playColumn );
-
-                    nextTurnEnum = PlayerIdentifier.HUMAN;
-                    break;
-
-                //I don't know who's turn it is.  we shouldn't get here.
-                default:
-                    System.out.println( "what the heck am i doing here?\n I lost track of whose turn it is.\n uh oh" );
-                    System.exit(0);
-                }
-
-                printCurrentGameBoardAndScores(currentGame);
-
-                //reset playColumn and playMade
-                playColumn = 99;
-
-            } // end while
-
-            // the game board is full.
-            printTheFinalGameState(currentGame);
+            InteractiveReferee referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
+            referee.play();
             break;
 
         case ONE_MOVE:
             AiPlayer aiPlayer = new AiPlayer(argumentParser.getSearchDepth());
             OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, PlayMode.ONE_MOVE, aiPlayer);
             oneMoveReferee.printInitialGameState();
-            oneMoveReferee.play(argumentParser.getSearchDepth());
+            oneMoveReferee.play();
             break;
         }
     }

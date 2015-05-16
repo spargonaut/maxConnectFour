@@ -39,7 +39,7 @@ public class HumanPlayerTest {
         when(gameBoard.isValidPlay(0)).thenReturn(true);
 
         HumanPlayer humanPlayer = new HumanPlayer(inputParser);
-        Integer actualValidPlay = humanPlayer.getBestPlay(gameBoard, 2);
+        Integer actualValidPlay = humanPlayer.getBestPlay(gameBoard);
 
         int expectedValidPlay = 0;
         assertThat(actualValidPlay.intValue(), equalTo(expectedValidPlay));
@@ -54,7 +54,7 @@ public class HumanPlayerTest {
         when(gameBoard.isValidPlay(-1)).thenReturn(false).thenReturn(true);
 
         HumanPlayer humanPlayer = new HumanPlayer(inputParser);
-        humanPlayer.getBestPlay(gameBoard, 0);
+        humanPlayer.getBestPlay(gameBoard);
 
         assertEquals(outContent.toString(), "That was an invalid play\n--Try again!\n");
     }

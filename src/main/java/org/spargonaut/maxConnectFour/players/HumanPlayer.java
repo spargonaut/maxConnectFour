@@ -16,7 +16,7 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public Integer getBestPlay(GameBoard currentGame, int depthLevel) {
+    public Integer getBestPlay(GameBoard currentGame) {
         int playColumn = -1;
         boolean validPlayFound = false;
 

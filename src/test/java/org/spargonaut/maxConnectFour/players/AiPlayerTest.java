@@ -293,7 +293,7 @@ public class AiPlayerTest {
         GameBoard gameBoard = new GameBoard(newEmptyPlayBoard);
 
         AiPlayer aiPlayer = new AiPlayer(searchDepthLevel);
-        aiPlayer.getBestPlay(gameBoard, searchDepthLevel);
+        aiPlayer.getBestPlay(gameBoard);
 
         String expectedString = "\n\n" +
                 " I am playing as player: 1" +
@@ -318,7 +318,7 @@ public class AiPlayerTest {
         GameBoard gameBoard = new GameBoard(newEmptyPlayBoard);
 
         AiPlayer aiPlayer = new AiPlayer(searchDepthLevel);
-        aiPlayer.getBestPlay(gameBoard, searchDepthLevel);
+        aiPlayer.getBestPlay(gameBoard);
 
         String expectedString = "  and I'm playing in column 1\n";
 

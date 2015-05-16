@@ -39,14 +39,14 @@ public class AiPlayer implements Player {
         return validPlays.get(randomPlayIndex);
     }
 
-    public Integer getBestPlay( GameBoard currentGame, int depthLevel ) {
-        System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + depthLevel );
-        depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
+    public Integer getBestPlay( GameBoard currentGame ) {
+//        depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
+        System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + searchDepth );
         int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
         Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
         bestPlayMap.put(ALPHA, -999);
         bestPlayMap.put(BETA, 99999);
-        int[] bestPlay = generateBestMoveRef(depthLevel, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
+        int[] bestPlay = generateBestMoveRef(searchDepth, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
         System.out.println("  and I'm playing in column " + (bestPlay[0] + 1));
         return bestPlay[0];
     }

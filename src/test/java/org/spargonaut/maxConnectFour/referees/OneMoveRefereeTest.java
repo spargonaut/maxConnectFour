@@ -88,7 +88,7 @@ public class OneMoveRefereeTest {
         OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode);
 
         int searchDepth = 1;
-        oneMoveReferee.play(searchDepth);
+        oneMoveReferee.play();
 
         String expectedOutput = "The Board is Full\n" +
                 "\n" +
@@ -125,11 +125,11 @@ public class OneMoveRefereeTest {
         PlayMode playmode = PlayMode.ONE_MOVE;
 
         AiPlayer mockAiPlayer = mock(AiPlayer.class);
-        when(mockAiPlayer.getBestPlay(gameBoard, searchDepth)).thenReturn(6);
+        when(mockAiPlayer.getBestPlay(gameBoard)).thenReturn(6);
         when(mockAiPlayer.getSearchDepth()).thenReturn(searchDepth);
 
         OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, playmode, mockAiPlayer);
-        oneMoveReferee.play(searchDepth);
+        oneMoveReferee.play();
 
         String expectedOutput = "\n\n" +
                 " I am playing as player: 2" +
