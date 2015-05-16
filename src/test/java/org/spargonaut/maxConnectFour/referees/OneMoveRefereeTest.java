@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -107,7 +108,7 @@ public class OneMoveRefereeTest {
                 " Player1: 12\n" +
                 " Player2: 12\n\n";
 
-        assertThat(outContent.toString(), is(expectedOutput));
+        assertThat(outContent.toString(), endsWith(expectedOutput));
     }
 
     @Test
@@ -151,7 +152,7 @@ public class OneMoveRefereeTest {
                 " Player1: 12\n" +
                 " Player2: 12\n\n";
 
-        assertThat(outContent.toString(), is(expectedOutput));
+        assertThat(outContent.toString(), endsWith(expectedOutput));
     }
 
     private GameBoard createGameBoard() {

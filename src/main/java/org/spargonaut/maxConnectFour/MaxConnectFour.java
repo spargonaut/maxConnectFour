@@ -44,9 +44,7 @@ public class MaxConnectFour {
             break;
 
         case ONE_MOVE:
-            AiPlayer aiPlayer = new AiPlayer(argumentParser.getSearchDepth());
-            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, PlayMode.ONE_MOVE, aiPlayer);
-            oneMoveReferee.printInitialGameState();
+            OneMoveReferee oneMoveReferee = new OneMoveReferee(currentGame, PlayMode.ONE_MOVE, calculon);
             oneMoveReferee.play();
             break;
         }
