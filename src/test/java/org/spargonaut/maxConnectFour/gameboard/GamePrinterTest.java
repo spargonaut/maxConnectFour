@@ -143,6 +143,37 @@ public class GamePrinterTest {
         assertEquals(expectedOutContent, outContent.toString());
     }
 
+    @Test
+    public void shouldPrintTheFinalGameState() {
+        List<List<Integer>> setUpGameBoard = new ArrayList<>();
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameBoard = new GameBoard(setUpGameBoard);
+
+        GamePrinter gamePrinter = new GamePrinter(gameBoard);
+        gamePrinter.printFinalGameState();
+
+        String expectedOutContent = "Here is the final game state\n" +
+                "\n" +
+                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|             1 |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n";
+
+        assertEquals(expectedOutContent, outContent.toString());
+    }
+
     private List<Integer> createBlankRow() {
         return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }

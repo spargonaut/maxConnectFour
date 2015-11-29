@@ -48,17 +48,13 @@ public class InteractiveReferee extends Referee {
             scoreKeeper.printCurrentScores();
         }
 
-        printTheFinalGameState();
+        gamePrinter.printFinalGameState();
+        scoreKeeper.printCurrentScores();
     }
 
     private void playPieceBy(Player player) {
         int columnToPlay = player.getBestPlay(gameboard);
         gameboard.playPieceInColumn(columnToPlay);
-    }
-
-    private void printTheFinalGameState() {
-        System.out.println("Here is the final game state\n");
-        printGameBoardAndScores();
     }
 
     protected PlayerIdentifier getNextPlayer() {

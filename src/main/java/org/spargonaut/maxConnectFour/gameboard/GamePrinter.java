@@ -45,4 +45,9 @@ public class GamePrinter {
         System.out.println("\n...and now the board looks like this: \n");
         printGameBoard();
     }
+
+    public void printFinalGameState() {
+        System.out.println("Here is the final game state\n");
+        printGameBoard();
+    }
 }
