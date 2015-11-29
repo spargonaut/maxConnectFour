@@ -77,9 +77,12 @@ public class AiPlayerTest {
 
 		int columnToPlay = 3;
         int scoreOfNextWorstMove = -3;
+        Play nextPlay = new Play.PlayBuilder()
+                .column(columnToPlay)
+                .scoreDifference(scoreOfNextWorstMove)
+                .build();
 
-		int[] nextMove = {columnToPlay, scoreOfNextWorstMove};
-		Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlay, nextMove);
+		Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlay, nextPlay);
 
 		assertEquals(columnToPlay, actualLowestScoringPlay.getColumn());
 		assertEquals(scoreOfNextWorstMove, actualLowestScoringPlay.getScoreDifference());
@@ -101,9 +104,12 @@ public class AiPlayerTest {
 
         int columnToPlayForNextMove = 3;
         int scoreOfNextMove = -3;
+        Play nextPlay = new Play.PlayBuilder()
+                .column(columnToPlayForNextMove)
+                .scoreDifference(scoreOfNextMove)
+                .build();
 
-        int[] nextMove = {columnToPlayForNextMove, scoreOfNextMove};
-        Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlayForNextMove, nextMove);
+        Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlayForNextMove, nextPlay);
 
         assertEquals(defaultLowestColumn, actualLowestScoringPlay.getColumn());
         assertEquals(defaultLowestMoveScoreDiff, actualLowestScoringPlay.getScoreDifference());

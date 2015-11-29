@@ -123,7 +123,7 @@ public class AiPlayer implements Player {
             Play nextPlay = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
             if( nextPlay.getScoreDifference() < currentWorstPlay.getScoreDifference() ) {
-                currentWorstPlay = getLowestScoringMove(currentWorstPlay, column, new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()});
+                currentWorstPlay = getLowestScoringMove(currentWorstPlay, column, nextPlay);
                 if( currentWorstPlay.getScoreDifference() <= alpha ) {
                     break;
                 }
@@ -150,14 +150,14 @@ public class AiPlayer implements Player {
         return nextPlay;
     }
 
-    protected Play getLowestScoringMove(Play worstPlay, int columnToPlay, int[] nextMove) {
+    protected Play getLowestScoringMove(Play worstPlay, int columnToPlay, Play nextPlay) {
         Map<String, Integer> worstMoveMap = new HashMap<>();
         worstMoveMap.put(COLUMN, -77);
         worstMoveMap.put(SCORE_DIFFERENCE, -88);
 
         Map<String, Integer> nextMoveMap = new HashMap<>();
-        nextMoveMap.put(COLUMN, nextMove[0]);
-        nextMoveMap.put(SCORE_DIFFERENCE, nextMove[1]);
+        nextMoveMap.put(COLUMN, nextPlay.getColumn());
+        nextMoveMap.put(SCORE_DIFFERENCE, nextPlay.getScoreDifference());
 
         if (nextMoveMap.get(SCORE_DIFFERENCE) < worstPlay.getScoreDifference()) {
             worstMoveMap.put(COLUMN, columnToPlay);
