@@ -193,9 +193,14 @@ public class AiPlayerTest {
         int columnForNextPlay = 2;
         int scoreDiffForNextPlay = 5;
 
+        Play nextPlay = new Play.PlayBuilder()
+                .column(columnForNextPlay)
+                .scoreDifference(scoreDiffForNextPlay)
+                .build();
+
         AiPlayer aiPlayer = spy(new AiPlayer());
         when(aiPlayer.generateWorstMoveRef(maxDepth, level + 1, currentPlayer, gameBoard, alpha, beta))
-                .thenReturn(new int[]{columnForNextPlay, scoreDiffForNextPlay});
+                .thenReturn(nextPlay);
 
         Play actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
 

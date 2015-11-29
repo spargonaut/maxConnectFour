@@ -84,11 +84,7 @@ public class AiPlayer implements Player {
                     .scoreDifference(testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer))
                     .build();
         } else {
-            int nextMove[] = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-            nextPlay = new Play.PlayBuilder()
-                    .column(nextMove[0])
-                    .scoreDifference(nextMove[1])
-                    .build();
+            nextPlay = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
         }
         return nextPlay;
     }
@@ -113,7 +109,7 @@ public class AiPlayer implements Player {
                 .build();
     }
 
-    protected int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
+    protected Play generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
         GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
@@ -142,7 +138,7 @@ public class AiPlayer implements Player {
             testBoard.removePiece( column );
         }
 
-        return new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()};
+        return currentWorstPlay;
     }
 
     protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
