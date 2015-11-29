@@ -26,8 +26,8 @@ public class Play {
     }
 
     static class PlayBuilder {
-        int scoreDifference = -99999;
-        int column = -1;
+        private int scoreDifference = -99999;
+        private int column = -1;
 
         public PlayBuilder scoreDifference(int score) {
             this.scoreDifference = score;

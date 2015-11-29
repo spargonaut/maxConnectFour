@@ -64,9 +64,7 @@ public class AiPlayer implements Player {
 
             int[] nextMove = getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
-            int move[] = getHighestScoringMove(new int[]{play.getColumn(), play.getScoreDifference()}, nextMove, column);
-            play.setColumn(move[0]);
-            play.setScoreDifference(move[1]);
+            play = getHighestScoringMove(play, nextMove, column);
 
             if( play.getScoreDifference() >= beta ) {
                 break;
@@ -89,12 +87,12 @@ public class AiPlayer implements Player {
         return nextMove;
     }
 
-    protected int[] getHighestScoringMove(int[] bestMove, int[] nextMove, int columnToPlay) {
-        Map<String, Integer> currentBestMove = new HashMap<String, Integer>();
-        currentBestMove.put(COLUMN, bestMove[0]);
-        currentBestMove.put(SCORE_DIFFERENCE, bestMove[1]);
+    protected Play getHighestScoringMove(Play bestMove, int[] nextMove, int columnToPlay) {
+        Map<String, Integer> currentBestMove = new HashMap<>();
+        currentBestMove.put(COLUMN, bestMove.getColumn());
+        currentBestMove.put(SCORE_DIFFERENCE, bestMove.getScoreDifference());
 
-        Map<String, Integer> nextMoveMap = new HashMap<String, Integer>();
+        Map<String, Integer> nextMoveMap = new HashMap<>();
         nextMoveMap.put(COLUMN, nextMove[0]);
         nextMoveMap.put(SCORE_DIFFERENCE, nextMove[1]);
 
@@ -103,7 +101,10 @@ public class AiPlayer implements Player {
             currentBestMove.put(SCORE_DIFFERENCE, nextMoveMap.get(SCORE_DIFFERENCE));
         }
 
-        return new int[]{currentBestMove.get(COLUMN), currentBestMove.get(SCORE_DIFFERENCE)};
+        return new Play.PlayBuilder()
+                .column(currentBestMove.get(COLUMN))
+                .scoreDifference(currentBestMove.get(SCORE_DIFFERENCE))
+                .build();
     }
 
     protected int[] generateWorstMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
