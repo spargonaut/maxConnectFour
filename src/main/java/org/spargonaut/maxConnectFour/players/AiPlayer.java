@@ -43,15 +43,15 @@ public class AiPlayer implements Player {
 //        depthLevel = Math.min(depthLevel, currentGame.getNumberOfPlaysRemaining());
         System.out.println( "\n\n I am playing as player: " + currentGame.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + searchDepth );
         int currentTurn = currentGame.getCurrentTurnBasedOnNumberOfPlays();
-        Map<String, Integer> bestPlayMap = new HashMap<String, Integer>();
+        Map<String, Integer> bestPlayMap = new HashMap<>();
         bestPlayMap.put(ALPHA, -999);
         bestPlayMap.put(BETA, 99999);
-        int[] bestPlay = generateBestMoveRef(searchDepth, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
-        System.out.println("  and I'm playing in column " + (bestPlay[0] + 1));
-        return bestPlay[0];
+        Play bestPlay = generateBestMoveRef(searchDepth, 1, currentTurn, currentGame, bestPlayMap.get(ALPHA), bestPlayMap.get(BETA));
+        System.out.println("  and I'm playing in column " + (bestPlay.getColumn() + 1));
+        return bestPlay.getColumn();
     }
 
-    protected int[] generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
+    protected Play generateBestMoveRef( int maxDepth, int level, int currentPlayer, GameBoard lastBoard, int alpha, int beta ) {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
         GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
@@ -74,7 +74,7 @@ public class AiPlayer implements Player {
             testBoard.removePiece( column );
         }
 
-        return new int[]{play.getColumn(), play.getScoreDifference()};
+        return play;
     }
 
     protected Play getNextMoveForBestMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
@@ -143,9 +143,7 @@ public class AiPlayer implements Player {
         if (isAtMaxDepth(maxDepth, level)) {
             nextPlay.setScoreDifference(testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer));
         } else {
-            int nextMove[] = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
-            nextPlay.setColumn(nextMove[0]);
-            nextPlay.setScoreDifference(nextMove[1]);
+            nextPlay = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
         }
         return nextPlay;
     }
