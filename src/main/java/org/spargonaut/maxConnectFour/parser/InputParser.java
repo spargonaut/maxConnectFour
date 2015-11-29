@@ -20,11 +20,11 @@ public class InputParser {
         boolean playIsInvalid = true;
         int columnToPlay = -1;
         while(playIsInvalid) {
-            String userInput = null;
+            String userInput = "";
             tellUserToChooseAColumn();
             userInput = readInput(userInput);
 
-            while( ( userInput.equals("") ) ) {
+            while( "".equals(userInput) ) {
                 System.out.println("\nI didn't understand that input");
                 tellUserToTryAgain();
                 tellUserToChooseAColumn();
