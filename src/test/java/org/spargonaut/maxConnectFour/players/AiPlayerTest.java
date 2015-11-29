@@ -116,9 +116,12 @@ public class AiPlayerTest {
 
         int columnToPlayForNextMove = 3;
         int scoreOfNextMove = 4;
+        Play nextPlay = new Play.PlayBuilder()
+                .column(columnToPlayForNextMove)
+                .scoreDifference(scoreOfNextMove)
+                .build();
 
-        int[] nextMove = {columnToPlayForNextMove, scoreOfNextMove};
-        Play actualHighestScoringMove = aiPlayer.getHighestScoringMove(currentHighestScoringPlay, nextMove, columnToPlayForNextMove);
+        Play actualHighestScoringMove = aiPlayer.getHighestScoringMove(currentHighestScoringPlay, nextPlay, columnToPlayForNextMove);
 
         assertEquals(columnToPlayForNextMove, actualHighestScoringMove.getColumn());
         assertEquals(scoreOfNextMove, actualHighestScoringMove.getScoreDifference());
@@ -137,9 +140,12 @@ public class AiPlayerTest {
 
         int columnToPlayForNextMove = 3;
         int scoreDiffOfNextMove = 2;
+        Play nextPlay = new Play.PlayBuilder()
+                .column(columnToPlayForNextMove)
+                .scoreDifference(scoreDiffOfNextMove)
+                .build();
 
-        int[] nextMove = {columnToPlayForNextMove, scoreDiffOfNextMove};
-        Play actualHighestScoringMove = aiPlayer.getHighestScoringMove(currentHighestScoringPlay, nextMove, columnToPlayForNextMove);
+        Play actualHighestScoringMove = aiPlayer.getHighestScoringMove(currentHighestScoringPlay, nextPlay, columnToPlayForNextMove);
 
         assertEquals(columnOfCurrentHighestScoringMove, actualHighestScoringMove.getColumn());
         assertEquals(scoreDiffOfCurrentHighestScoringMove, actualHighestScoringMove.getScoreDifference());

@@ -63,8 +63,12 @@ public class AiPlayer implements Player {
             testBoard.playPieceInColumn(column);
 
             int[] nextMove = getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
+            Play nextPlay = new Play.PlayBuilder()
+                    .column(nextMove[0])
+                    .scoreDifference(nextMove[1])
+                    .build();
 
-            play = getHighestScoringMove(play, nextMove, column);
+            play = getHighestScoringMove(play, nextPlay, column);
 
             if( play.getScoreDifference() >= beta ) {
                 break;
@@ -87,14 +91,14 @@ public class AiPlayer implements Player {
         return nextMove;
     }
 
-    protected Play getHighestScoringMove(Play bestMove, int[] nextMove, int columnToPlay) {
+    protected Play getHighestScoringMove(Play bestMove, Play nextPlay, int columnToPlay) {
         Map<String, Integer> currentBestMove = new HashMap<>();
         currentBestMove.put(COLUMN, bestMove.getColumn());
         currentBestMove.put(SCORE_DIFFERENCE, bestMove.getScoreDifference());
 
         Map<String, Integer> nextMoveMap = new HashMap<>();
-        nextMoveMap.put(COLUMN, nextMove[0]);
-        nextMoveMap.put(SCORE_DIFFERENCE, nextMove[1]);
+        nextMoveMap.put(COLUMN, nextPlay.getColumn());
+        nextMoveMap.put(SCORE_DIFFERENCE, nextPlay.getScoreDifference());
 
         if (nextMoveMap.get(SCORE_DIFFERENCE) > currentBestMove.get(SCORE_DIFFERENCE)) {
             currentBestMove.put(COLUMN, columnToPlay);
