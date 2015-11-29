@@ -118,16 +118,12 @@ public class AiPlayer implements Player {
         List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
 
         for (Integer column : validColumns) {
-            testBoard.playPieceInColumn( column );
+            testBoard.playPieceInColumn(column);
 
-            int[] nextMove = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
-            Play nextPlay = new Play.PlayBuilder()
-                    .column(nextMove[0])
-                    .scoreDifference(nextMove[1])
-                    .build();
+            Play nextPlay = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
             if( nextPlay.getScoreDifference() < currentWorstPlay.getScoreDifference() ) {
-                int currentWorstMove[] = getLowestScoringMove(new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()}, column, nextMove);
+                int currentWorstMove[] = getLowestScoringMove(new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()}, column, new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()});
                 currentWorstPlay.setColumn(currentWorstMove[0]);
                 currentWorstPlay.setScoreDifference(currentWorstMove[1]);
                 if( currentWorstPlay.getScoreDifference() <= alpha ) {
@@ -141,7 +137,7 @@ public class AiPlayer implements Player {
         return currentWorstPlay;
     }
 
-    protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
+    protected Play getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
         Play nextPlay = new Play.PlayBuilder()
                 .column(-4)
                 .scoreDifference(444)
@@ -153,7 +149,7 @@ public class AiPlayer implements Player {
             nextPlay.setColumn(nextMove[0]);
             nextPlay.setScoreDifference(nextMove[1]);
         }
-        return new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()};
+        return nextPlay;
     }
 
     protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {
