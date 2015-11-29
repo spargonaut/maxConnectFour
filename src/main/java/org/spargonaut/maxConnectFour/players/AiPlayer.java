@@ -142,13 +142,18 @@ public class AiPlayer implements Player {
     }
 
     protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
-        int[] nextMove = {-4, 444};
+        Play nextPlay = new Play.PlayBuilder()
+                .column(-4)
+                .scoreDifference(444)
+                .build();
         if (isAtMaxDepth(maxDepth, level)) {
-            nextMove[1] = testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer);
+            nextPlay.setScoreDifference(testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer));
         } else {
-            nextMove = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+            int nextMove[] = generateBestMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+            nextPlay.setColumn(nextMove[0]);
+            nextPlay.setScoreDifference(nextMove[1]);
         }
-        return nextMove;
+        return new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()};
     }
 
     protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {
