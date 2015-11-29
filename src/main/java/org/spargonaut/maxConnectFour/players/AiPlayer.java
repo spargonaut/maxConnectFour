@@ -123,9 +123,7 @@ public class AiPlayer implements Player {
             Play nextPlay = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
             if( nextPlay.getScoreDifference() < currentWorstPlay.getScoreDifference() ) {
-                int currentWorstMove[] = getLowestScoringMove(new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()}, column, new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()});
-                currentWorstPlay.setColumn(currentWorstMove[0]);
-                currentWorstPlay.setScoreDifference(currentWorstMove[1]);
+                currentWorstPlay = getLowestScoringMove(currentWorstPlay, column, new int[]{nextPlay.getColumn(), nextPlay.getScoreDifference()});
                 if( currentWorstPlay.getScoreDifference() <= alpha ) {
                     break;
                 }
@@ -152,21 +150,24 @@ public class AiPlayer implements Player {
         return nextPlay;
     }
 
-    protected int[] getLowestScoringMove(int[] worstMove, int columnToPlay, int[] nextMove) {
-        Map<String, Integer> worstMoveMap = new HashMap<String, Integer>();
+    protected Play getLowestScoringMove(Play worstPlay, int columnToPlay, int[] nextMove) {
+        Map<String, Integer> worstMoveMap = new HashMap<>();
         worstMoveMap.put(COLUMN, -77);
         worstMoveMap.put(SCORE_DIFFERENCE, -88);
 
-        Map<String, Integer> nextMoveMap = new HashMap<String, Integer>();
+        Map<String, Integer> nextMoveMap = new HashMap<>();
         nextMoveMap.put(COLUMN, nextMove[0]);
         nextMoveMap.put(SCORE_DIFFERENCE, nextMove[1]);
 
-        if (nextMoveMap.get(SCORE_DIFFERENCE) < worstMove[1]) {
+        if (nextMoveMap.get(SCORE_DIFFERENCE) < worstPlay.getScoreDifference()) {
             worstMoveMap.put(COLUMN, columnToPlay);
             worstMoveMap.put(SCORE_DIFFERENCE, nextMoveMap.get(SCORE_DIFFERENCE));
         }
 
-        return new int[]{worstMoveMap.get(COLUMN), worstMoveMap.get(SCORE_DIFFERENCE)};
+        return new Play.PlayBuilder()
+                .column(worstMoveMap.get(COLUMN))
+                .scoreDifference(worstMoveMap.get(SCORE_DIFFERENCE))
+                .build();
     }
 
     public boolean isAtMaxDepth(int maxDepth, int currentLevel) {

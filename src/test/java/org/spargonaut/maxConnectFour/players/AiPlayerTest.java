@@ -70,16 +70,19 @@ public class AiPlayerTest {
 
         int columnOfCurrentWorstMove = 2;
         int scoreDiffOfCurrentWorstMove = -1;
-        int[] currentWorstMove = {columnOfCurrentWorstMove, scoreDiffOfCurrentWorstMove};
+        Play currentWorstPlay = new Play.PlayBuilder()
+                .column(columnOfCurrentWorstMove)
+                .scoreDifference(scoreDiffOfCurrentWorstMove)
+                .build();
 
 		int columnToPlay = 3;
         int scoreOfNextWorstMove = -3;
 
 		int[] nextMove = {columnToPlay, scoreOfNextWorstMove};
-		int[] actualLowestScoringMove = aiPlayer.getLowestScoringMove(currentWorstMove, columnToPlay, nextMove);
+		Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlay, nextMove);
 
-		assertEquals(columnToPlay, actualLowestScoringMove[0]);
-		assertEquals(scoreOfNextWorstMove, actualLowestScoringMove[1]);
+		assertEquals(columnToPlay, actualLowestScoringPlay.getColumn());
+		assertEquals(scoreOfNextWorstMove, actualLowestScoringPlay.getScoreDifference());
 	}
 
     @Test
@@ -91,16 +94,19 @@ public class AiPlayerTest {
 
         int columnToPlayForCurrentWorstMove = 2;
         int scoreDiffOfCurrentWorstMove = -5;
-        int[] currentWorstMove = {columnToPlayForCurrentWorstMove, scoreDiffOfCurrentWorstMove};
+        Play currentWorstPlay = new Play.PlayBuilder()
+                .column(columnToPlayForCurrentWorstMove)
+                .scoreDifference(scoreDiffOfCurrentWorstMove)
+                .build();
 
         int columnToPlayForNextMove = 3;
         int scoreOfNextMove = -3;
 
         int[] nextMove = {columnToPlayForNextMove, scoreOfNextMove};
-        int[] actualLowestScoringMove = aiPlayer.getLowestScoringMove(currentWorstMove, columnToPlayForNextMove, nextMove);
+        Play actualLowestScoringPlay = aiPlayer.getLowestScoringMove(currentWorstPlay, columnToPlayForNextMove, nextMove);
 
-        assertEquals(defaultLowestColumn, actualLowestScoringMove[0]);
-        assertEquals(defaultLowestMoveScoreDiff, actualLowestScoringMove[1]);
+        assertEquals(defaultLowestColumn, actualLowestScoringPlay.getColumn());
+        assertEquals(defaultLowestMoveScoreDiff, actualLowestScoringPlay.getScoreDifference());
     }
 
     @Test
