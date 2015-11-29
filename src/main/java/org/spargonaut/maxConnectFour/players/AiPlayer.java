@@ -117,7 +117,7 @@ public class AiPlayer implements Player {
         // I need to take into account when two moves are equal - i think this is where i need to add in heuristics
         GameBoard testBoard = new GameBoard( lastBoard.getGameBoardAsList() );
 
-        int[] currentWorstMove = { 70, 700 };
+        Play currentWorstPlay = new Play.PlayBuilder().column(70).scoreDifference(700).build();
 
         List<Integer> validColumns = testBoard.getColumnsOfValidPlays();
 
@@ -125,18 +125,24 @@ public class AiPlayer implements Player {
             testBoard.playPieceInColumn( column );
 
             int[] nextMove = getNextMoveForWorstMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
+            Play nextPlay = new Play.PlayBuilder()
+                    .column(nextMove[0])
+                    .scoreDifference(nextMove[1])
+                    .build();
 
-            if( nextMove[1] < currentWorstMove[ 1 ] ) {
-                currentWorstMove = getLowestScoringMove(currentWorstMove, column, nextMove);
-                if( currentWorstMove[ 1 ] <= alpha ) {
+            if( nextPlay.getScoreDifference() < currentWorstPlay.getScoreDifference() ) {
+                int currentWorstMove[] = getLowestScoringMove(new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()}, column, nextMove);
+                currentWorstPlay.setColumn(currentWorstMove[0]);
+                currentWorstPlay.setScoreDifference(currentWorstMove[1]);
+                if( currentWorstPlay.getScoreDifference() <= alpha ) {
                     break;
                 }
-                beta = Math.min(beta, currentWorstMove[1]);
+                beta = Math.min(beta, currentWorstPlay.getScoreDifference());
             }
             testBoard.removePiece( column );
         }
 
-        return currentWorstMove;
+        return new int[]{currentWorstPlay.getColumn(), currentWorstPlay.getScoreDifference()};
     }
 
     protected int[] getNextMoveForWorstMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
