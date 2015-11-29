@@ -163,12 +163,12 @@ public class AiPlayerTest {
         when(gameBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)).thenReturn(10);
 
         AiPlayer aiPlayer = new AiPlayer();
-        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+        Play actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
 
         int[] expectedNextMove = new int[]{-456, 10};
 
-        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
-        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove.getColumn());
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove.getScoreDifference());
     }
 
     @Test
@@ -197,12 +197,12 @@ public class AiPlayerTest {
         when(aiPlayer.generateWorstMoveRef(maxDepth, level + 1, currentPlayer, gameBoard, alpha, beta))
                 .thenReturn(new int[]{columnForNextPlay, scoreDiffForNextPlay});
 
-        int[] actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
+        Play actualNextMoveForBestMove = aiPlayer.getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, gameBoard);
 
         int[] expectedNextMove = new int[]{columnForNextPlay, scoreDiffForNextPlay};
 
-        assertEquals(expectedNextMove[0], actualNextMoveForBestMove[0]);
-        assertEquals(expectedNextMove[1], actualNextMoveForBestMove[1]);
+        assertEquals(expectedNextMove[0], actualNextMoveForBestMove.getColumn());
+        assertEquals(expectedNextMove[1], actualNextMoveForBestMove.getScoreDifference());
     }
 
     @Test

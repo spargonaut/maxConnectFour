@@ -62,11 +62,7 @@ public class AiPlayer implements Player {
         for (Integer column : validColumns) {
             testBoard.playPieceInColumn(column);
 
-            int[] nextMove = getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
-            Play nextPlay = new Play.PlayBuilder()
-                    .column(nextMove[0])
-                    .scoreDifference(nextMove[1])
-                    .build();
+            Play nextPlay = getNextMoveForBestMove(maxDepth, level, currentPlayer, alpha, beta, testBoard);
 
             play = getHighestScoringMove(play, nextPlay, column);
 
@@ -81,14 +77,20 @@ public class AiPlayer implements Player {
         return new int[]{play.getColumn(), play.getScoreDifference()};
     }
 
-    protected int[] getNextMoveForBestMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
-        int[] nextMove;
+    protected Play getNextMoveForBestMove(int maxDepth, int level, int currentPlayer, int alpha, int beta, GameBoard testBoard) {
+        Play nextPlay;
         if (isAtMaxDepth(maxDepth, level)) {
-            nextMove = new int[] {-456, testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer)};
+            nextPlay = new Play.PlayBuilder().column(-456)
+                    .scoreDifference(testBoard.getScoreDifferenceFromPerspectiveOf(currentPlayer))
+                    .build();
         } else {
-            nextMove = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+            int nextMove[] = generateWorstMoveRef( maxDepth, level + 1, currentPlayer, testBoard, alpha, beta );
+            nextPlay = new Play.PlayBuilder()
+                    .column(nextMove[0])
+                    .scoreDifference(nextMove[1])
+                    .build();
         }
-        return nextMove;
+        return nextPlay;
     }
 
     protected Play getHighestScoringMove(Play bestMove, Play nextPlay, int columnToPlay) {
