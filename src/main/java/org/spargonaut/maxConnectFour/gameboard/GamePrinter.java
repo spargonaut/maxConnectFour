@@ -36,4 +36,13 @@ public class GamePrinter {
 
         printGameBoard();
     }
+
+    public void printCurrentPlayersTurn() {
+        System.out.println("\nIt is now Player " + gameBoard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
+    }
+
+    public void printCurrentGameState() {
+        System.out.println("\n...and now the board looks like this: \n");
+        printGameBoard();
+    }
 }

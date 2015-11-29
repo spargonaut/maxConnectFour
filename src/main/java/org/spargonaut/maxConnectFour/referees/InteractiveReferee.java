@@ -25,8 +25,9 @@ public class InteractiveReferee extends Referee {
     }
 
     public void play() {
-        printInitialGameState();
-        System.out.println("\nIt is now Player " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "'s Turn");
+        gamePrinter.printInitialGameState(PlayMode.INTERACTIVE);
+        scoreKeeper.printCurrentScores();
+        gamePrinter.printCurrentPlayersTurn();
 
         while (gameboard.hasPossiblePlays()) {
             System.out.println("\n--------------------------------------------------------------------------------\n");
@@ -43,7 +44,8 @@ public class InteractiveReferee extends Referee {
                     break;
             }
 
-            printCurrentGameBoardAndScores();
+            gamePrinter.printCurrentGameState();
+            scoreKeeper.printCurrentScores();
         }
 
         printTheFinalGameState();
@@ -52,11 +54,6 @@ public class InteractiveReferee extends Referee {
     private void playPieceBy(Player player) {
         int columnToPlay = player.getBestPlay(gameboard);
         gameboard.playPieceInColumn(columnToPlay);
-    }
-
-    private void printCurrentGameBoardAndScores() {
-        System.out.println("\n...and now the board looks like this: \n");
-        printGameBoardAndScores();
     }
 
     private void printTheFinalGameState() {

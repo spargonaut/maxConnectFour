@@ -92,6 +92,57 @@ public class GamePrinterTest {
         assertEquals(expectedOutContent, outContent.toString());
     }
 
+    @Test
+    public void shouldPrintTheCurrentPlayersTurn() {
+        List<List<Integer>> setUpGameBoard = new ArrayList<>();
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameBoard = new GameBoard(setUpGameBoard);
+
+        GamePrinter gamePrinter = new GamePrinter(gameBoard);
+        gamePrinter.printCurrentPlayersTurn();
+
+        String expectedOutContent = "\nIt is now Player 2's Turn\n";
+
+        assertEquals(expectedOutContent, outContent.toString());
+    }
+
+    @Test
+    public void shouldPrintTheCurrentGameState() {
+        List<List<Integer>> setUpGameBoard = new ArrayList<>();
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameBoard = new GameBoard(setUpGameBoard);
+
+        GamePrinter gamePrinter = new GamePrinter(gameBoard);
+        gamePrinter.printCurrentGameState();
+
+        String expectedOutContent = "\n...and now the board looks like this: \n" +
+                "\n" +
+                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
+                " -----------------\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|               |_\n" +
+                "_|             1 |_\n" +
+                " -----------------\n" +
+                "   1 2 3 4 5 6 7   <---Column numbers\n";
+
+        assertEquals(expectedOutContent, outContent.toString());
+    }
+
     private List<Integer> createBlankRow() {
         return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }
