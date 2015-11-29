@@ -179,7 +179,7 @@ public class AiPlayerTest {
         int alpha = 6;
         int beta = 7;
 
-        List<List<Integer>> newEmptyGameBoard = new ArrayList<List<Integer>>();
+        List<List<Integer>> newEmptyGameBoard = new ArrayList<>();
         newEmptyGameBoard.add(createBlankRow());
         newEmptyGameBoard.add(createBlankRow());
         newEmptyGameBoard.add(createBlankRow());
@@ -233,7 +233,7 @@ public class AiPlayerTest {
         int alpha = 6;
         int beta = 7;
 
-        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<>();
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
@@ -295,7 +295,7 @@ public class AiPlayerTest {
     public void shouldTellTheUserWhichPlayerItIsFindingTheBestMoveForAndTheSearchDepthItIsUsing() {
         int searchDepthLevel = 0;
 
-        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<>();
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
@@ -320,7 +320,7 @@ public class AiPlayerTest {
     public void shouldTellTheUserWhichColumnTheAiPlayerIsPlayingIn() {
         int searchDepthLevel = 0;
 
-        List<List<Integer>> newEmptyPlayBoard = new ArrayList<List<Integer>>();
+        List<List<Integer>> newEmptyPlayBoard = new ArrayList<>();
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
         newEmptyPlayBoard.add(createBlankRow());
