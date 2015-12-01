@@ -50,4 +50,8 @@ public class GamePrinter {
         System.out.println("Here is the final game state\n");
         printGameBoard();
     }
+
+    public void printMoveSeparator() {
+        System.out.println("\n--------------------------------------------------------------------------------\n");
+    }
 }

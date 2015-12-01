@@ -174,6 +174,26 @@ public class GamePrinterTest {
         assertEquals(expectedOutContent, outContent.toString());
     }
 
+    @Test
+    public void shouldPrintALineBetweenMoves() {
+        List<List<Integer>> setUpGameBoard = new ArrayList<>();
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(createBlankRow());
+        setUpGameBoard.add(Arrays.asList(0, 0, 0, 0, 0, 0, 1));
+
+        GameBoard gameBoard = new GameBoard(setUpGameBoard);
+
+        GamePrinter gamePrinter = new GamePrinter(gameBoard);
+        gamePrinter.printMoveSeparator();
+
+        String expectedOutContent = "\n--------------------------------------------------------------------------------\n\n";
+
+        assertEquals(expectedOutContent, outContent.toString());
+    }
+
     private List<Integer> createBlankRow() {
         return Arrays.asList(0, 0, 0, 0, 0, 0, 0);
     }

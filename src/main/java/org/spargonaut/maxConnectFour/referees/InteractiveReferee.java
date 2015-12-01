@@ -30,7 +30,7 @@ public class InteractiveReferee extends Referee {
         gamePrinter.printCurrentPlayersTurn();
 
         while (gameboard.hasPossiblePlays()) {
-            System.out.println("\n--------------------------------------------------------------------------------\n");
+            gamePrinter.printMoveSeparator();
 
             switch (getNextPlayer()) {
                 case HUMAN:
