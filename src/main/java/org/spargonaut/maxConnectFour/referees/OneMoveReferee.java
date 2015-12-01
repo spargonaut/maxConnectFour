@@ -1,6 +1,5 @@
 package org.spargonaut.maxConnectFour.referees;
 
-import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
@@ -15,7 +14,7 @@ public class OneMoveReferee extends Referee {
     private String fileToSave;
 
     public OneMoveReferee(GameBoard gameboard, Player aiPlayer, String fileToSave) {
-        super(gameboard, PlayMode.ONE_MOVE);
+        super(gameboard);
         this.aiPlayer = aiPlayer;
         this.fileToSave = fileToSave;
         boardWriter = new BoardWriter();

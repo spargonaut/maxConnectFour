@@ -1,6 +1,5 @@
 package org.spargonaut.maxConnectFour.referees;
 
-import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
 import org.spargonaut.maxConnectFour.gameboard.GamePrinter;
 import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
@@ -8,13 +7,11 @@ import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
 public abstract class Referee {
     protected GamePrinter gamePrinter;
     protected GameBoard gameboard;
-    private PlayMode playMode;
     protected ScoreKeeper scoreKeeper;
 
-    public Referee(GameBoard gameBoard, PlayMode playMode) {
+    public Referee(GameBoard gameBoard) {
         this.gamePrinter = new GamePrinter(gameBoard);
         this.gameboard = gameBoard;
-        this.playMode = playMode;
         scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
     }
 
