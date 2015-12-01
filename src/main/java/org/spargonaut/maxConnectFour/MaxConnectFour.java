@@ -2,6 +2,8 @@ package org.spargonaut.maxConnectFour;
 
 import org.spargonaut.maxConnectFour.gameboard.BoardReader;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
+import org.spargonaut.maxConnectFour.gameboard.GamePrinter;
+import org.spargonaut.maxConnectFour.gameboard.ScoreKeeper;
 import org.spargonaut.maxConnectFour.parser.ArgumentParser;
 import org.spargonaut.maxConnectFour.players.AiPlayer;
 import org.spargonaut.maxConnectFour.players.HumanPlayer;
@@ -19,6 +21,9 @@ public class MaxConnectFour {
         BoardReader boardReader = new BoardReader();
         GameBoard currentGame = boardReader.readGame(argumentParser.getInputGameFile());
 
+        GamePrinter gamePrinter = new GamePrinter(currentGame);
+        ScoreKeeper scoreKeeper = new ScoreKeeper(currentGame.getGameBoardAsList());
+
         Player calculon = new AiPlayer(argumentParser.getSearchDepth());
         Player human = new HumanPlayer();
 
@@ -35,5 +40,7 @@ public class MaxConnectFour {
         }
 
         referee.play();
+        gamePrinter.printFinalGameState();
+        scoreKeeper.printCurrentScores();
     }
 }

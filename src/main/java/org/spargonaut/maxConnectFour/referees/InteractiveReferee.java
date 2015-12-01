@@ -45,9 +45,6 @@ public class InteractiveReferee extends Referee {
             gamePrinter.printCurrentGameState();
             scoreKeeper.printCurrentScores();
         }
-
-        gamePrinter.printFinalGameState();
-        scoreKeeper.printCurrentScores();
     }
 
     private void playPieceBy(Player player) {
