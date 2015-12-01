@@ -41,7 +41,6 @@ public class OneMoveReferee extends Referee {
         } else {
             System.out.println("The Board is Full\n\nGame Over");
         }
-        printGameBoardAndScores();
         saveGameState();
     }
 }

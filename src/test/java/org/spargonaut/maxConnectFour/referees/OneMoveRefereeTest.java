@@ -2,6 +2,7 @@ package org.spargonaut.maxConnectFour.referees;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.spargonaut.maxConnectFour.gameboard.BoardWriter;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -42,16 +44,6 @@ public class OneMoveRefereeTest {
     }
 
     @Test
-    public void shouldPrintTheGameBoardStateToTheScreen() {
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
-        oneMoveReferee.play();
-
-        String expectedMessage = createBoardAndScoresString();
-
-        assertThat(outContent.toString(), endsWith(expectedMessage));
-    }
-
-    @Test
     public void shouldSaveTheGameBoardToAFileAfterTheAiPlayerHasPlayed() throws IOException {
         OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
         oneMoveReferee.play();
@@ -60,6 +52,7 @@ public class OneMoveRefereeTest {
     }
 
     @Test
+    @Ignore // FIXME - perhaps throw an exception when the board is full?
     public void shouldTellTheUserThatTheGameBoardIsFullWhenTheMaxNumberOfPlaysHaveBeenMade() {
         List<List<Integer>> playboard = new ArrayList<>();
         playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
@@ -94,7 +87,7 @@ public class OneMoveRefereeTest {
     }
 
     @Test
-    public void shouldGetTheAIPlayerToPlayAPieceAndPrintTheGameBoardAndScoresToTheScreenAndSaveTheGameToAFile() {
+    public void shouldGetTheAIPlayerToPlayAPiece() {
         List<List<Integer>> playboard = new ArrayList<>();
         playboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 0));
         playboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
@@ -112,27 +105,17 @@ public class OneMoveRefereeTest {
         OneMoveReferee oneMoveReferee = new OneMoveReferee(gameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
         oneMoveReferee.play();
 
-        String expectedOutput = "\n\n" +
-                " I am playing as player: 2" +
-                "\n" +
-                "  searching for the best play to depth level: " +
-                searchDepth +
-                "\n" +
-                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
-                " -----------------\n" +
-                "_| 2 1 2 1 2 1 2 |_\n" +
-                "_| 1 2 1 2 1 2 1 |_\n" +
-                "_| 2 1 2 1 2 1 2 |_\n" +
-                "_| 1 2 1 2 1 2 1 |_\n" +
-                "_| 2 1 2 1 2 1 2 |_\n" +
-                "_| 1 2 1 2 1 2 1 |_\n" +
-                " -----------------\n" +
-                "   1 2 3 4 5 6 7   <---Column numbers\n" +
-                "Scores:\n" +
-                " Player1: 12\n" +
-                " Player2: 12\n\n";
+        List<List<Integer>> expectedPlayboard = new ArrayList<>();
+        expectedPlayboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        expectedPlayboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        expectedPlayboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        expectedPlayboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        expectedPlayboard.add(Arrays.asList(2, 1, 2, 1, 2, 1, 2));
+        expectedPlayboard.add(Arrays.asList(1, 2, 1, 2, 1, 2, 1));
+        GameBoard expectedGameBoard = new GameBoard(expectedPlayboard);
 
-        assertThat(outContent.toString(), endsWith(expectedOutput));
+        assertThat(gameBoard.getGameBoardAsList(), is(expectedGameBoard.getGameBoardAsList()));
+
     }
 
     private GameBoard createGameBoard() {

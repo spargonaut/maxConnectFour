@@ -15,10 +15,5 @@ public abstract class Referee {
         scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
     }
 
-    protected void printGameBoardAndScores() {
-        gamePrinter.printGameBoard();
-        scoreKeeper.printCurrentScores();
-    }
-
     public abstract void play();
 }
