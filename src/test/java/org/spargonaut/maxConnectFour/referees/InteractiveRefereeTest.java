@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -33,39 +33,6 @@ public class InteractiveRefereeTest {
     @After
     public void tearDown() {
         System.setOut(null);
-    }
-
-    @Test
-    public void shouldPrintOutTheIntialGameStateAtTheBeginningOfTheGame() {
-        int columnToPlay = 5;
-        int searchDepth = 0;
-        HumanPlayer humanPlayer = createMockedHumanPlayerThatProducesAColumnToPlay(baseMockGameBoard, columnToPlay, searchDepth);
-
-        InteractiveReferee interactiveReferee = new InteractiveReferee(baseMockGameBoard, humanPlayer);
-        interactiveReferee.play();
-
-        String expectedOutput = "--------------------------------------------------------------------------------\n" +
-                "\n" +
-                "Max Connect Four Client - Interactive Mode\n" +
-                "\n" +
-                "   1 2 3 4 5 6 7   <---  Column numbers\n" +
-                " -----------------\n" +
-                "_|               |_\n" +
-                "_|               |_\n" +
-                "_|               |_\n" +
-                "_|               |_\n" +
-                "_|               |_\n" +
-                "_|               |_\n" +
-                " -----------------\n" +
-                "   1 2 3 4 5 6 7   <---Column numbers\n" +
-                "Scores:\n" +
-                " Player1: 0\n" +
-                " Player2: 0" +
-                "\n\n\n" +
-                "It is now Player 1's Turn";
-
-
-        assertThat(outContent.toString(), startsWith(expectedOutput));
     }
 
     @Test

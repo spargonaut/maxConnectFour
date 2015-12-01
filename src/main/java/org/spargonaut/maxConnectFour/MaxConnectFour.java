@@ -24,12 +24,17 @@ public class MaxConnectFour {
         GamePrinter gamePrinter = new GamePrinter(currentGame);
         ScoreKeeper scoreKeeper = new ScoreKeeper(currentGame.getGameBoardAsList());
 
+        PlayMode playMode = argumentParser.getPlayMode();
+
+        gamePrinter.printInitialGameState(playMode);
+        scoreKeeper.printCurrentScores();
+
         Player calculon = new AiPlayer(argumentParser.getSearchDepth());
         Player human = new HumanPlayer();
 
         Referee referee = null;
 
-        switch(argumentParser.getPlayMode()) {
+        switch(playMode) {
             case INTERACTIVE:
                 referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
                 break;

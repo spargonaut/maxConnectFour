@@ -35,7 +35,6 @@ public class OneMoveReferee extends Referee {
     }
 
     public void play() {
-        printInitialGameState();
         if (gameboard.hasPossiblePlays()) {
             System.out.println( "\n\n I am playing as player: " + gameboard.getCurrentTurnBasedOnNumberOfPlays() + "\n  searching for the best play to depth level: " + aiPlayer.getSearchDepth() );
             int bestPlay = aiPlayer.getBestPlay(gameboard);

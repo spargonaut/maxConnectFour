@@ -23,8 +23,6 @@ public class InteractiveReferee extends Referee {
     }
 
     public void play() {
-        gamePrinter.printInitialGameState(PlayMode.INTERACTIVE);
-        scoreKeeper.printCurrentScores();
         gamePrinter.printCurrentPlayersTurn();
 
         while (gameboard.hasPossiblePlays()) {

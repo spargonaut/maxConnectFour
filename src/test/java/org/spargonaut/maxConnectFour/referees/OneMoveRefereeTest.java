@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.endsWith;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -40,19 +39,6 @@ public class OneMoveRefereeTest {
     @After
     public void tearDown() {
         System.setOut(null);
-    }
-
-    @Test
-    public void shouldPrintTheInitialGameStateToTheScreen() {
-        OneMoveReferee oneMoveReferee = new OneMoveReferee(baseGameBoard, baseMockAiPlayer, mockBoardWriter, setupFileName);
-        oneMoveReferee.play();
-
-        String expectedInitialGameBoardMessage = "--------------------------------------------------------------------------------" +
-                "\n\n" +
-                "Max Connect Four Client - One-move Mode" +
-                "\n\n" + createBoardAndScoresString();
-
-        assertThat(outContent.toString(), startsWith(expectedInitialGameBoardMessage));
     }
 
     @Test

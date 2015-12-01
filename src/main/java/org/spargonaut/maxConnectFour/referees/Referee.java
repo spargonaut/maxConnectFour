@@ -18,11 +18,6 @@ public abstract class Referee {
         scoreKeeper = new ScoreKeeper(gameboard.getGameBoardAsList());
     }
 
-    public void printInitialGameState() {
-        gamePrinter.printInitialGameState(playMode);
-        scoreKeeper.printCurrentScores();
-    }
-
     protected void printGameBoardAndScores() {
         gamePrinter.printGameBoard();
         scoreKeeper.printCurrentScores();
