@@ -2,7 +2,6 @@ package org.spargonaut.maxConnectFour.referees;
 
 import org.spargonaut.maxConnectFour.PlayMode;
 import org.spargonaut.maxConnectFour.gameboard.GameBoard;
-import org.spargonaut.maxConnectFour.gameboard.GamePrinter;
 import org.spargonaut.maxConnectFour.players.Player;
 import org.spargonaut.maxConnectFour.players.PlayerIdentifier;
 
@@ -15,7 +14,6 @@ public class InteractiveReferee extends Referee {
     public InteractiveReferee(GameBoard gameBoard, Player humanPlayer) {
         super(gameBoard, PlayMode.INTERACTIVE);
         this.humanPlayer = humanPlayer;
-        gamePrinter = new GamePrinter(gameBoard);
     }
 
     public InteractiveReferee(GameBoard gameBoard, Player humanPlayer, Player aiPlayer, PlayerIdentifier nextPlayer) {
