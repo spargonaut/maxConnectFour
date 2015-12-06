@@ -27,9 +27,9 @@ public class GameBoard {
 
     public GameBoard(List<List<Integer>> startingGameboard) {
         playedPieceCount = 0;
-        playboard = new ArrayList<List<Integer>>();
+        playboard = new ArrayList<>();
         for(List<Integer> row : startingGameboard) {
-            List<Integer> newRow = new ArrayList<Integer>();
+            List<Integer> newRow = new ArrayList<>();
             for(Integer playPiece : row) {
                 newRow.add(playPiece);
                 if(playPiece > 0) {
@@ -70,7 +70,7 @@ public class GameBoard {
     }
 
     public List<Integer> getColumnsOfValidPlays() {
-        List<Integer> validPlays = new ArrayList<Integer>();
+        List<Integer> validPlays = new ArrayList<>();
         for (int i = 0; i < totalColumnCount; i++) {
             if (isValidPlay(i)) {
                 validPlays.add(i);
@@ -115,5 +115,9 @@ public class GameBoard {
 
     public boolean hasPossiblePlays() {
         return playedPieceCount < MAX_NUMBER_OF_PLAYS;
+    }
+
+    public void printCurrentScores() {
+        scoreKeeper.printCurrentScores();
     }
 }
