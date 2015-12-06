@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+run {
+    mainClassName = 'org.spargonaut.games.Application'
+}
