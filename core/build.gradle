@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
-apply plugin: 'application'
 
 repositories {
     mavenCentral()
@@ -19,10 +18,4 @@ jacocoTestReport {
         csv.enabled false
         html.destination "${buildDir}/jacocoHtml"
     }
-}
-
-run {
-    mainClassName = 'org.spargonaut.maxConnectFour.MaxConnectFour'
-    args = ['interactive', 'src/main/resources/freshGame.txt', 'human', '2']
-    standardInput = System.in
 }

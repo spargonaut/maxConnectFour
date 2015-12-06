@@ -7,4 +7,6 @@ dependencies {
 
 run {
     mainClassName = 'org.spargonaut.games.Application'
+    args = ['interactive', 'src/main/resources/freshGame.txt', 'human', '2']
+    standardInput = System.in
 }
