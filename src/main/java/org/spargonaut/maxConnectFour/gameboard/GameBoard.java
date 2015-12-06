@@ -1,5 +1,7 @@
 package org.spargonaut.maxConnectFour.gameboard;
 
+import org.spargonaut.maxConnectFour.PlayMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ public class GameBoard {
     private int playedPieceCount;
     private List<List<Integer>> playboard;
     private ScoreKeeper scoreKeeper;
+    private GamePrinter gamePrinter;
 
     private int totalColumnCount = 7;
     private int totalRowCount = 6;
@@ -23,6 +26,7 @@ public class GameBoard {
             playboard.add(newRow);
         }
         scoreKeeper = new ScoreKeeper(playboard);
+        gamePrinter = new GamePrinter(this);
     }
 
     public GameBoard(List<List<Integer>> startingGameboard) {
@@ -39,6 +43,7 @@ public class GameBoard {
             playboard.add(newRow);
         }
         scoreKeeper = new ScoreKeeper(playboard);
+        gamePrinter = new GamePrinter(this);
     }
 
     public int getNumberOfPlaysRemaining() {
@@ -119,5 +124,19 @@ public class GameBoard {
 
     public void printCurrentScores() {
         scoreKeeper.printCurrentScores();
+    }
+
+    public void printCurrentPlayersTurn() {
+        gamePrinter.printCurrentPlayersTurn();
+    }
+
+    public void printFinalGameState() {
+        gamePrinter.printFinalGameState();
+    }
+
+    public void printInitialGameState(PlayMode playMode) {
+        gamePrinter.printInitialGameState(playMode);
+        printCurrentScores();
+        printCurrentPlayersTurn();
     }
 }
