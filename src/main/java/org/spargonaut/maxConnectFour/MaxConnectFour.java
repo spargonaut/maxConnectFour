@@ -33,7 +33,6 @@ public class MaxConnectFour {
         Player human = new HumanPlayer();
 
         Referee referee = null;
-
         switch(playMode) {
             case INTERACTIVE:
                 referee = new InteractiveReferee(currentGame, human, calculon, argumentParser.getNextPlayer());
@@ -44,6 +43,7 @@ public class MaxConnectFour {
                 break;
         }
 
+        gamePrinter.printCurrentPlayersTurn();
         referee.play();
         gamePrinter.printFinalGameState();
         scoreKeeper.printCurrentScores();

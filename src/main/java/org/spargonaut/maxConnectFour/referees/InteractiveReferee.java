@@ -22,8 +22,6 @@ public class InteractiveReferee extends Referee {
     }
 
     public void play() {
-        gamePrinter.printCurrentPlayersTurn();
-
         while (gameboard.hasPossiblePlays()) {
             gamePrinter.printMoveSeparator();
 
